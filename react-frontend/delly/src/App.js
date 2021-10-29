@@ -1,9 +1,14 @@
 
 import '../src/App.css'
+import PDF from './components/generatePDF'
 
-function App() {
+function App(){
+
+
   return (
-    <></>
+    <>
+    <PDF/>
+    </>
   );
 }
 

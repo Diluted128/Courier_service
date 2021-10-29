@@ -1,6 +1,7 @@
 .main-table{
     border-color: black;
     background-color:white;
+    font-size: 20px;
   }
   
   .table{
@@ -38,4 +39,7 @@
   .barcode{
     width: 400px;
     height: 150px;
+  }
+  td {
+    padding: 5px;
   }
