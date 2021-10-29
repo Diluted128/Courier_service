@@ -1,6 +1,8 @@
 import '../stylesheets/shipmentLabel.css'
-import logo from '../images/logo.p ng'
+import logo from '../images/logo.png'
 import barcode from '../images/barcode.jpg'
+import { Component } from 'react'
+import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 
 var nadawcaImie = "Jakub"
 var nadawcaNazwisko = "Wojtas"
@@ -26,12 +28,13 @@ var ubezpieczenie = true;
 var pobranie = false;
 var odbiorKuriera = true;
 
-function shipmentLabel() {
-    return (
-        <div className="App">
+class ShipLabel extends Component{
+    render(){
+       return (
+        <div className="App" ref={this.props.carRef}>
           <header className="App-header">
             <div className="s">
-            <table class="main-table" border="1" width="1500" height="500">
+            <table class="main-table"  border="1" width="1500" height="500">
               <tr>
                 <td height="350" width="400">
                   <table class="table" height="350" width="400" cellSpacing="0">
@@ -39,7 +42,7 @@ function shipmentLabel() {
                          <td class="cell-vertical" height="80"><img class="logo" src={logo} alt=""/></td>
                        </tr>
                        <tr>
-                         <td class="cell-vertical" height="30">Numer Przesyłki</td>
+                         <td class="cell-vertical" height="30">Numer Przesylki</td>
                        </tr>
                        <tr>
                          <td class="cell-vertical cell-text-top-left" height="120">
@@ -109,7 +112,7 @@ function shipmentLabel() {
                            </tr>
                            <tr>
                              <td class="cell-vertical" height="150">
-                               <div style={{fontSize: '23px'}}>Kliencie<br/>utwórz zlezenie<br/>odbioru paczek</div>
+                               <div style={{fontSize: '23px'}}>Kliencie<br/>utwórz zlecenie<br/>odbioru paczek</div>
                                </td>
                            </tr>
                          </table>
@@ -157,7 +160,7 @@ function shipmentLabel() {
             </div>
           </header>
         </div>
-      );
+       );
     }
-    
-    export default shipmentLabel;
+  }
+    export default ShipLabel;
