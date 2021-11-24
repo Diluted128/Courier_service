@@ -1,0 +1,27 @@
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  
+  body{
+    font-family: "Poopins", sans-serif;
+  }
+  
+  .jumbotron {
+    margin: 0;
+    padding: 10px;
+  }
+  
+  .jumbotron h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .jumbotron h1,
+  .jumbotron p {
+    text-align: center;
+  }
+  
+  .form-group{
+    display: flex
+  }

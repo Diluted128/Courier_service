@@ -1,6 +1,6 @@
-import '../stylesheets/shipmentLabel.css'
-import logo from '../images/logo.png'
-import barcode from '../images/barcode.jpg'
+import '../../stylesheets/ShipLabel/shipmentLabel.css'
+import logo from '../../images/logo.png'
+import barcode from '../../images/barcode.jpg'
 import { Component } from 'react'
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 

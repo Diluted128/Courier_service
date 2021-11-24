@@ -4,7 +4,7 @@
 
 .App-header {
   background-color: #dad8d8;
-  min-height: 100vh;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,3 +12,4 @@
   font-size: calc(2px + 1vmin);
   color: black;
 }
+
