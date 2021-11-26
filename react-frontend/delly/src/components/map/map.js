@@ -31,41 +31,30 @@ class map extends React.Component {
       }
     );
 
-    const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 
-    const ui = H.ui.UI.createDefault(map, defaultLayers);
+    H.ui.UI.createDefault(map, defaultLayers);
 
     this.map = map;
     this.H = H;
     this.platform = platform;
 
-    // var one = new H.map.Marker({ lat: 49.64008 + 1, lng: 19.32883 + 1 });
-    // var two = new H.map.Marker({ lat: 50.00627 + 1, lng: 19.87327 + 1 });
-    // var groupp = new H.map.Group();
-    // groupp.addObjects([one, two]);
-    // map.getViewModel().setLookAtData({
-    //   bounds: groupp.getBoundingBox(),
-    // });
   }
 
 
-  getRoutingDetails = (from, to) => {
-      from = "50.07149,19.93346";
-      to = "50.04581,19.95240";
-
+  getRoutingDetails = (fromGeo, toGeo) => {
+     
       return (
         {
             routingMode: "fast",
             transportMode: "pedestrian",
-            origin: from,
-            destination: to,
+            origin: fromGeo,
+            destination: toGeo,
             return: 'polyline,turnByTurnActions,actions,instructions,travelSummary'
           }
       )
   }
 
-//   origin: "50.07149,19.93346",
-//   destination: "50.04581,19.95240",
   successThenDrawRoute = (result) => {
     
         if (result.routes.length) {
@@ -99,12 +88,44 @@ class map extends React.Component {
         }
   }
 
-  drawRoute = (from, to) => {
+  calculateGeocode = (start) => {
+
+    const geocoderStart = this.platform.getSearchService(),
+          geocodingParameters =  {
+          q: start,
+          };
+    
+
+    return new Promise((res, rej) => {
+        geocoderStart.geocode(
+          geocodingParameters,
+          (result) => {
+
+            const locations = result.items[0];
+   
+            const cord = locations.position.lat + "," + locations.position.lng;
+            
+            console.log("In function: " + cord)
+            res(cord);
+          },
+          (error) => {
+            rej(error);
+          }
+        );
+      });
+  }
+
+  drawRoute = async (from, to) => {
       
     var routingService = this.platform.getRoutingService(null, 8);
 
+    const [fromGeocode, toGeocode] = await Promise.all([this.calculateGeocode(from), this.calculateGeocode(to)]);
+
+    console.log(fromGeocode + " " + toGeocode);
+
+    // oblicza routa i wyswietla
     routingService.calculateRoute(
-        this.getRoutingDetails(from, to),
+        this.getRoutingDetails(fromGeocode, toGeocode),
         this.successThenDrawRoute, 
         (error) => {
         console.error(error);
@@ -112,9 +133,9 @@ class map extends React.Component {
     )
   }
 
+
   render() {
     return (
-
         <div>
         <Test drawRoute={this.drawRoute}/>
         <div ref={this.ref} class="map" style={{ height: "800px" }} />

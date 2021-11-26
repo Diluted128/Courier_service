@@ -45,7 +45,7 @@ class test extends Component{
               </form>
             </div>
             </div>  
-            <button onClick={() => this.props.drawRoute(this.state.from , this.state.to)}>draw</button>
+            <button onClick={async () => await this.props.drawRoute(this.state.from, this.state.to)}>draw</button>
             </>
         )
     }
