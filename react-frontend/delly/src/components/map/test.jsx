@@ -1,21 +1,16 @@
 import '../../stylesheets/map/test.css'
-import React,{Component} from "react";
+import React,{Component, useState} from "react";
 class test extends Component{
 
     constructor(props){
       super(props)
-      this.state = {
-        from: "",
-        to: ""
-      }
-      this.sOnClickk = this.OnClickk.bind(this);
-
-    }
-
-    OnClickk = function(){
     
-      console.log("dziala")
-        // console.log("from: " + this.state.from + " to:" + this.state.to)
+      this.state = {
+        curierAddress:  "",
+        parcelAddress: "",
+        clientAddress: "",
+        distance: 0
+      }
     }
 
     render(){
@@ -23,29 +18,39 @@ class test extends Component{
           <>
             <div class="jumbotron">
             <div class="containter-fluid">
-              <h1>Find the Distance Betweeen Two Places</h1>
-              <p>This App Will Help in Calculating Your Travelling Distance</p>
+              <h1>Calculate Route For Courier</h1>
+              <p>This App Will Help in Calculating Travelling Route For Delivery Man</p>
               <form class="form-horizontal">
                 <div class="form-group">
   
                      <label for="from" class="col-xs-2-control-label">
-                      <i class="fas fa-map-marker-alt icon"></i>                  
+                     <i class="fas fa-truck"></i>                 
                     </label>
                      <div class="col-xs-4">
-                       <input type="text" onChange={event => this.state.from = event.target.value}class="form-control" id="from"/>
+                       <input type="text" onChange={event => this.state.curierAddress= event.target.value}class="form-control" id="from"/>
                      </div>
                     
                      <label for="to" class="col-xs-2-control-label">
                       <i class="fas fa-map-marked-alt icon"></i>
                      </label>
                      <div class="col-xs-4">
-                       <input type="text" onChange={event => this.state.to = event.target.value} class="form-control" id="to"/>
+                       <input type="text" onChange={event => this.state.parcelAddress = event.target.value} class="form-control" id="to"/>
                      </div>
+
+                     <label for="to" class="col-xs-2-control-label">
+                      <i class="fas fa-map-marker-alt icon"></i>   
+                     </label>
+                     <div class="col-xs-4">
+                       <input type="text" onChange={event => this.state.clientAddress = event.target.value} class="form-control" id="curier"/>
+                     </div>
+                    <p>distance: {this.props.dist}</p>
+                    <p>duration: {this.props.duration} minutes</p>
+
                 </div>
               </form>
             </div>
             </div>  
-            <button onClick={async () => await this.props.drawRoute(this.state.from, this.state.to)}>draw</button>
+            <button onClick={async () => await this.props.drawRoute(this.state.curierAddress, this.state.parcelAddress, this.state.clientAddress)}>draw</button>
             </>
         )
     }
