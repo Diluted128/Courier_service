@@ -1,0 +1,45 @@
+.main-table{
+    border-color: black;
+    background-color:white;
+    font-size: 20px;
+  }
+  
+  .table{
+    border: 0px;
+  }
+  .shipment-label{
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
+  .cell-vertical{
+    border-bottom: solid black 1px;
+    overflow: hidden;
+  }
+  .cell-horicontal{
+    border-right: solid black 1px;
+    overflow: hidden;
+  }
+  .block-cell{
+    border-right: solid black 1px;
+    border-bottom: solid black 1px;
+  }
+  .cell-text-top-auto{
+    vertical-align: top;
+    text-align: auto;
+  }
+  .cell-text-top-left{
+    vertical-align: top;
+    text-align: left;
+  }
+  .logo{
+    width: 200px;
+    height: 70px;
+  }
+  .barcode{
+    width: 400px;
+    height: 150px;
+  }
+  td {
+    padding: 5px;
+  }
