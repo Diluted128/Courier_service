@@ -95,10 +95,6 @@ class map extends React.Component {
           startMarker = new this.H.map.Marker( route.departure.place.location, {icon: startIcon});
           endMarker = new this.H.map.Marker( route.arrival.place.location, {icon: endIcon});
       }
-
-      var a = [];
-      a.push(new this.H.map.Marker(route.departure.place.location))
-      a.push(new this.H.map.Marker(route.arrival.place.location))
       
       this.map.addObjects([routeLine, startMarker, endMarker]);
 
@@ -106,7 +102,6 @@ class map extends React.Component {
         .getViewModel()
         .setLookAtData({ bounds: routeLine.getBoundingBox() });
     
-      return a;
   }
 
 
@@ -155,6 +150,80 @@ class map extends React.Component {
       });
   }
 
+  zoomMapOnMarkers(curierAddress, parcelAddress, clientAddress){
+      
+    const zoomValue = 0.002;
+
+    console.log(curierAddress);
+    console.log(parcelAddress);
+    console.log(clientAddress);
+
+    var cordinates = [
+       [parseFloat(curierAddress.substr(0, curierAddress.indexOf(','))), parseFloat(curierAddress.substr(curierAddress.indexOf(',') + 1))],
+       [parseFloat(parcelAddress.substr(0, parcelAddress.indexOf(','))), parseFloat(parcelAddress.substr(parcelAddress.indexOf(',') + 1))],
+       [parseFloat(clientAddress.substr(0, clientAddress.indexOf(','))), parseFloat(clientAddress.substr(clientAddress.indexOf(',') + 1))]
+    ]
+    
+    var newCordinates = [
+      [parseFloat(curierAddress.substr(0, curierAddress.indexOf(','))), parseFloat(curierAddress.substr(curierAddress.indexOf(',') + 1))],
+      [parseFloat(parcelAddress.substr(0, parcelAddress.indexOf(','))), parseFloat(parcelAddress.substr(parcelAddress.indexOf(',') + 1))],
+      [parseFloat(clientAddress.substr(0, clientAddress.indexOf(','))), parseFloat(clientAddress.substr(clientAddress.indexOf(',') + 1))]
+    ]  
+
+    var characteristics = [
+       Math.min(Math.min(cordinates[0][1], cordinates[1][1]), cordinates[2][1]),
+       Math.max(Math.max(cordinates[0][0], cordinates[1][0]), cordinates[2][0]),
+       Math.max(Math.max(cordinates[0][1], cordinates[1][1]), cordinates[2][1]), 
+       Math.min(Math.min(cordinates[0][0], cordinates[1][0]), cordinates[2][0])
+    ]  
+
+    console.log(characteristics)
+    
+    if(characteristics[0] == cordinates[0][1])
+        newCordinates[0][1] = characteristics[0] - zoomValue;
+    else if(characteristics[0] == cordinates[1][1])
+        newCordinates[1][1] = characteristics[0] - zoomValue;
+    else if(characteristics[0] == cordinates[2][1])
+        newCordinates[2][1] = characteristics[0] - zoomValue;
+    
+    if(characteristics[1] == cordinates[0][0])
+        newCordinates[0][0] = characteristics[1] + zoomValue;
+    else if(characteristics[1] == cordinates[1][0])
+        newCordinates[1][0] = characteristics[1] + zoomValue;
+    else if(characteristics[1] == cordinates[2][0])
+        newCordinates[2][0] = characteristics[1] + zoomValue;
+
+    if(characteristics[2] == cordinates[0][1])
+        newCordinates[0][1] = characteristics[2] + zoomValue;
+    else if(characteristics[2] == cordinates[1][1])
+        newCordinates[1][1] = characteristics[2] + zoomValue;
+    else if(characteristics[2] == cordinates[2][1])
+        newCordinates[2][1] = characteristics[2] + zoomValue;
+     
+    if(characteristics[3] == cordinates[0][0])
+        newCordinates[0][0] = characteristics[3] - zoomValue;
+    else if(characteristics[3] == cordinates[1][0])
+        newCordinates[1][0] = characteristics[3] - zoomValue;
+    else if(characteristics[3] == cordinates[2][0])
+        newCordinates[2][0] = characteristics[3] - zoomValue;
+
+
+    console.log(cordinates)
+    console.log(newCordinates);
+
+    var group = new this.H.map.Group();
+  
+    var clientMarker= new this.H.map.Marker({lat: newCordinates[0][0],  lng: newCordinates[0][1]})
+    var percelMarker = new this.H.map.Marker({lat: newCordinates[1][0], lng: newCordinates[1][1]})
+    var curierMarker = new this.H.map.Marker({lat: newCordinates[2][0], lng: newCordinates[2][1]})
+
+    group.addObjects([clientMarker, percelMarker, curierMarker]);
+
+    this.map.getViewModel().setLookAtData({
+      bounds: group.getBoundingBox()
+    });
+  }
+
   drawRoute = async (curierAddress, parcelAddress, clientAddress) => {
       
     this.map.removeObjects(this.map.getObjects());
@@ -163,26 +232,10 @@ class map extends React.Component {
 
     const [routeOb1, routeOb2] = await Promise.all([this.calculateRoute(curierGeocode, parcelGeocode), this.calculateRoute(parcelGeocode, clientGeocode)])
 
-    var a = this.drawObjectsOnMap(routeOb1[0], 'curier-percel', "rgba(253, 90, 90, 0.8)");
-    var b = this.drawObjectsOnMap(routeOb2[0], 'percel-client', "rgba(104, 205, 255, 0.8)");
+    this.drawObjectsOnMap(routeOb1[0], 'curier-percel', "rgba(253, 90, 90, 0.8)");
+    this.drawObjectsOnMap(routeOb2[0], 'percel-client', "rgba(104, 205, 255, 0.8)");
 
-    var c = [];
-    c.push(a[0])
-    c.push(b[0])
-    c.push(b[1])
-
-    // Aby uzyskac dobry zoom na te punkty
-    // 1. znajdz, ktory punkt jest oddalony najbardziej na wschod, zachod, polnoc i poludnie
-    // 2. W zaleznosci od punktu przesun go w strone w ktora jest najbardziej oddalony 
-    // 3. zapisz te punkty do tablicy i wrzuc nizej 
-
-    var group = new this.H.map.Group();
-    
-    group.addObjects(c);
-
-    this.map.getViewModel().setLookAtData({
-      bounds: group.getBoundingBox()
-    }); 
+    this.zoomMapOnMarkers(curierGeocode, parcelGeocode, clientGeocode)
 
     this.setState({distance: routeOb1[0].travelSummary.length + routeOb2[0].travelSummary.length + " m"});
 
