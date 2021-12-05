@@ -4,6 +4,7 @@ import PDF from './components/ShipLabel/generatePDF'
 import Map from './components/map/map.js'
 import Test from './components/map/test.jsx'
 import {DistanceMatrixService} from "react-google-maps"
+import HomePage from "./components/homePage/homePage.jsx"
 import { Component } from 'react'
 
 class App extends Component{
@@ -31,7 +32,8 @@ class App extends Component{
   render(){
   return (
     <>
-     <Map/>
+     {/* <Map/> */}
+    <HomePage/>
     </>
   );
   }
