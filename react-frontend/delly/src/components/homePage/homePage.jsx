@@ -9,6 +9,9 @@ import WaveFlipped from "../../images/svg/wave-flipped.svg"
 import Restaurant from "../../images/homePage/restaurant.png"
 import Grossery from "../../images/homePage/grossery.png"
 import Delivery from "../../images/homePage/delivery.png"
+import Splash1 from "../../images/homePage/splash-1.png"
+import Splash2 from "../../images/homePage/splash-2.png"
+import Splash3 from "../../images/homePage/splash-3.png"
 
 class HomePage extends Component{
    render(){
@@ -75,6 +78,26 @@ class HomePage extends Component{
 
           </section>
           <section id="Wspolpraca" class="section3">
+
+          <span id="title-section3">Razem możemy więcej!</span> 
+
+          <div class="d-flex flex-row justify-content-center flex-container3">
+            <div class="nav-item3">
+               <img src={Splash1} id="sec3-img1" alt="Lock"/>
+               <span className="sec3-text1">Zostań kurierem<br/></span>
+               <span className="sec3-text2">Nie potrzebujesz szefa! Korzystaj z <br/>elastyczności, swobody i zarobków,<br/> które umożliwia Delly..</span>
+            </div>
+            <div class="nav-item3">
+               <img src={Splash2} id="sec3-img2" alt="Lock"/>
+               <spam className="sec3-text1">Zostań Pracownikiem<br/></spam>
+               <span className="sec3-text2">Szukasz ciekawej pracy? Jeśli<br/> uwielbiasz wyzwania, pomaganie i<br/> kontakt z ludźmi, skontaktuj się z<br/> nami!</span>
+            </div>
+            <div class="nav-item3">
+               <img src={Splash3} id="sec3-img3" alt="Lock"/>
+               <span className="sec3-text1">Zostań partnerem<br/></span>
+               <span className="sec3-text2">Rozwijaj działalność z pomocą<br/> Delly! Nasze rozwiązania i baza<br/> użytkowników pomagają<br/> zwiększyć sprzedaż i poszerzać<br/> klientelę!</span>
+            </div>
+            </div>
           </section>
           <section id="Lokalizacja" class="section4">
              <img src={WaveFlipped} id="wave-flipped-img" alt="deliveryman"/> 
