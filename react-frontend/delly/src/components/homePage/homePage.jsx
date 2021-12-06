@@ -12,7 +12,7 @@ import Delivery from "../../images/homePage/delivery.png"
 import Splash1 from "../../images/homePage/splash-1.png"
 import Splash2 from "../../images/homePage/splash-2.png"
 import Splash3 from "../../images/homePage/splash-3.png"
-
+import WhiteLogo from "../../images/homePage/box-logo-white.png"
 class HomePage extends Component{
    render(){
        return(
@@ -34,7 +34,7 @@ class HomePage extends Component{
                      <a href="#Wspolpraca" className="nav-text">Współpraca</a>
                  </div>
                 <div className="nav-item">
-                    <a href="#Lokalizacja" className="nav-text">Lokalizacja</a>
+                    <a href="#Lokalizacja" className="nav-text">Kontakt</a>
                 </div>
                 <div className="p-3 ml-auto p-2 nav-item">
                 <img src={Lock} id="lock-img" alt="Lock"/>
@@ -100,7 +100,28 @@ class HomePage extends Component{
             </div>
           </section>
           <section id="Lokalizacja" class="section4">
-             <img src={WaveFlipped} id="wave-flipped-img" alt="deliveryman"/> 
+          <img src={WaveFlipped} id="wave-flipped-img" alt="deliveryman"/> 
+          <div id="logo2">
+          <img src={WhiteLogo} id="logo-white-img" alt="Box logo"/>
+          <span id="boxLogo-white">Delly</span>
+          </div>
+          <div id="list">
+             <div class="d-flex flex-row flex-container4">
+                 <div className="nav-item4"><spam>Współpraca</spam></div>
+                 <div className="nav-item4"><spam>Przydatne linki</spam></div>
+                 <div className="nav-item4"><spam>Obserwuj nas</spam></div>
+             </div>
+             <div class="d-flex flex-row flex-container5">
+                 <div className="nav-item5"><spam>Delly dla partnerów</spam></div>
+                 <div className="nav-item5"><spam>O nas</spam></div>
+                 <div className="nav-item5"><spam>Facebook</spam></div>
+             </div>
+             <div class="d-flex flex-row flex-container6">
+                 <div className="nav-item5"><spam>Kurierzy</spam></div>
+                 <div className="nav-item5"><spam>FAQ</spam></div>
+                 <div className="nav-item5"><spam>Instagram</spam></div>
+             </div>
+             </div>
           </section>
           </div>
        )
