@@ -22,6 +22,7 @@ body{
     width: 100%;
     scroll-snap-align: center;
     position: relative;
+    z-index: 2;
 }
 #circle-section1{
   height: 2100px;
@@ -205,13 +206,13 @@ body{
 }
 
 .flex-container3{
-    top: 200px;
+    top: 150px;
     position: relative;
     z-index: 3;
 }
 .nav-item3{
     width: 25vw;
-    height: 50vh;
+    height: 55vh;
     z-index: 3;
     text-align: center;
 }
@@ -249,6 +250,7 @@ body{
     color: #333222;
     font-weight: 600;
     font-size: 18px;
+    display: block;
 }
 #title-section3{
     z-index: 3;
@@ -259,6 +261,17 @@ body{
     margin: auto;
     top: 90px;
     left: 900px;
+}
+#apply-button{
+    position: relative;
+    bottom: -50px;
+    width: 300px;
+    height: 70px;
+    background-color: #7F8CF0;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
 }
 /* ------------------ SECTION 4 ------------------ */
 
@@ -279,7 +292,7 @@ body{
 #list{
    z-index: 3; 
    position: relative;
-   top: 300px;
+   top: 400px;
    left: 300px;
 }
 #logo2{
@@ -309,4 +322,11 @@ body{
     font-size: 20px;
     width: 400px;
     height: 80px;
+}
+#map-img{
+    position: absolute;
+    width: 550px;
+    height: 501px;
+    left: 1600px;
+    top: 170px;
 }
