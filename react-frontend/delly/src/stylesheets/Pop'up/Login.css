@@ -1,0 +1,92 @@
+#gray-cover{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0, 0.7);
+    z-index: 5;
+}
+#login-container{
+    height: 60vh;
+    width: 22vw;
+    background-color: #505050;
+    border-radius: 5%;
+    position: relative;
+    top: 20vh;
+    left: 39%;
+    box-shadow: 6px 6px 4px rgb(54, 54, 54);
+    text-align: center;
+    z-index: 6;
+  }
+  
+  #welcome-text1{
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 40px;
+  }
+
+  #welcome-text2{
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 15px;
+}
+#registration-text{
+    color: #FFCD82;
+}
+.flex-row1{
+    height: 80px;
+    margin: 60px 60px 0px 60px;
+    text-align: left;
+}
+.flex-row2{
+    height: 100px;
+    margin: 0px 60px 0px 60px;
+}
+#email-text{
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+#form1{
+    width: 100%;
+}
+.form-control::placeholder{
+    color: rgb(219, 219, 219);
+    font-weight: normal;
+}
+.form-control{
+    border-style: none;
+    color: white;
+    background-color: #636262;
+    height: 60px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+.form-control:focus{
+    color: white;
+    box-shadow: 0 0 0 0.15rem #FFCD82;
+    background-color: #636262;
+}
+#password-recover-text{
+    color: #FFCD82;
+    font-size: 15px;
+    padding-top: 10px;
+    font-weight: 600;
+}
+#login-button{
+    background-color: #FBFBFB;
+    color: black;
+    width: 75%;
+    height: 60px;
+    margin: 130px 0px 0px 0px;
+    border: none;
+    font-weight: bold;
+}
+#login-button:hover{
+    box-shadow: 0 0 0 0.15rem #FFCD82;
+}
+#cross-img{
+    position: relative;
+    left: 19vh;
+}

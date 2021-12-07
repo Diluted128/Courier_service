@@ -22,6 +22,7 @@ body{
     width: 100%;
     scroll-snap-align: center;
     position: relative;
+    z-index: 2;
 }
 #circle-section1{
   height: 2100px;
@@ -279,7 +280,7 @@ body{
 #list{
    z-index: 3; 
    position: relative;
-   top: 300px;
+   top: 400px;
    left: 300px;
 }
 #logo2{
@@ -309,4 +310,11 @@ body{
     font-size: 20px;
     width: 400px;
     height: 80px;
+}
+#map-img{
+    position: absolute;
+    width: 550px;
+    height: 501px;
+    left: 1600px;
+    top: 170px;
 }
