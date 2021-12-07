@@ -15,13 +15,15 @@ import Splash3 from "../../images/homePage/splash-3.png"
 import WhiteLogo from "../../images/homePage/box-logo-white.png"
 import MapImg from "../../images/homePage/map-img.png"
 import LoginPopup from "../Pop'up/Login.jsx"
+import ApplyPopup from "../Pop'up/Apply.jsx"
 
 class HomePage extends Component{
 
    constructor(){
       super();
       this.state={
-         open: false
+         openLogin: false,
+         openApply: false
       }
    }
 
@@ -48,7 +50,7 @@ class HomePage extends Component{
                     <a href="#Lokalizacja" className="nav-text">Kontakt</a>
                 </div>
                 <div className="p-3 ml-auto p-2 nav-item">
-                <input onClick={() => this.setState({open: true})} type="image" src={Lock} id="lock-img"/>   
+                <input onClick={() => this.setState({openLogin: true})} type="image" src={Lock} id="lock-img"/>   
                 </div>
                </div>
               </div>
@@ -58,8 +60,8 @@ class HomePage extends Component{
               <span id="text-2">Supermarkety, sklepy, apteki, cokolwiek <br/>potrzebujesz!</span>   
               </div> 
               <img src={deliveryMan} id="delivery-man-img" alt="deliveryman"/> 
-              <button onClick={ () => this.setState({open: true})} className="btn btn-primary rounded-pill" id="start-button" type="submit">Rozpocznij</button>
-              <LoginPopup openPopup={this.state.open} closePopup={() => this.setState({open: false})}/>
+              <button onClick={ () => this.setState({openLogin: true, openApply: false})} className="btn btn-primary rounded-pill" id="start-button" type="submit">Rozpocznij</button>
+              <LoginPopup openPopup={this.state.openLogin} closePopup={() => this.setState({openLogin: false, openLogin: false})}/>
               </div>
           </div>
           </section>
@@ -103,6 +105,8 @@ class HomePage extends Component{
                <img src={Splash2} id="sec3-img2" alt="Lock"/>
                <spam className="sec3-text1">Zostań Pracownikiem<br/></spam>
                <span className="sec3-text2">Szukasz ciekawej pracy? Jeśli<br/> uwielbiasz wyzwania, pomaganie i<br/> kontakt z ludźmi, skontaktuj się z<br/> nami!</span>
+               <button onClick={ () => this.setState({openLogin: false, openApply: true})} className="btn btn-primary rounded-pill" id="apply-button" type="submit">Aplikuj</button>
+               <ApplyPopup openPopup={this.state.openApply} closeApply={() => this.setState({openLogin: false, openApply: false})}/>
             </div>
             <div className="nav-item3">
                <img src={Splash3} id="sec3-img3" alt="Lock"/>

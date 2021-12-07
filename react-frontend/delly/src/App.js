@@ -7,6 +7,7 @@ import {DistanceMatrixService} from "react-google-maps"
 import HomePage from "./components/homePage/homePage.jsx"
 import { Component } from 'react'
 import Login from "./components/Pop'up/Login.jsx"
+import Apply from "./components/Pop'up/Apply.jsx" 
 
 class App extends Component{
 
@@ -14,7 +15,6 @@ class App extends Component{
   return (
     <>
      {/* <Map/> */}
-    {/* <HomePage/> */}
     <HomePage/>
     </>
   );

@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import "../../stylesheets/Pop'up/Login.css"
 import Cross from "../../images/svg/cross.svg"
+import ReactDom from "react-dom";
 
 class Login extends Component{
 
@@ -11,7 +12,7 @@ class Login extends Component{
     render(){
 
         if(this.props.openPopup == false) return null;
-        return(
+        return ReactDom.createPortal(
             <div id="gray-cover">
             <div id="login-container"> 
               <input onClick={this.props.closePopup} type="image" src={Cross} id="cross-img"/>
@@ -32,7 +33,8 @@ class Login extends Component{
              </div>
              <button class="btn btn-primary" id="login-button" type="submit">Zaloguj się</button>
             </div>
-            </div>
+            </div>,
+            document.getElementById('portal')
         )
     }
 }

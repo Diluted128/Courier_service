@@ -206,13 +206,13 @@ body{
 }
 
 .flex-container3{
-    top: 200px;
+    top: 150px;
     position: relative;
     z-index: 3;
 }
 .nav-item3{
     width: 25vw;
-    height: 50vh;
+    height: 55vh;
     z-index: 3;
     text-align: center;
 }
@@ -250,6 +250,7 @@ body{
     color: #333222;
     font-weight: 600;
     font-size: 18px;
+    display: block;
 }
 #title-section3{
     z-index: 3;
@@ -260,6 +261,17 @@ body{
     margin: auto;
     top: 90px;
     left: 900px;
+}
+#apply-button{
+    position: relative;
+    bottom: -50px;
+    width: 300px;
+    height: 70px;
+    background-color: #7F8CF0;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
 }
 /* ------------------ SECTION 4 ------------------ */
 
