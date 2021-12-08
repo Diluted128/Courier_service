@@ -30,9 +30,9 @@ class Login extends Component{
                <form id="form1">   
                <span id="email-text">Hasło</span> 
                <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Wprowadz hasło"/>
-               <span id="password-recover-text">Przywróc hasło</span> 
                </form>
              </div>
+             <span onClick={this.props.openPassword} id="password-recover-text">Przywróć hasło</span> 
              <button class="btn btn-primary" id="login-button" type="submit">Zaloguj się</button>
             </div>
             </div>,
