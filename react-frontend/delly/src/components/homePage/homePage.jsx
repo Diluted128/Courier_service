@@ -16,6 +16,7 @@ import WhiteLogo from "../../images/homePage/box-logo-white.png"
 import MapImg from "../../images/homePage/map-img.png"
 import LoginPopup from "../Pop'up/Login.jsx"
 import ApplyPopup from "../Pop'up/Apply.jsx"
+import RegistrationPopup from "../Pop'up/Registration.jsx"
 
 class HomePage extends Component{
 
@@ -23,7 +24,8 @@ class HomePage extends Component{
       super();
       this.state={
          openLogin: false,
-         openApply: false
+         openApply: false,
+         openRegistration: false,
       }
    }
 
@@ -60,8 +62,15 @@ class HomePage extends Component{
               <span id="text-2">Supermarkety, sklepy, apteki, cokolwiek <br/>potrzebujesz!</span>   
               </div> 
               <img src={deliveryMan} id="delivery-man-img" alt="deliveryman"/> 
-              <button onClick={ () => this.setState({openLogin: true, openApply: false})} className="btn btn-primary rounded-pill" id="start-button" type="submit">Rozpocznij</button>
-              <LoginPopup openPopup={this.state.openLogin} closePopup={() => this.setState({openLogin: false, openLogin: false})}/>
+              <button onClick={() => this.setState({openLogin: true, openApply: false, openRegistration: false})} className="btn btn-primary rounded-pill" id="start-button" type="submit">Rozpocznij</button>
+              <LoginPopup 
+                  openPopup={this.state.openLogin} 
+                  closePopup={() => this.setState({openLogin: false, openLogin: false, openRegistration: false})} 
+                  openRegistry={() => this.setState({openLogin: false, openLogin: false, openRegistration: true})}/>
+              <RegistrationPopup 
+                  openPopup={this.state.openRegistration} 
+                  openLogin={() => this.setState({openLogin: true, openApply: false, openRegistration: false})}
+                  closePopup={() => this.setState({openLogin: false, openApply: false, openRegistration: false})}/>
               </div>
           </div>
           </section>

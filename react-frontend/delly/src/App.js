@@ -8,6 +8,7 @@ import HomePage from "./components/homePage/homePage.jsx"
 import { Component } from 'react'
 import Login from "./components/Pop'up/Login.jsx"
 import Apply from "./components/Pop'up/Apply.jsx" 
+import Registration from "./components/Pop'up/Registration.jsx"
 
 class App extends Component{
 
