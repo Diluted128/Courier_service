@@ -1,11 +1,9 @@
 
-import '../src/App.css'
-import PDF from './components/ShipLabel/generatePDF'
-import Map from './components/map/map.js'
-import Test from './components/map/test.jsx'
+import '../src/App.scss'
+
 import HomePage from "./components/homePage/homePage.jsx"
 import { Component } from 'react'
-import Password from "./components/Pop'up/Password.jsx"
+// import MainPage from "./components/clientside/mainPage.jsx"
 
 class App extends Component{
 

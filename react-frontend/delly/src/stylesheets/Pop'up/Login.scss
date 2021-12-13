@@ -1,0 +1,129 @@
+.gray-cover{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0, 0.7);
+    z-index: 5;
+
+    &__login-block{
+
+        height: 60vh;
+        width: 22vw;
+        background-color: #505050;
+        border-radius: 5%;
+        position: relative;
+        top: 20vh;
+        left: 39%;
+        box-shadow: 6px 6px 4px rgb(54, 54, 54);
+        text-align: center;
+        z-index: 6;
+
+        &__cross{
+            position: relative;
+            left: 19vh;
+        }
+    
+        &__title{
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 40px;
+        }
+
+        &__description{
+
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 15px;
+            display: block;
+            margin-bottom: 60px;
+
+            &__registration-text{
+
+                color: #FFCD82;
+
+                &:hover{
+                    color: #FFCD82;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        &__flex-row{
+
+            height: 100px;
+            margin: 0px 60px 30px 60px;
+            text-align: left;
+            
+            &__form{
+
+                width: 100%;
+
+                &__title{
+                    color: white;
+                    font-weight: bold;
+                    font-size: 18px;
+                    display: block;
+                }
+
+                &__input{
+                    border-style: none;
+                    color: white;
+                    background-color: #636262;
+                    height: 60px;
+                    margin-bottom: 20px;
+                    margin-top: 10px;
+                    width: 100%;
+
+                    &:focus{
+                        color: white;
+                        box-shadow: 0 0 0 0.15rem #FFCD82;
+                        background-color: #636262;
+                    }
+
+                    &::placeholder{
+                        color: rgb(219, 219, 219);
+                        font-weight: normal;
+                    }
+                }
+            }
+        }
+
+
+        &__password-recover{
+
+            color: #FFCD82;
+            font-size: 15px;
+            padding-top: 10px;
+            font-weight: 600;
+            display: block;
+            margin-top: 20px;
+            margin-left: 0px;
+
+            &:hover{
+                color: #FFCD82;
+                cursor: pointer;
+            }
+        }
+
+        &__login-button{
+
+            background-color: #bbbaba;
+            color: black;
+            width: 75%;
+            height: 60px;
+            margin: 70px 0px 0px 0px;
+            border: none;
+            font-weight: bold;
+
+            &:hover{
+                background-color: #ffffff;
+                color: black;
+            }
+        }
+
+    }
+}
+
+

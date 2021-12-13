@@ -1,0 +1,67 @@
+.section4{
+
+    background-color: #565656;
+    height: 60vh;
+    scroll-snap-align: center;
+    position: relative;
+    z-index: 1;
+
+    &__wave-svg{
+        width: 2500px;
+        position: absolute;
+        top: -100px;
+    }
+
+    &__logo-container{
+
+        position: absolute;
+        top: 150px;
+        left: 180px;
+
+        &__logo-img{
+            height: 60px;
+            width: 60px;
+        }
+
+        &__logo-text{
+            font-size: 50px;
+            font-weight: bold;
+            z-index: 2;
+            color: white;
+        }
+    }
+
+    &__links-container{
+        z-index: 3; 
+        position: relative;
+        top: 350px;
+        left: 300px;
+
+        &__row{
+
+            &__item{
+                color: white;
+                font-size: 20px;
+                width: 400px;
+                height: 80px;
+
+                &--bold{
+                    font-weight: bold;
+                    color: white;
+                    font-size: 30px;
+                    width: 400px;
+                    height: 80px;
+                }
+            }
+        }
+    }
+
+    &__map{
+        position: absolute;
+        width: 550px;
+        height: 501px;
+        left: 1600px;
+        top: 170px;
+    }
+    
+}
