@@ -1,18 +1,20 @@
 
 import '../src/App.scss'
-
 import HomePage from "./components/homePage/homePage.jsx"
+import ClientSide from "./components/client/MainPage.jsx"
 import { Component } from 'react'
-// import MainPage from "./components/clientside/mainPage.jsx"
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom"
 
 class App extends Component{
 
   render(){
   return (
-    <>
-     {/* <Map/> */}
-    <HomePage/>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/client" element={<ClientSide/>} />
+      </Routes>
+    </Router>
   );
   }
 }
