@@ -1,10 +1,8 @@
 package com.delly.delly.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.sql.Timestamp;
+import com.sun.istack.NotNull;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class CreditCard {
@@ -13,11 +11,15 @@ public class CreditCard {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer ID;
 
+    @NotNull
     private String cardNumber;
 
+    @NotNull
     private String CVV;
 
-    private Timestamp expired;
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    private Date expired;
 
     public Integer getID() {
         return ID;
@@ -43,11 +45,11 @@ public class CreditCard {
         this.CVV = CVV;
     }
 
-    public Timestamp getExpired() {
+    public Date getExpired() {
         return expired;
     }
 
-    public void setExpired(Timestamp expired) {
+    public void setExpired(Date expired) {
         this.expired = expired;
     }
 }
