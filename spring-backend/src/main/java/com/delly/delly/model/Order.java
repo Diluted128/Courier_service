@@ -5,6 +5,7 @@ import com.sun.istack.Nullable;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Order {
@@ -12,9 +13,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer ID;
-
-    @NotNull
-    private OrderType type;
 
     @NotNull
     @ManyToOne
@@ -31,8 +29,23 @@ public class Order {
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @NotNull
+    private float total_price;
+
     @OneToMany(mappedBy = "order")
     private List<Pack> packs;
+
+    @OneToOne
+    @JoinColumn(name = "order_type_id")
+    private OrderType orderType;
+
+    @ManyToMany
+    @JoinTable(
+            name = "Order_item",
+            joinColumns = { @JoinColumn(name = "order_id")},
+            inverseJoinColumns = { @JoinColumn(name = "item_id")}
+    )
+    private Set<Item> items;
 
     public Integer getID() {
         return ID;
@@ -40,14 +53,6 @@ public class Order {
 
     public void setID(Integer ID) {
         this.ID = ID;
-    }
-
-    public OrderType getType() {
-        return type;
-    }
-
-    public void setType(OrderType type) {
-        this.type = type;
     }
 
     public Client getClient() {
@@ -80,5 +85,29 @@ public class Order {
 
     public void setPacks(List<Pack> packs) {
         this.packs = packs;
+    }
+
+    public float getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(float total_price) {
+        this.total_price = total_price;
+    }
+
+    public OrderType getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(OrderType orderType) {
+        this.orderType = orderType;
+    }
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
     }
 }
