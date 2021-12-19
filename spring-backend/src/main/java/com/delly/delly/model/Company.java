@@ -20,13 +20,11 @@ public class Company {
     @Enumerated(EnumType.STRING)
     private CompanyType type;
 
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-
     @OneToMany(mappedBy = "company")
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "company")
+    private Set<Department> departments;
 
     @ManyToMany
     @JoinTable(
@@ -60,14 +58,6 @@ public class Company {
         this.type = type;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     public List<Order> getOrders() {
         return orders;
     }
@@ -82,5 +72,13 @@ public class Company {
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    public Set<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Set<Department> departments) {
+        this.departments = departments;
     }
 }
