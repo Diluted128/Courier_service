@@ -30,6 +30,13 @@ public class OfficeWorker {
     private String email;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    private OfficeWorkerType officeWorkerType;
+
+    @NotNull
+    private String password;
+
+    @NotNull
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -96,5 +103,21 @@ public class OfficeWorker {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public OfficeWorkerType getOfficeWorkerType() {
+        return officeWorkerType;
+    }
+
+    public void setOfficeWorkerType(OfficeWorkerType officeWorkerType) {
+        this.officeWorkerType = officeWorkerType;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

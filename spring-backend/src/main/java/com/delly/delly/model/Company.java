@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Company {
@@ -16,9 +17,7 @@ public class Company {
     private String name;
 
     @NotNull
-    private Integer cash;
-
-    @NotNull
+    @Enumerated(EnumType.STRING)
     private CompanyType type;
 
     @NotNull
@@ -28,6 +27,14 @@ public class Company {
 
     @OneToMany(mappedBy = "company")
     private List<Order> orders;
+
+    @ManyToMany
+    @JoinTable(
+            name = "Company_item",
+            joinColumns = { @JoinColumn(name = "company_id")},
+            inverseJoinColumns = { @JoinColumn(name = "item_id")}
+    )
+    private Set<Item> items;
 
     public Integer getID() {
         return ID;
@@ -43,14 +50,6 @@ public class Company {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getCash() {
-        return cash;
-    }
-
-    public void setCash(Integer cash) {
-        this.cash = cash;
     }
 
     public CompanyType getType() {
@@ -75,5 +74,13 @@ public class Company {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
     }
 }
