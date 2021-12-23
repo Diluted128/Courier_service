@@ -1,6 +1,7 @@
 package com.delly.delly.model;
 
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,10 +16,10 @@ public class Item {
     @NotNull
     private String name;
 
-    @NotNull
+    @Nullable
     private String description;
 
-    @NotNull
+    @Nullable
     @Enumerated(EnumType.STRING)
     private ItemSize size;
 

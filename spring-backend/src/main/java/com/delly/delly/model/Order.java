@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,13 @@ public class Order {
 
     @NotNull
     private float total_price;
+
+    @NotNull
+    private LocalDateTime date;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private StatusType status;
 
     @OneToMany(mappedBy = "order")
     private List<Pack> packs;
@@ -109,5 +117,21 @@ public class Order {
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public StatusType getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusType status) {
+        this.status = status;
     }
 }
