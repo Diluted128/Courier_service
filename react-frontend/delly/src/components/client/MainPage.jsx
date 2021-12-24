@@ -8,10 +8,19 @@ import FastFood from "../../images/mainPage/fast-food.png";
 import Food from "../../images/mainPage/food.png";
 import Medicine from "../../images/mainPage/medicines.png";
 import Percel from "../../images/mainPage/percel.png";
+import { useState } from "react";
+import RestaurantChoice from "../../components/client/restaurant/RestaurantChoice.jsx"
+import MarketChoice from "../../components/client/market/MarketChoice.jsx"
+import PharmacyChoice from "../../components/client/pharmacy/PharmacyChoice.jsx"
 
 function MainPage() {
 
   const navigate = useNavigate();
+  
+  const [market, setMarket] = useState(false);
+  const [pharmacy, setPharmacy] = useState(false);
+  const [percel, setPercel] = useState(false);
+  const [restaurant, setRestaurant] = useState(false);
 
   return (
     <div className="client-side">
@@ -68,7 +77,7 @@ function MainPage() {
             Czego dzisiaj zamawiamy?
           </span>
           <div className="d-flex client-side__fluid-container__circles-container__second-row">
-            <div className="client-side__fluid-container__circles-container__second-row__item">
+            <div onClick={() => {setMarket(true)}} className="client-side__fluid-container__circles-container__second-row__item">
               <span className="client-side__fluid-container__circles-container__second-row__item__circle client-side__fluid-container__circles-container__second-row__item__circle--green">
                 <img
                   src={Food}
@@ -80,7 +89,7 @@ function MainPage() {
                 </span>
               </span>
             </div>
-            <div className="client-side__fluid-container__circles-container__second-row__item">
+            <div onClick={() => setPharmacy(true)} className="client-side__fluid-container__circles-container__second-row__item">
               <span className="client-side__fluid-container__circles-container__second-row__item__circle client-side__fluid-container__circles-container__second-row__item__circle--blue">
                 <img
                   src={Medicine}
@@ -102,7 +111,7 @@ function MainPage() {
                 </span>
               </span>
             </div>
-            <div className="client-side__fluid-container__circles-container__second-row__item">
+            <div onClick={() => setRestaurant(true)} className="client-side__fluid-container__circles-container__second-row__item">
               <span className="client-side__fluid-container__circles-container__second-row__item__circle client-side__fluid-container__circles-container__second-row__item__circle--orange">
                 <img
                   src={FastFood}
@@ -113,6 +122,9 @@ function MainPage() {
                 </span>
               </span>
             </div>
+            <MarketChoice openMarket={market} close={ () => setMarket(false)}/>
+            <PharmacyChoice openPharmacy={pharmacy} close={ () => setPharmacy(false)}/>
+            <RestaurantChoice openRestaurant={restaurant} close={ () => setRestaurant(false)}/>
           </div>
         </div>
       </div>
