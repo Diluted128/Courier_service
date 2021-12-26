@@ -13,7 +13,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.6.1'
 //    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.1'
     implementation 'org.postgresql:postgresql'
@@ -21,6 +20,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework:spring-web:5.3.14'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
 test {
