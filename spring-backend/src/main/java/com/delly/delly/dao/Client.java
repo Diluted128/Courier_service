@@ -1,11 +1,13 @@
-package com.delly.delly.model;
+package com.delly.delly.dao;
 
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-public class OfficeWorker {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,26 +19,24 @@ public class OfficeWorker {
     @NotNull
     private String lastName;
 
-    @NotNull
-    private String PIN;
-
-    @NotNull
-    private Integer cash;
-
-    @NotNull
+    @Nullable
     private String phoneNumber;
 
     @NotNull
     private String email;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private OfficeWorkerType officeWorkerType;
-
-    @NotNull
     private String password;
 
-    @NotNull
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders;
+
+    @Nullable
+    @OneToOne
+    @JoinColumn(name = "creditCard_id")
+    private CreditCard creditCard;
+
+    @Nullable
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -65,22 +65,6 @@ public class OfficeWorker {
         this.lastName = lastName;
     }
 
-    public String getPIN() {
-        return PIN;
-    }
-
-    public void setPIN(String PIN) {
-        this.PIN = PIN;
-    }
-
-    public Integer getCash() {
-        return cash;
-    }
-
-    public void setCash(Integer cash) {
-        this.cash = cash;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -97,27 +81,35 @@ public class OfficeWorker {
         this.email = email;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public OfficeWorkerType getOfficeWorkerType() {
-        return officeWorkerType;
-    }
-
-    public void setOfficeWorkerType(OfficeWorkerType officeWorkerType) {
-        this.officeWorkerType = officeWorkerType;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

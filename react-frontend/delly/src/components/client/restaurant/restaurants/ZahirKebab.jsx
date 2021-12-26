@@ -6,8 +6,16 @@ import ReactDom from "react-dom";
 import Kebab1 from "../../../../images/client/kebab1-circle.png";
 import Kebab2 from "../../../../images/client/kebab2-circle.png";
 import Kebab3 from "../../../../images/client/kebab3-circle.png";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actionCreators from "../../../../redux/Shopping/shopping-actions"
 
 function ZahirKebab(props) {
+
+  const dispatch = useDispatch()
+
+  const {addToCart} = bindActionCreators(actionCreators, dispatch);
+
   if (props.openKebab == false) return null;
   return ReactDom.createPortal(
     <div className="restaurant-block">
@@ -26,7 +34,7 @@ function ZahirKebab(props) {
       <hr className="restaurant-block__line"></hr>
       <div className="restaurant-block__dishes-container">
         <div className="row restaurant-block__dishes-container__row">
-          <div className="col-3 restaurant-block__dishes-container__row__circle-col">
+          <div onClick = {() => addToCart(1)} className="col-3 restaurant-block__dishes-container__row__circle-col">
             <img
               src={Kebab1}
               alt="kebab1"
@@ -40,7 +48,7 @@ function ZahirKebab(props) {
             24.00
           </div>
         </div>
-        <div className="row restaurant-block__dishes-container__row">
+        <div onClick = {() => addToCart(3)} className="row restaurant-block__dishes-container__row">
           <div className="col-3 restaurant-block__dishes-container__row__circle-col">
             <img
               src={Kebab2}
@@ -55,7 +63,7 @@ function ZahirKebab(props) {
             21.00
           </div>
         </div>
-        <div className="row restaurant-block__dishes-container__row">
+        <div onClick = {() => addToCart(4)} className="row restaurant-block__dishes-container__row">
           <div className="col-3 restaurant-block__dishes-container__row__circle-col">
             <img
               src={Kebab3}
@@ -64,7 +72,7 @@ function ZahirKebab(props) {
             ></img>
           </div>
           <div className="col restaurant-block__dishes-container__row__title-col">
-            Rolo Kebab Amerykański
+            Rolo Kebab z Serem
           </div>
           <div className="col-2 restaurant-block__dishes-container__row__price-col">
             21.00
@@ -75,7 +83,7 @@ function ZahirKebab(props) {
       <h4 className="restaurant-block__title">NAPOJE</h4>
       <div className="restaurant-block__drink-container">
         <div className="row restaurant-block__drink-container__row">
-          <div className="col-6 restaurant-block__drink-container__row__title-col">
+          <div onClick = {() => addToCart(5)} className="col-6 restaurant-block__drink-container__row__title-col">
             Coca Cola 0.5L
           </div>
           <div className="col restaurant-block__drink-container__row__title-col"></div>
@@ -83,7 +91,7 @@ function ZahirKebab(props) {
             5.99
           </div>
         </div>
-        <div className="row restaurant-block__drink-container__row">
+        <div onClick = {() => addToCart(18)} className="row restaurant-block__drink-container__row">
           <div className="col-6 restaurant-block__drink-container__row__title-col">
             Mirinda 0,85L
           </div>
@@ -92,7 +100,7 @@ function ZahirKebab(props) {
             9.99
           </div>
         </div>
-        <div className="row restaurant-block__drink-container__row">
+        <div onClick = {() => addToCart(19)} className="row restaurant-block__drink-container__row">
           <div className="col-6 restaurant-block__drink-container__row__title-col">
             7UP 0,85L
           </div>
@@ -106,4 +114,5 @@ function ZahirKebab(props) {
     document.getElementById("portal")
   );
 }
+
 export default ZahirKebab;

@@ -12,7 +12,7 @@ import { useState } from "react";
 import RestaurantChoice from "../../components/client/restaurant/RestaurantChoice.jsx"
 import MarketChoice from "../../components/client/market/MarketChoice.jsx"
 import PharmacyChoice from "../../components/client/pharmacy/PharmacyChoice.jsx"
-
+import Server from "../../server/fetch-data"
 function MainPage() {
 
   const navigate = useNavigate();
@@ -23,6 +23,7 @@ function MainPage() {
   const [restaurant, setRestaurant] = useState(false);
 
   return (
+
     <div className="client-side">
       <img src={background1} className="client-side__background-svg" />
       <div className="container-fluid client-side__fluid-container">
@@ -74,7 +75,7 @@ function MainPage() {
         </div>
         <div className="container-fluid client-side__fluid-container__circles-container">
           <span className="client-side__fluid-container__circles-container__main-text">
-            Czego dzisiaj zamawiamy?
+            Co dzisiaj zamawiamy?
           </span>
           <div className="d-flex client-side__fluid-container__circles-container__second-row">
             <div onClick={() => {setMarket(true)}} className="client-side__fluid-container__circles-container__second-row__item">
@@ -125,6 +126,7 @@ function MainPage() {
             <MarketChoice openMarket={market} close={ () => setMarket(false)}/>
             <PharmacyChoice openPharmacy={pharmacy} close={ () => setPharmacy(false)}/>
             <RestaurantChoice openRestaurant={restaurant} close={ () => setRestaurant(false)}/>
+            <Server/>
           </div>
         </div>
       </div>

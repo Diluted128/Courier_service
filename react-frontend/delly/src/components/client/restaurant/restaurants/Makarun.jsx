@@ -6,8 +6,16 @@ import ReactDom from "react-dom";
 import Sphagetii1 from "../../../../images/client/spaghetii1-circle.png";
 import Sphagetii2 from "../../../../images/client/spaghetii2-circle.png";
 import Sphagetii3 from "../../../../images/client/spaghetii3-circle.png";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actionCreators from "../../../../redux/Shopping/shopping-actions"
 
 function Makarun(props) {
+
+  const dispatch = useDispatch()
+
+  const {addToCart} = bindActionCreators(actionCreators, dispatch);
+
   if (props.openMakarun == false) return null;
   return ReactDom.createPortal(
     <div className="restaurant-block">
@@ -25,7 +33,7 @@ function Makarun(props) {
       <h4 className="restaurant-block__title">GŁÓWNE DANIA</h4>
       <hr className="restaurant-block__line"></hr>
       <div className="restaurant-block__dishes-container">
-        <div className="row restaurant-block__dishes-container__row">
+        <div onClick = {() => addToCart(6)} className="row restaurant-block__dishes-container__row">
           <div className="col-3 restaurant-block__dishes-container__row__circle-col">
             <img
               src={Sphagetii1}
@@ -34,13 +42,13 @@ function Makarun(props) {
             ></img>
           </div>
           <div className="col restaurant-block__dishes-container__row__title-col">
-            Rollo Kebab same mięso
+            Sphagetti Bolognese
           </div>
           <div className="col-2 restaurant-block__dishes-container__row__price-col">
             24.00
           </div>
         </div>
-        <div className="row restaurant-block__dishes-container__row">
+        <div onClick = {() => addToCart(7)} className="row restaurant-block__dishes-container__row">
           <div className="col-3 restaurant-block__dishes-container__row__circle-col">
             <img
               src={Sphagetii2}
@@ -49,13 +57,13 @@ function Makarun(props) {
             ></img>
           </div>
           <div className="col restaurant-block__dishes-container__row__title-col">
-            Rolo Kebab Amerykański
+           Sphagetti ze Szpinakiem
           </div>
           <div className="col-2 restaurant-block__dishes-container__row__price-col">
             21.00
           </div>
         </div>
-        <div className="row restaurant-block__dishes-container__row">
+        <div onClick = {() => addToCart(8)} className="row restaurant-block__dishes-container__row">
           <div className="col-3 restaurant-block__dishes-container__row__circle-col">
             <img
               src={Sphagetii3}
@@ -64,7 +72,7 @@ function Makarun(props) {
             ></img>
           </div>
           <div className="col restaurant-block__dishes-container__row__title-col">
-            Rolo Kebab Amerykański
+           Sphagetti Currygodny Con Pollo
           </div>
           <div className="col-2 restaurant-block__dishes-container__row__price-col">
             21.00
@@ -74,7 +82,7 @@ function Makarun(props) {
       <hr className="restaurant-block__line"></hr>
       <h4 className="restaurant-block__title">NAPOJE</h4>
       <div className="restaurant-block__drink-container">
-        <div className="row restaurant-block__drink-container__row">
+        <div onClick = {() => addToCart(5)} className="row restaurant-block__drink-container__row">
           <div className="col-6 restaurant-block__drink-container__row__title-col">
             Coca Cola 0.5L
           </div>
@@ -83,7 +91,7 @@ function Makarun(props) {
             5.99
           </div>
         </div>
-        <div className="row restaurant-block__drink-container__row">
+        <div onClick = {() => addToCart(18)} className="row restaurant-block__drink-container__row">
           <div className="col-6 restaurant-block__drink-container__row__title-col">
             Mirinda 0,85L
           </div>
@@ -92,7 +100,7 @@ function Makarun(props) {
             9.99
           </div>
         </div>
-        <div className="row restaurant-block__drink-container__row">
+        <div onClick = {() => addToCart(19)} className="row restaurant-block__drink-container__row">
           <div className="col-6 restaurant-block__drink-container__row__title-col">
             7UP 0,85L
           </div>

@@ -1,12 +1,11 @@
-package com.delly.delly.model;
+package com.delly.delly.dao;
 
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-public class Deliver {
+public class OfficeWorker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,7 +18,7 @@ public class Deliver {
     private String lastName;
 
     @NotNull
-    private String PESEL;
+    private String PIN;
 
     @NotNull
     private Integer cash;
@@ -30,12 +29,17 @@ public class Deliver {
     @NotNull
     private String email;
 
-    @OneToOne
-    @JoinColumn(name = "district_id")
-    private District district;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private OfficeWorkerType officeWorkerType;
 
-    @OneToMany(mappedBy = "deliver")
-    private List<Pack> packs;
+    @NotNull
+    private String password;
+
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     public Integer getID() {
         return ID;
@@ -61,12 +65,12 @@ public class Deliver {
         this.lastName = lastName;
     }
 
-    public String getPESEL() {
-        return PESEL;
+    public String getPIN() {
+        return PIN;
     }
 
-    public void setPESEL(String PESEL) {
-        this.PESEL = PESEL;
+    public void setPIN(String PIN) {
+        this.PIN = PIN;
     }
 
     public Integer getCash() {
@@ -93,20 +97,27 @@ public class Deliver {
         this.email = email;
     }
 
-    public District getDistrict() {
-        return district;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setDistrict(District district) {
-        this.district = district;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public List<Pack> getPacks() {
-        return packs;
+    public OfficeWorkerType getOfficeWorkerType() {
+        return officeWorkerType;
     }
 
-    public void setPacks(List<Pack> packs) {
-        this.packs = packs;
+    public void setOfficeWorkerType(OfficeWorkerType officeWorkerType) {
+        this.officeWorkerType = officeWorkerType;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

@@ -1,5 +1,6 @@
-package com.delly.delly.model;
+package com.delly.delly.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 
@@ -19,6 +20,7 @@ public class Item {
     @Nullable
     private String description;
 
+    @Column(name = "size")
     @Nullable
     @Enumerated(EnumType.STRING)
     private ItemSize size;
@@ -26,9 +28,11 @@ public class Item {
     @NotNull
     private float price;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "items")
     private Set<Order> orders;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "items")
     private Set<Company> companies;
 

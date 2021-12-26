@@ -1,13 +1,12 @@
-package com.delly.delly.model;
+package com.delly.delly.dao;
 
 import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Client {
+public class Deliver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,27 +18,24 @@ public class Client {
     @NotNull
     private String lastName;
 
-    @Nullable
+    @NotNull
+    private String PESEL;
+
+    @NotNull
+    private Integer cash;
+
+    @NotNull
     private String phoneNumber;
 
     @NotNull
     private String email;
 
-    @NotNull
-    private String password;
-
-    @OneToMany(mappedBy = "client")
-    private List<Order> orders;
-
-    @Nullable
     @OneToOne
-    @JoinColumn(name = "creditCard_id")
-    private CreditCard creditCard;
+    @JoinColumn(name = "district_id")
+    private District district;
 
-    @Nullable
-    @OneToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
+    @OneToMany(mappedBy = "deliver")
+    private List<Pack> packs;
 
     public Integer getID() {
         return ID;
@@ -65,6 +61,22 @@ public class Client {
         this.lastName = lastName;
     }
 
+    public String getPESEL() {
+        return PESEL;
+    }
+
+    public void setPESEL(String PESEL) {
+        this.PESEL = PESEL;
+    }
+
+    public Integer getCash() {
+        return cash;
+    }
+
+    public void setCash(Integer cash) {
+        this.cash = cash;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -81,35 +93,20 @@ public class Client {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDistrict(District district) {
+        this.district = district;
     }
 
-    public CreditCard getCreditCard() {
-        return creditCard;
+    public List<Pack> getPacks() {
+        return packs;
     }
 
-    public void setCreditCard(CreditCard creditCard) {
-        this.creditCard = creditCard;
+    public void setPacks(List<Pack> packs) {
+        this.packs = packs;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 }

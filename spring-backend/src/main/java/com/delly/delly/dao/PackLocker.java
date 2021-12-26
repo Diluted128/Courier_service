@@ -1,4 +1,4 @@
-package com.delly.delly.model;
+package com.delly.delly.dao;
 
 import com.sun.istack.NotNull;
 
