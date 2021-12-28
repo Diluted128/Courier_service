@@ -43,10 +43,6 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<Pack> packs;
 
-    @OneToOne
-    @JoinColumn(name = "order_type_id")
-    private OrderType orderType;
-
     @ManyToMany
     @JoinTable(
             name = "Order_item",
@@ -101,14 +97,6 @@ public class Order {
 
     public void setTotal_price(float total_price) {
         this.total_price = total_price;
-    }
-
-    public OrderType getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(OrderType orderType) {
-        this.orderType = orderType;
     }
 
     public Set<Item> getItems() {

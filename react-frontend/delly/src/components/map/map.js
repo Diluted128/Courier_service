@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../../stylesheets/map/map.css";
-import Test from "../map/test.jsx";
+import Test from "../map/test.js";
 import Box from "../../images/box_local_icon.png"
 import Meta from "../../images/meta_icon.png"
 import Curier from "../../images/curier_icon.png"

@@ -5,9 +5,9 @@ import KebabBanner from "../../../images/client/kebab.png"
 import PizzaBanner from "../../../images/client/pizza.png"
 import MakarunBanner from "../../../images/client/spageti.png"
 import McDonaldBanner from "../../../images/client/mcdonald.png"
-import Zahir from "../../../components/client/restaurant/restaurants/ZahirKebab.jsx"
-import Makarun from "../../../components/client/restaurant/restaurants/Makarun.jsx"
-import PizzaHut from "../../../components/client/restaurant/restaurants/PizzaHut.jsx"
+import Zahir from "./restaurants/ZahirKebab.js"
+import Makarun from "./restaurants/Makarun.js"
+import PizzaHut from "./restaurants/PizzaHut.js"
 import { motion, AnimatePresence } from "framer-motion";
 
 function RestaurantChoice(props) {

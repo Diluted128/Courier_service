@@ -10,8 +10,9 @@ import java.util.Set;
 public class Company {
 
     @Id
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer ID;
+    Integer CompanyID;
 
     @NotNull
     private String name;
@@ -26,20 +27,15 @@ public class Company {
     @OneToMany(mappedBy = "company")
     private Set<Department> departments;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Company_item",
-            joinColumns = { @JoinColumn(name = "company_id")},
-            inverseJoinColumns = { @JoinColumn(name = "item_id")}
-    )
+    @OneToMany(mappedBy = "company_id")
     private Set<Item> items;
 
-    public Integer getID() {
-        return ID;
+    public Integer getCompanyID() {
+        return CompanyID;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setCompanyID(Integer ID) {
+        this.CompanyID = ID;
     }
 
     public String getName() {

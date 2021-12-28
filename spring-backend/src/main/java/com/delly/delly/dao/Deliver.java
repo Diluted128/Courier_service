@@ -30,6 +30,9 @@ public class Deliver {
     @NotNull
     private String email;
 
+    @NotNull
+    private String password;
+
     @OneToOne
     @JoinColumn(name = "district_id")
     private District district;
@@ -109,4 +112,11 @@ public class Deliver {
         this.packs = packs;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

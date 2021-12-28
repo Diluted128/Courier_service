@@ -1,5 +1,4 @@
 package com.delly.delly.repositories;
-
 import com.delly.delly.dao.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +16,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
              "WHERE COMPANY.NAME = ?1",
                nativeQuery = true)
        List<Item> getItemByCompanies(String companyName);
+
+       @Query(value = "SELECT * FROM ITEM",
+               nativeQuery = true)
+       List<Object[]> getAllItems();
 }

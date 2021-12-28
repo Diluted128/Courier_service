@@ -5,7 +5,7 @@ import ReactDom from "react-dom";
 import { useNavigate } from "react-router-dom";
 import MarketBanner from "../../../images/client/biedronka.png";
 import { motion, AnimatePresence } from "framer-motion";
-import Markets from "./markets/Markets.jsx"
+import Markets from "./markets/Markets.js"
 
 function MarketChoice(props) {
 

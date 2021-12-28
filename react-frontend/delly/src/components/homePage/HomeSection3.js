@@ -1,6 +1,6 @@
 import "../../stylesheets/homePage/homeSection3.scss";
 import React, { Component } from "react";
-import ApplyPopup from "../Pop'up/Apply.jsx";
+import ApplyPopup from "../Pop'up/Apply.js";
 import Splash1 from "../../images/homePage/splash-1.png";
 import Splash2 from "../../images/homePage/splash-2.png";
 import Splash3 from "../../images/homePage/splash-3.png";
