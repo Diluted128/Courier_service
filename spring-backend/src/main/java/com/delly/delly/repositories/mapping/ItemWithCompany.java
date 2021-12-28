@@ -1,5 +1,8 @@
-package com.delly.delly.dao;
+package com.delly.delly.repositories.mapping;
 
+import com.delly.delly.dao.Company;
+import com.delly.delly.dao.ItemSize;
+import com.delly.delly.dao.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
@@ -7,34 +10,28 @@ import com.sun.istack.Nullable;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-public class Item {
+public class ItemWithCompany {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int ID;
 
-    @NotNull
     private String name;
 
-    @Nullable
     private String description;
 
-    @Column(name = "size")
-    @Nullable
-    @Enumerated(EnumType.STRING)
-    private ItemSize size;
+    private String size;
 
-    @NotNull
     private float price;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "items")
-    private Set<Order> orders;
+    private Integer company_id;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company_id;
+    public ItemWithCompany(int ID, String description, String name, float price, String size, Integer company_id) {
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+        this.size = size;
+        this.price = price;
+        this.company_id = company_id;
+    }
 
     public int getID() {
         return ID;
@@ -60,11 +57,11 @@ public class Item {
         this.description = description;
     }
 
-    public ItemSize getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(ItemSize size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
@@ -76,19 +73,11 @@ public class Item {
         this.price = price;
     }
 
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
-
-    public Company getCompany_id() {
+    public Integer getCompany_id() {
         return company_id;
     }
 
-    public void setCompany_id(Company company_id) {
+    public void setCompany_id(Integer company_id) {
         this.company_id = company_id;
     }
 }

@@ -4,7 +4,7 @@ import Cross from "../../../images/svg/cross.svg";
 import ReactDom from "react-dom";
 import PharmacyBanner from "../../../images/client/apteka.png";
 import { motion, AnimatePresence } from "framer-motion";
-import Pharmacy from "./pharmacies/Pharmacy.jsx"
+import Pharmacy from "./pharmacies/Pharmacy.js"
 
 function PharmacyChoice(props) {
   

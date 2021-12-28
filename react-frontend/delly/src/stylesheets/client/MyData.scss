@@ -1,0 +1,124 @@
+.gray-cover{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0, 0.7);
+    z-index: 5;
+}
+
+.my-data-block{
+
+        height: 72vh;
+        width: 22vw;
+        background-color: #474747;
+        border-radius: 5%;
+        position: relative;
+        top: 20vh;
+        left: 39%;
+        box-shadow: 6px 6px 4px rgb(54, 54, 54);
+        text-align: center;
+        z-index: 6;
+
+        &__cross{
+            position: relative;
+            left: 19vh;
+            top: 20px;
+        }
+    
+        &__line{
+            border-width: 5px;
+            background-color: #F2C785;
+            width: 430px;
+        }
+
+        &__title{
+            display: block;
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 23px;
+            margin-top: 20px;
+        }
+
+        &__personal-data-container-first {
+            display: block;
+            height: 320px;
+            width: 400px;
+            margin-top: 10px;
+            margin-right: auto;
+            margin-left: auto;
+        
+            &__row {
+               text-align: left;
+               height: 80px;
+               
+      
+               &__label{
+                   margin-top: 15px;
+                  color: white;
+                 
+               }
+
+               &__input{
+                  border-style: none;
+                  background-color: #636262;
+                  border-radius: 7px;
+               }
+
+               &__button{
+                   display: block;
+                   width: 100px;
+                   height: 40px;
+                   background-color: #9EE17F;
+                   color: #3b3b3b;
+                   margin-top: 20px;
+                   margin-left: 350px;
+                   border-radius: 7px;
+               }
+            }
+        }
+
+        &__personal-data-container-second {
+            display: block;
+            height: 240px;
+            width: 400px;
+            margin-top: 20px;
+            margin-right: auto;
+            margin-left: auto;
+        
+            &__row {
+               text-align: left;
+               height: 80px;
+               margin-top: 20px;
+      
+               &__col{
+                   right: 15px;
+               }
+
+               &__label{
+                margin-top: 15px;
+                color: white;
+              
+            }
+
+            &__input{
+               border-style: none;
+               background-color: #636262;
+               border-radius: 7px;
+            }
+
+            &__button{
+                display: block;
+                width: 100px;
+                height: 40px;
+                background-color: #9EE17F;
+                color: #3b3b3b;
+                margin-left: 350px;
+                border-radius: 7px;
+            }
+         }
+     }
+}
+
+

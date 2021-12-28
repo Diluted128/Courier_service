@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import deliveryMan from "../../images/homePage/deliveryMan.png";
 import BoxLogo from "../../images/homePage/boxlogo.png";
 import Lock from "../../images/homePage/lock.png";
-import LoginPopup from "../Pop'up/Login.jsx";
-import RegistrationPopup from "../Pop'up/Registration.jsx";
-import PasswordPopup from "../Pop'up/Password.jsx";
+import LoginPopup from "../Pop'up/Login.js";
+import RegistrationPopup from "../Pop'up/Registration.js";
+import PasswordPopup from "../Pop'up/Password.js";
 import "../../stylesheets/homePage/homeSection1.scss";
 
 class homeSection1 extends Component {
