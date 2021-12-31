@@ -88,7 +88,12 @@ body{
                     &__text{
 
                         color: white;
-                        font-size: 22px;
+                        font-size: 25px;
+
+                        &:hover{
+                            text-decoration: none;
+                            color: white;
+                        }
                     }
                 }
             }
