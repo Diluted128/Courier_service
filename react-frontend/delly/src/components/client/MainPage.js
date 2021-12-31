@@ -16,6 +16,9 @@ import Server from "../../server/fetch-data";
 import ShoppingCartSVG from "../../images/svg/shopping-cart.svg";
 import { useSelector } from "react-redux";
 import WarningBanner from "./WarningBanner"
+import PersonalData from "./MyData"
+import LocalizationData from "./Localization";
+import OrdersData from "./Orders";
 
 function MainPage() {
   const [market, setMarket] = useState(false);
@@ -25,6 +28,9 @@ function MainPage() {
   const [counter, setCounter] = useState(0);
   const [openShoppingCart, setShoppingCart] = useState(false);
   const [openWarningBanner, setWarningBanner] = useState(false);
+  const [openPersonalData, setOpenPersonalData] = useState(false);
+  const [openLocalizationData, setOpenLocalizationData] = useState(false);
+  const [openOrdersData, setOpenOrdersnData] = useState(false);
 
   const state = useSelector((state) => state);
 
@@ -37,11 +43,6 @@ function MainPage() {
   }, [state.shop.cart]);
 
   useEffect(() => {
-
-      // if(state.shop.banner === 1)
-      // setWarningBanner(true);
-      // else
-      // setWarningBanner(false);
 
       if(state.shop.banner === 1){
       setWarningBanner(true);
@@ -72,6 +73,7 @@ function MainPage() {
               <a
                 href="#Oferta"
                 className="client-side__fluid-container__first_row__row__item__text"
+                onClick={() => setOpenPersonalData(true)}
               >
                 Moje Dane
               </a>
@@ -80,6 +82,7 @@ function MainPage() {
               <a
                 href="#Wspolpraca"
                 className="client-side__fluid-container__first_row__row__item__text"
+                onClick={() => setOpenOrdersnData(true)}
               >
                 Zamówienia
               </a>
@@ -88,6 +91,7 @@ function MainPage() {
               <a
                 href="#Lokalizacja"
                 className="client-side__fluid-container__first_row__row__item__text"
+                onClick={() => setOpenLocalizationData(true)}
               >
                 Lokalizacja
               </a>
@@ -175,6 +179,9 @@ function MainPage() {
                 </span>
               </span>
             </div>
+            <PersonalData openPersonalData={openPersonalData} close={() => setOpenPersonalData(false)}/>
+            <LocalizationData openLocalizationData={openLocalizationData} close={() => setOpenLocalizationData(false)}/>
+            <OrdersData openOrdersData={openOrdersData} close={() => setOpenOrdersnData(false)}/>
             <MarketChoice openMarket={market} close={() => setMarket(false)} />
             <PharmacyChoice
               openPharmacy={pharmacy}

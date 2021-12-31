@@ -10,17 +10,17 @@
 
 .my-data-block{
 
-        height: 72vh;
+        height: 78vh;
         width: 22vw;
         background-color: #474747;
         border-radius: 5%;
         position: relative;
-        top: 20vh;
-        left: 39%;
+        transform: translateY(-50%);
         box-shadow: 6px 6px 4px rgb(54, 54, 54);
         text-align: center;
         z-index: 6;
-
+        margin: auto;
+        
         &__cross{
             position: relative;
             left: 19vh;
@@ -38,10 +38,10 @@
             color: #FFFFFF;
             font-weight: 600;
             font-size: 23px;
-            margin-top: 20px;
+            margin-top: 50px;
         }
 
-        &__personal-data-container-first {
+        &__personal-data-container{
             display: block;
             height: 320px;
             width: 400px;
@@ -51,74 +51,71 @@
         
             &__row {
                text-align: left;
-               height: 80px;
-               
-      
+               height: 110px;
+            
+               &__col{
+                 right: 15px;
+               }
+
                &__label{
-                   margin-top: 15px;
-                  color: white;
-                 
+                   color: white;
+                   margin-bottom: 0px;
+                   height: 1px;
                }
 
                &__input{
                   border-style: none;
                   background-color: #636262;
+                  color: rgb(236, 236, 236);
                   border-radius: 7px;
-               }
+                  margin-top: 20px;
+                  
 
-               &__button{
-                   display: block;
-                   width: 100px;
-                   height: 40px;
-                   background-color: #9EE17F;
-                   color: #3b3b3b;
-                   margin-top: 20px;
-                   margin-left: 350px;
-                   border-radius: 7px;
-               }
-            }
-        }
+                  &:focus{
+                    color: white;
+                    box-shadow: 0 0 0 0.15rem #9EE17F;
+                    background-color: #636262;
+                   }
 
-        &__personal-data-container-second {
-            display: block;
-            height: 240px;
-            width: 400px;
-            margin-top: 20px;
-            margin-right: auto;
-            margin-left: auto;
-        
-            &__row {
-               text-align: left;
-               height: 80px;
-               margin-top: 20px;
-      
-               &__col{
-                   right: 15px;
-               }
-
-               &__label{
-                margin-top: 15px;
-                color: white;
-              
+                   &--red{
+                    box-shadow: 0 0 0 0.15rem #FF7272;
+                    background-color: #636262;
+                    color: rgb(236, 236, 236);
+                    border-radius: 7px;
+                    margin-top: 20px;
+                
+                    &:focus{
+                        color: white;
+                        box-shadow: 0 0 0 0.15rem #FF7272;
+                        background-color: #636262;
+                    }
+                }
             }
 
-            &__input{
-               border-style: none;
-               background-color: #636262;
-               border-radius: 7px;
+               &__warning-message{
+                  display: block;
+                  color: #f84949;
+                  font-size: 14px;
+               }
             }
 
             &__button{
                 display: block;
-                width: 100px;
+                width: 80px;
                 height: 40px;
                 background-color: #9EE17F;
                 color: #3b3b3b;
-                margin-left: 350px;
+                margin-left: 340px;
                 border-radius: 7px;
             }
-         }
-     }
+    }
+    &__error-message{
+        color: red;
+
+        &--green{
+            color: #9EE17F;
+        }
+    }
 }
 
 
