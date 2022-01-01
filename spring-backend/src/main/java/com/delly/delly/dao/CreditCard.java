@@ -18,8 +18,7 @@ public class CreditCard {
     private String CVV;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date expired;
+    private String expired;
 
     public Integer getID() {
         return ID;
@@ -45,11 +44,11 @@ public class CreditCard {
         this.CVV = CVV;
     }
 
-    public Date getExpired() {
+    public String getExpired() {
         return expired;
     }
 
-    public void setExpired(Date expired) {
+    public void setExpired(String expired) {
         this.expired = expired;
     }
 }

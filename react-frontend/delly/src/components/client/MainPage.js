@@ -19,12 +19,14 @@ import PersonalData from "./MyData"
 import LocalizationData from "./Localization";
 import OrdersData from "./Orders";
 import {fetchItems} from "../../server/fetch-data";
+import * as actionCreators from "../../redux/Shopping/shopping-actions"
+import { bindActionCreators } from "redux";
+import { useDispatch } from "react-redux";
 
 function MainPage() {
 
   const [market, setMarket] = useState(false);
   const [pharmacy, setPharmacy] = useState(false);
-  const [percel, setPercel] = useState(false);
   const [restaurant, setRestaurant] = useState(false);
   const [counter, setCounter] = useState(0);
   const [openShoppingCart, setShoppingCart] = useState(false);
@@ -34,6 +36,10 @@ function MainPage() {
   const [openOrdersData, setOpenOrdersnData] = useState(false);
 
   const state = useSelector((state) => state);
+
+  const dispatch = useDispatch();
+
+  const {setItems} = bindActionCreators(actionCreators, dispatch);
 
   useEffect(() => {
     let count = 0;
@@ -52,8 +58,10 @@ function MainPage() {
 
   }, [state.shop.banner])
 
-  useEffect(() => {
-    fetchItems();
+  useEffect(async () => {
+    const [itemsResponse] = await Promise.all([fetchItems()]);
+
+    setItems(itemsResponse.data);
   },[])
 
   const navigate = useNavigate();

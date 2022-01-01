@@ -3,6 +3,7 @@ import "../../stylesheets/client/MyData.scss";
 import Cross from "../../images/svg/cross.svg";
 import ReactDom from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import {sendLocalizationData, client, getAllDistricts} from "../../server/fetch-data";
 
 function Localization(props){
 
@@ -28,6 +29,10 @@ function Localization(props){
 
     const [emptyMessage, setEmptyMessage] = useState("");
     const [emptyMessagePath, setEmptyMessagePath] = useState("");
+
+    const [districts, setDistricts] = useState("");
+
+    const [clientData, setClientData] = useState("");
 
     useEffect(() => {
      
@@ -93,7 +98,7 @@ function Localization(props){
     useEffect(() => {
 
       if(localNumber.length > 0){
-        if(localNumber.match(/^[0-9]{1,3}([A-Z]{1,2})?$/))  setInvalidLocalNumberMessage("");
+        if(localNumber.match(/^[0-9]{1,3}([A-Z]{1,2})?$|^$/))  setInvalidLocalNumberMessage("");
         else if(localNumber.length > 5) setInvalidLocalNumberMessage("Numer lokalu jest za długi");
         else setInvalidLocalNumberMessage("niedozwolony znak");
   
@@ -105,6 +110,15 @@ function Localization(props){
 
     },[localNumber])
 
+    useEffect(async () => {
+      const [clientResponse] = await Promise.all([client()]);
+      setClientData(clientResponse.data);
+      console.log(clientResponse.data);
+
+      const [districts] = await Promise.all([getAllDistricts()])
+      setDistricts(districts.data);
+      console.log(districts.data);
+    },[])
 
     const validateCreditCardData = () => {
       if(street.length === 0 || city.length === 0 || postalcode.length === 0){
@@ -115,6 +129,7 @@ function Localization(props){
         if(invalidStreetMessage.length === 0 && invalidCityMessage.length === 0 
           && invalidPostalcodeMessage.length === 0 && invalidHouseNumberMessage.length === 0 && invalidLocalNumberMessage.length === 0){
           setEmptyMessagePath("my-data-block__error-message--green")
+          // sendLocalizationData(street, city, postalcode, houseNumber, localNumber);
           setEmptyMessage("Dane wysłane");
         }
         else{
@@ -166,34 +181,45 @@ const modal = {
           <div className="my-data-block__personal-data-container">
           <div className="row my-data-block__personal-data-container__row">
             <label className="my-data-block__personal-data-container__row__label">Ulica<span style={{color: "#FF7272"}}> *</span></label>
-            <input onInput={e => setStreet(e.target.value)} className={redStreetBorder}/>
+            <input onInput={e => setStreet(e.target.value)} placeholder={clientData.address} className={redStreetBorder}/>
             <div className="my-data-block__personal-data-container__row__warning-message">{invalidStreetMessage}</div>
           </div>
           <div className="row my-data-block__personal-data-container__row">
             <div className="col-6 my-data-block__personal-data-container__row__col">
                <label className="my-data-block__personal-data-container__row__label">Miasto<span style={{color: "#FF7272"}}> *</span></label>
-               <input onInput={e => setCity(e.target.value)} className={redCityBorder}/>
+               <input onInput={e => setCity(e.target.value)} placeholder={clientData.address} className={redCityBorder}/>
                <div className="my-data-block__personal-data-container__row__warning-message">{invalidCityMessage}</div>
             </div>  
             <div className="col-5 my-data-block__personal-data-container__row__col">
                <label className="my-data-block__personal-data-container__row__label">Kod-pocztowy<span style={{color: "#FF7272"}}> *</span></label>
-               <input onInput={e => setPostalcode(e.target.value)} className={redPostalCodeBorder}/>
+               <input onInput={e => setPostalcode(e.target.value)} placeholder={clientData.address} className={redPostalCodeBorder}/>
                <div className="my-data-block__personal-data-container__row__warning-message">{invalidPostalcodeMessage}</div>
             </div>
           </div>
           <div className="row my-data-block__personal-data-container__row">
             <div className="col-5 my-data-block__personal-data-container__row__col">
                <label className="my-data-block__personal-data-container__row__label">Numer domu</label>
-               <input onInput={e => setHouseNumber(e.target.value)} className={redHouseNumberBorder}/>
+               <input onInput={e => setHouseNumber(e.target.value)} placeholder={clientData.address} className={redHouseNumberBorder}/>
                <div className="my-data-block__personal-data-container__row__warning-message">{invalidHouseNumberMessage}</div>
             </div>  
             <div className="col-5 my-data-block__personal-data-container__row__col">
                <label className="my-data-block__personal-data-container__row__label">Numer lokalu</label>
-               <input onInput={e => setLocalNumber(e.target.value)} className={redLocalNumberBorder}/>
+               <input onInput={e => setLocalNumber(e.target.value)} placeholder={clientData.address} className={redLocalNumberBorder}/>
                <div className="my-data-block__personal-data-container__row__warning-message">{invalidLocalNumberMessage}</div>
             </div>
           </div>    
-          <button onClick={() => validateCreditCardData()} class="btn btn-primary" className="my-data-block__personal-data-container__button" type="submit">wyślij</button>
+          <div className="row my-data-block__personal-data-container__row">
+          <label className="my-data-block__personal-data-container__row__label">Dzielnica</label>
+          <select onSelect={e => setDistricts(e.target.value)} className="form-control form-control my-data-block__personal-data-container__row__input">
+           <option>Stare Miasto</option>
+           <option>Krowodrza</option>
+           <option>Zwierzyniec</option>
+           <option>Dębniki</option>
+           <option>Podgórze</option>
+           <option>Grzegórzki</option>
+           </select>
+          </div>
+          <button onClick={() => validateCreditCardData()} className="btn btn-primary my-data-block__personal-data-container__button" type="submit">wyślij</button>
           <span className={emptyMessagePath}>{emptyMessage}</span>
        
           </div>

@@ -5,11 +5,13 @@ import ReactDom from "react-dom";
 import Row from "./row.js"
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
+import {client} from "../../../server/fetch-data";
 
 function ShoppingCart(props) {
   
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const state = useSelector((state) => state);
  
@@ -48,6 +50,27 @@ const modal = {
   }
 }
 
+  const validate = async () => {
+    const [clientResponse] = await Promise.all([client()]);
+ 
+    const clientData = clientResponse.data;
+
+    console.log(clientData)
+
+    if(clientData.firstName === null || clientData.lastName === null || clientData.phoneNumber === null){
+       setErrorMessage("Proszę uzupełnić dane osobowe");
+    }
+    else if(clientData.creditCard === null){
+       setErrorMessage("Proszę uzupełnić dane płatnościowe");
+    }
+    else if(clientData.address === null){
+      setErrorMessage("Proszę uzupełnić dane aktualnej lokalizacji");
+    }
+    else{
+      // POOOOOOOOOOOOOOOORTAL
+    }
+  }
+
   if (props.openShoppingCart == false) return null;
   return(
 
@@ -76,7 +99,9 @@ const modal = {
       <button
             className="btn btn-primary shopping-cart-block__button"
             type="submit"
+            onClick={() => validate()}
           >Akceptuj</button>
+      <span className="shopping-cart-block__error-message">{errorMessage}</span>    
     </div>
     </motion.div>
     </motion.div>

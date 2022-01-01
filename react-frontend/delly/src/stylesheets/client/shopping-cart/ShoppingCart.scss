@@ -89,5 +89,11 @@
         color: rgb(49, 49, 49);
       }
     }
+
+    &__error-message{
+      display: block;
+      color: #FF7272;
+      margin: 10px;
+    }
   }
   
