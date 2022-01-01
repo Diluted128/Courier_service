@@ -25,6 +25,17 @@ public class Client {
     @NotNull
     private String email;
 
+    public Client(String email, String firstName, String lastName, String password, String phoneNumber, List<Order> orders, Address address, CreditCard creditCard) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+        this.orders = orders;
+        this.creditCard = creditCard;
+        this.address = address;
+    }
+
     @NotNull
     private String password;
 

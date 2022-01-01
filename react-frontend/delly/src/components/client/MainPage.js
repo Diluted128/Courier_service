@@ -12,15 +12,16 @@ import RestaurantChoice from "./restaurant/RestaurantChoice.js";
 import ShoppingCart from "./shopping-cart/ShoppingCart.js";
 import MarketChoice from "./market/MarketChoice.js";
 import PharmacyChoice from "./pharmacy/PharmacyChoice.js";
-import Server from "../../server/fetch-data";
 import ShoppingCartSVG from "../../images/svg/shopping-cart.svg";
 import { useSelector } from "react-redux";
 import WarningBanner from "./WarningBanner"
 import PersonalData from "./MyData"
 import LocalizationData from "./Localization";
 import OrdersData from "./Orders";
+import {fetchItems} from "../../server/fetch-data";
 
 function MainPage() {
+
   const [market, setMarket] = useState(false);
   const [pharmacy, setPharmacy] = useState(false);
   const [percel, setPercel] = useState(false);
@@ -50,6 +51,10 @@ function MainPage() {
       }
 
   }, [state.shop.banner])
+
+  useEffect(() => {
+    fetchItems();
+  },[])
 
   const navigate = useNavigate();
 
@@ -196,7 +201,6 @@ function MainPage() {
               close={() => setShoppingCart(false)}
             />
             
-            <Server />
           </div>
         </div>
         <WarningBanner openWarningBanner={openWarningBanner}/>

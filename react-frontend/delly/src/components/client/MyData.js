@@ -1,7 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import "../../stylesheets/client/MyData.scss";
 import Cross from "../../images/svg/cross.svg";
-import ReactDom from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Login(props){

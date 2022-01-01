@@ -1,31 +1,47 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as actionCreators from "../redux/Shopping/shopping-actions"
+import Registration from "../components/Pop'up/Registration";
+  
 
-const ItemsListing = () => {
+  // const {setItems} = bindActionCreators(actionCreators, dispatch);
 
-    const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-    const {setItems} = bindActionCreators(actionCreators, dispatch);
-
-  const fetchItems = async () => {
+  export const fetchItems = async () => {
     const response = await axios
       .get("http://localhost:8081/products")
       .catch((err) => {
         console.log("Err", err);
       });
-      setItems(response.data);
+      // setItems(response.data);
   };
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
+  export const register = (email, password) => {
+     return new Promise((res, rej) => 
+       axios
+      .post("http://localhost:8081/register", {"email": email, "password": password})
+      .catch(function(error){
+        console.log(error);
+      })
+      .then((result) => {
+        res(result);
+      }))
+  }
 
-  return (
-  <></>
-  );
-};
+  export const login = (email, password) => {
+    return new Promise((res, rej) => 
+      axios
+     .post("http://localhost:8081/login", {"email": email, "password": password})
+     .catch(function(error){
+       console.log(error);
+     })
+     .then((result) => {
+       res(result);
+     }))
+ }
 
-export default ItemsListing;
+
+
