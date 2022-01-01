@@ -1,15 +1,15 @@
 import React, { Component, useEffect, useState } from "react";
 import "../../stylesheets/client/MyData.scss";
 import Cross from "../../images/svg/cross.svg";
-import ReactDom from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import {client, sendExtendedPersonalData, sendPaymentData} from "../../server/fetch-data"
 
 function Login(props){
 
     const [name, setName] = useState("");
     const [invalidNameMessage, setInvalidNameMessage] = useState("");
     const [redNameBorder, setRedNameBorder] = useState("form-control my-data-block__personal-data-container__row__input");
-
+  
     const [surname, setSurname] = useState("");
     const [invalidSurnameMessage, setInvalidSurnameMessage] = useState("");
     const [redSurnameBorder, setRedSurnameBorder] = useState("form-control my-data-block__personal-data-container__row__input");
@@ -32,6 +32,9 @@ function Login(props){
 
     const [emptyMessage, setEmptyMessage] = useState("");
     const [emptyMessagePath, setEmptyMessagePath] = useState("");
+
+    const [clientData, setClientData] = useState("");
+   
 
     useEffect(() => {
      
@@ -123,6 +126,12 @@ function Login(props){
 
     },[CVV])
 
+    useEffect(async () => {
+      const [clientResponse] = await Promise.all([client()]);
+      setClientData(clientResponse.data);
+      console.log(clientResponse.data);
+    },[])
+
     const validatePersonalData = () => {
        if(name.length === 0 || surname.length === 0 || phone.length === 0 ){
         setEmptyMessagePath("my-data-block__error-message");
@@ -131,6 +140,7 @@ function Login(props){
        else{
        if(invalidNameMessage.length === 0 && invalidSurnameMessage.length === 0 && invalidPhoneMessage.length === 0){
         setEmptyMessagePath("my-data-block__error-message--green")
+        sendExtendedPersonalData(name, surname, phone);
         setEmptyMessage("Dane wysłane");
        }
        else{
@@ -148,6 +158,8 @@ function Login(props){
       else{
         if(invalidCardNumberMessage.length === 0 && invalidDateMessage.length === 0 && invalidCVVMessage.length === 0){
           setEmptyMessagePath("my-data-block__error-message--green")
+          console.log(cardNumber);
+          sendPaymentData(cardNumber, CVV, date);
           setEmptyMessage("Dane wysłane");
         }
         else{
@@ -199,20 +211,20 @@ const modal = {
           <div className="my-data-block__personal-data-container">
           <div className="row my-data-block__personal-data-container__row">
             <label className="my-data-block__personal-data-container__row__label">Imie<span style={{color: "#FF7272"}}> *</span></label>
-            <input onInput={e => setName(e.target.value)} className={redNameBorder}/>
+            <input onInput={e => setName(e.target.value)} placeholder={clientData.firstName} className={redNameBorder}/>
             <div className="my-data-block__personal-data-container__row__warning-message">{invalidNameMessage}</div>
           </div>
           <div className="row my-data-block__personal-data-container__row">
             <label className="my-data-block__personal-data-container__row__label">Nazwisko<span style={{color: "#FF7272"}}> *</span></label>
-            <input onInput={e => setSurname(e.target.value)} className={redSurnameBorder}/>
+            <input onInput={e => setSurname(e.target.value)} placeholder={clientData.lastName} className={redSurnameBorder}/>
             <div className="my-data-block__personal-data-container__row__warning-message">{invalidSurnameMessage}</div>
           </div>
           <div className="row my-data-block__personal-data-container__row">
             <label className="my-data-block__personal-data-container__row__label">Telefon<span style={{color: "#FF7272"}}> *</span></label>
-            <input onInput={e => setPhone(e.target.value)} className={redPhoneBorder}/>
+            <input onInput={e => setPhone(e.target.value)} placeholder={clientData.phoneNumber} className={redPhoneBorder}/>
             <div className="my-data-block__personal-data-container__row__warning-message">{invalidPhoneMessage}</div>
           </div>
-          <button onClick={() => validatePersonalData()} class="btn btn-primary" className="my-data-block__personal-data-container__button" type="submit">wyślij</button>
+          <button onClick={() => validatePersonalData()} className="btn btn-primary" className="my-data-block__personal-data-container__button" type="submit">wyślij</button>
        
           </div>
           <span className="my-data-block__title">
@@ -222,22 +234,22 @@ const modal = {
           <div className="my-data-block__personal-data-container">
           <div className="row my-data-block__personal-data-container__row">
             <label className="my-data-block__personal-data-container__row__label">Numer karty<span style={{color: "#FF7272"}}> *</span></label>
-            <input onInput={e => setCardNumber(e.target.value)} className={redCardNumberBorder}/>
+            <input onInput={e => setCardNumber(e.target.value)}  placeholder={clientData.creditCard.cardNumber} className={redCardNumberBorder}/>
             <div className="my-data-block__personal-data-container__row__warning-message">{invalidCardNumberMessage}</div>
           </div>
           <div className="row my-data-block__personal-data-container__row">
           <div className="col-6 my-data-block__personal-data-container__row__col">
             <label className="my-data-block__personal-data-container__row__label">Data<span style={{color: "#FF7272"}}> *</span></label>
-            <input onInput={e => setDate(e.target.value)} className={redDateBorder}/>
+            <input onInput={e => setDate(e.target.value)} placeholder={clientData.creditCard.expired} className={redDateBorder}/>
             <div className="my-data-block__personal-data-container__row__warning-message">{invalidDateMessage}</div>
           </div>
           <div className="col-4 my-data-block__personal-data-container__row__col">
             <label className="my-data-block__personal-data-container__row__label">CVV<span style={{color: "#FF7272"}}> *</span></label>
-            <input onInput={e => setCVV(e.target.value)} className={redCVVBorder}/>
+            <input onInput={e => setCVV(e.target.value)} placeholder={clientData.creditCard.cvv} className={redCVVBorder}/>
             <div className="my-data-block__personal-data-container__row__warning-message">{invalidCVVMessage}</div>
           </div>
           </div>
-          <button class="btn btn-primary" onClick={() => validateCreditCardData()}className="my-data-block__personal-data-container__button"type="submit">wyślij</button>
+          <button className="btn btn-primary" onClick={() => validateCreditCardData()}className="my-data-block__personal-data-container__button"type="submit">wyślij</button>
           <span className={emptyMessagePath}>{emptyMessage}</span>
           </div>
        

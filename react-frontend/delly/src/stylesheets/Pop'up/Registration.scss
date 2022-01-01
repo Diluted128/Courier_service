@@ -10,7 +10,7 @@
 
     &__registration-block{
 
-        height: 60vh;
+        height: 62vh;
         width: 22vw;
         background-color: #505050;
         border-radius: 5%;
@@ -30,34 +30,40 @@
 
             color: #FFCD82;
             font-weight: 600;
-            font-size: 40px;
+            font-size: 30px;
         }
 
-        &__flex-row{
+        &__line{
+            border-color: #F2C785;
+            width: 420px;
+            border-width: 3px;
+        }
 
-            height: 60px;
-            margin: 30px 60px 0px 60px;
+        &__row{
+
+            height: 100px;
+            margin: 10px 60px 0px 60px;
             text-align: left;
 
-            &__form{
-
-                width: 100%;
-
                 &__title{
-
                     color: white;
                     font-weight: bold;
                     font-size: 15px;
                 }
 
+                &__warning-message{
+                    color: #f84949;
+                    font-size: 13px;
+                }
+
                 &__input{
 
-                    color: white;
+                    border-style: none;
                     background-color: #636262;
-                    height: 50px;
-                    margin-bottom: 20px;
-                    margin-top: 10px;
-                    width: 100%;
+                    color: rgb(236, 236, 236);
+                    border-radius: 7px;
+                    height: 40px;
+                    width: 400px;
 
                     &::placeholder{
                         color: rgb(219, 219, 219);
@@ -65,13 +71,23 @@
                         font-size: 14px;
                     }
 
-                    &:focus{
-                        color: white;
-                        box-shadow: 0 0 0 0.15rem #FFCD82;
-                        background-color: #636262;
-                    }
-                }
+                    
             }
+        }
+
+        &__error-message{
+           display: block;
+           margin-top: 30px;
+           color: #f84949;
+           font-size: 16px;
+
+           &--green{
+            display: block;
+            margin-top: 30px;
+            color: #f84949;
+            font-size: 16px;
+            color: #9EE17F;
+           }
         }
 
         &__registration-button{
@@ -79,12 +95,13 @@
             color: black;
             width: 75%;
             height: 60px;
-            margin: 50px 0px 0px 0px;
+            margin: 20px 0px 0px 0px;
             border: none;
             font-weight: bold;
 
             &:hover{
                 box-shadow: 0 0 0 0.15rem #FFCD82;
+                background-color: #FFCD82;
             }
         }
 

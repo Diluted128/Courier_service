@@ -1,5 +1,6 @@
 package com.delly.delly.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class District {
     @NotNull
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "distinct")
     private List<Address> addresses;
 

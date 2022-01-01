@@ -1,12 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "../../stylesheets/Pop'up/Login.scss";
 import Cross from "../../images/svg/cross.svg";
 import ReactDom from "react-dom";
 import {useNavigate} from "react-router-dom"
+import {login} from "../../server/fetch-data";
 
 function Login(props){
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
     const navigate = useNavigate();
+
+    const validateCredentials = async () => {
+      const [response] = await Promise.all([login(email, password)]);
+
+      console.log(response);
+
+      if(response){ 
+        localStorage.setItem("ID", response.data.ID)  
+        navigate("/client");
+      }
+      else
+        setErrorMessage("Dane są nieprawidłowe");
+      
+    }
 
     if (props.openPopup == false) return null;
     return ReactDom.createPortal(
@@ -16,7 +35,7 @@ function Login(props){
             onClick={props.closePopup}
             type="image"
             src={Cross}
-            className="gray-cover__login-block__cross"
+            className="gray-cover__login-block__cross"h
           />
           <span className="gray-cover__login-block__title">
             <br />
@@ -40,8 +59,7 @@ function Login(props){
               <input
                 type="email"
                 className="gray-cover__login-block__flex-row__form__input"
-                aria-describedby="emailHelp"
-                placeholder="Wprowadz email"
+                onInput={e => setEmail(e.target.value)}
               />
             </form>
           </div>
@@ -51,14 +69,14 @@ function Login(props){
                 Hasło
               </span>
               <input
-                type="email"
+                type="password"
                 className="gray-cover__login-block__flex-row__form__input"
-                aria-describedby="emailHelp"
-                placeholder="Wprowadz hasło"
+                onInput={e => setPassword(e.target.value)}
               />
             </form>
           </div>
-          <span
+          <span className="gray-cover__login-block__error-message" style={{"color": "#f84949"}}>{errorMessage}</span>
+          <span 
             onClick={props.openPassword}
             className="gray-cover__login-block__password-recover"
           >
@@ -66,7 +84,7 @@ function Login(props){
           </span>
           <button
             className="btn btn-primary gray-cover__login-block__login-button"
-            onClick={() => {navigate("/client")}}
+            onClick={() => {validateCredentials()}}
             type="submit"
           >
             Zaloguj się

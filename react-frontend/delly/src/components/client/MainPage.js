@@ -12,18 +12,21 @@ import RestaurantChoice from "./restaurant/RestaurantChoice.js";
 import ShoppingCart from "./shopping-cart/ShoppingCart.js";
 import MarketChoice from "./market/MarketChoice.js";
 import PharmacyChoice from "./pharmacy/PharmacyChoice.js";
-import Server from "../../server/fetch-data";
 import ShoppingCartSVG from "../../images/svg/shopping-cart.svg";
 import { useSelector } from "react-redux";
 import WarningBanner from "./WarningBanner"
 import PersonalData from "./MyData"
 import LocalizationData from "./Localization";
 import OrdersData from "./Orders";
+import {fetchItems} from "../../server/fetch-data";
+import * as actionCreators from "../../redux/Shopping/shopping-actions"
+import { bindActionCreators } from "redux";
+import { useDispatch } from "react-redux";
 
 function MainPage() {
+
   const [market, setMarket] = useState(false);
   const [pharmacy, setPharmacy] = useState(false);
-  const [percel, setPercel] = useState(false);
   const [restaurant, setRestaurant] = useState(false);
   const [counter, setCounter] = useState(0);
   const [openShoppingCart, setShoppingCart] = useState(false);
@@ -33,6 +36,10 @@ function MainPage() {
   const [openOrdersData, setOpenOrdersnData] = useState(false);
 
   const state = useSelector((state) => state);
+
+  const dispatch = useDispatch();
+
+  const {setItems} = bindActionCreators(actionCreators, dispatch);
 
   useEffect(() => {
     let count = 0;
@@ -50,6 +57,12 @@ function MainPage() {
       }
 
   }, [state.shop.banner])
+
+  useEffect(async () => {
+    const [itemsResponse] = await Promise.all([fetchItems()]);
+
+    setItems(itemsResponse.data);
+  },[])
 
   const navigate = useNavigate();
 
@@ -196,7 +209,6 @@ function MainPage() {
               close={() => setShoppingCart(false)}
             />
             
-            <Server />
           </div>
         </div>
         <WarningBanner openWarningBanner={openWarningBanner}/>
