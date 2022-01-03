@@ -1,9 +1,6 @@
 package com.delly.delly.Controller;
 
-import com.delly.delly.Service.ClientService;
-import com.delly.delly.Service.CreditCardService;
-import com.delly.delly.Service.DistrictService;
-import com.delly.delly.Service.ItemService;
+import com.delly.delly.Service.*;
 import com.delly.delly.dao.*;
 import com.delly.delly.repositories.mapping.ItemWithCompany;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +18,16 @@ public class Controller {
     ClientService clientService;
     CreditCardService creditCardService;
     DistrictService districtService;
+    OrderService orderService;
 
     @Autowired
     public Controller(ItemService itemService, ClientService clientService, CreditCardService creditCardService,
-                      DistrictService districtService){
+                      DistrictService districtService, OrderService orderService){
         this.itemService = itemService;
         this.clientService = clientService;
         this.creditCardService = creditCardService;
         this.districtService = districtService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/products")
@@ -71,10 +70,9 @@ public class Controller {
        return creditCardService.getCreditCardByClientID(ID);
     }
 
-    @PostMapping("/client/{ID}/localization")
-    public void saveLocation(@PathVariable int ID, @RequestBody Address address){
-
-         clientService.saveLocation(ID, address);
+    @PostMapping("/client/{ID}/localization/{district}")
+    public void saveLocation(@RequestBody Address address, @PathVariable int ID, @PathVariable int district){
+       clientService.saveLocation(ID, district, address);
     }
 
     @GetMapping("/districts")
@@ -82,4 +80,13 @@ public class Controller {
         return districtService.getAllDistricts();
     }
 
+    @PostMapping("/client/{ClientID}/company/{CompanyID}/order")
+    public void saveOrder(@PathVariable int ClientID, @PathVariable int CompanyID, @RequestBody List<Item> items){
+        orderService.saveOrder(ClientID, CompanyID, items);
+    }
+
+    @GetMapping("client/{ID}/orders")
+    public List<Orders> getOrderByID(@PathVariable int ID){
+        return orderService.getOrdersByClientID(ID);
+    }
 }

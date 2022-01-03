@@ -1,3 +1,4 @@
+import { connectAdvanced } from "react-redux";
 import * as actionTypes from "./shopping-types";
 
 const INITIAL_STATE = {
@@ -9,13 +10,14 @@ const INITIAL_STATE = {
 const shopReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
         case actionTypes.ADD_TO_CARD:
-
+console.log('yes');
         const item = state.products.find(prod => prod.id === action.payload.id);
 
+        console.log(item);
         const inCart = state.cart.find(item => item.id == action.payload.id ? true : false);
-
+        console.log(inCart);
         const SameCompany = state.selectedCompany === 0 || state.selectedCompany === item.company_id;
-
+        console.log(SameCompany);
             return {
                 ...state,
                 cart:  SameCompany ? (inCart ? state.cart.map(item => item.id === action.payload.id ? {...item, qty: item.qty + 1} : item) : [...state.cart, {...item, qty: 1}]) : state.cart,

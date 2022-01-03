@@ -1,5 +1,8 @@
 package com.delly.delly.dao;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -10,32 +13,41 @@ import java.util.Set;
 public class Company {
 
     @Id
-    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer CompanyID;
+    private Integer ID;
 
     @NotNull
     private String name;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private CompanyType type;
+    private String type;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "company")
-    private List<Order> orders;
+    private List<Orders> orders;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "company")
     private Set<Department> departments;
+
 
     @OneToMany(mappedBy = "company_id")
     private Set<Item> items;
 
-    public Integer getCompanyID() {
-        return CompanyID;
+    public Company(){}
+
+    public Company(Integer ID, String name,  String type) {
+        this.ID = ID;
+        this.name = name;
+        this.type = type;
     }
 
-    public void setCompanyID(Integer ID) {
-        this.CompanyID = ID;
+    public Integer ID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getName() {
@@ -46,19 +58,19 @@ public class Company {
         this.name = name;
     }
 
-    public CompanyType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(CompanyType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public List<Order> getOrders() {
+    public List<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 

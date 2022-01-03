@@ -2,7 +2,8 @@ import React, { Component, useEffect, useState } from "react";
 import "../../stylesheets/client/Orders.scss";
 import Cross from "../../images/svg/cross.svg";
 import { motion, AnimatePresence } from "framer-motion";
-
+import {getAllOrders} from "../../server/fetch-data"
+import OrderRow from "./OrderRow";
 
 const backdrop = {
     hidden: {
@@ -27,6 +28,15 @@ const modal = {
 }
 
 function Orders(props){
+
+  const [orders, setOrders] = useState();
+
+  useEffect(async () => {
+    const [orders] = await Promise.all([getAllOrders()]);
+    console.log(orders.data);
+    setOrders(orders.data);
+  },[])
+
 return(
 
     <AnimatePresence exitBeforeEnter>
@@ -45,41 +55,9 @@ return(
           <br />
         </span>
         <hr className="orders-block__line"></hr>
-        <div className="orders-block__orders-data-container">
-        <div className="row orders-block__orders-data-container__row">
-           <div className="col orders-block__orders-data-container__row__col">
-             <div className="orders-block__orders-data-container__row__col__text">
-                Zamówienie nr 128492
-             </div>
-           </div>
-           <div className="col orders-block__orders-data-container__row__col">
-           <div className="orders-block__orders-data-container__row__col__text">
-                STATUS: <span style={{"color": "#8EF899"}}>ACTIVE</span>
-             </div>
-           </div>
-        </div>
-        <div className="row orders-block__orders-data-container__row">
-           <div className="col orders-block__orders-data-container__row__col">
-           </div>
-           <div className="col orders-block__orders-data-container__row__col">
-           <div className="orders-block__orders-data-container__row__col__text">
-               Ilość  <span style={{"color": "#FEF074"}}>4</span>
-             </div>
-           </div>
-        </div>
-        <div className="row orders-block__orders-data-container__row">
-           <div className="col orders-block__orders-data-container__row__col">
-           <div className="orders-block__orders-data-container__row__col__text">
-                data: 03.12.2021
-             </div>
-           </div>
-           <div className="col orders-block__orders-data-container__row__col">
-           <div className="orders-block__orders-data-container__row__col__text">
-               Suma <span style={{"color": "#FEF074"}}>94.32 zł</span>
-             </div>
-           </div>
-        </div>
-        </div>
+        {orders.map((order) => (
+           <OrderRow order={order}/>
+        ))}
         </div>
         </motion.div>
     </motion.div>

@@ -1,5 +1,6 @@
 package com.delly.delly.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
 
     @NotNull
@@ -28,12 +29,25 @@ public class Address {
     private String town;
 
     @Nullable
+    @JsonIgnore
     private String location;
 
     @Nullable
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "distinct_id")
     private District distinct;
+
+    public Address(){}
+
+    public Address(String flatNumber, String localNumber, String location, String postalCode, String street, String town){
+        this.street = street;
+        this.localNumber = localNumber;
+        this.postalCode = postalCode;
+        this.flatNumber = flatNumber;
+        this.town = town;
+        this.location = location;
+    }
 
     public Integer getID() {
         return ID;

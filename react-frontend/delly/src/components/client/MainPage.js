@@ -65,6 +65,11 @@ function MainPage() {
   },[])
 
   const navigate = useNavigate();
+ 
+  const close = () => {
+     localStorage.clear();
+     navigate("/")
+  }
 
   return (
     <div className="client-side">
@@ -122,7 +127,7 @@ function MainPage() {
               </div>
               <input
                 onClick={() => {
-                  navigate("/");
+                  close();
                 }}
                 type="image"
                 src={Lock}

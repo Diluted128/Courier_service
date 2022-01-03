@@ -15,7 +15,7 @@ public class Pack {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Orders orders;
 
     @Nullable
     @ManyToOne
@@ -35,12 +35,12 @@ public class Pack {
         this.ID = ID;
     }
 
-    public Order getOrder() {
-        return order;
+    public Orders getOrder() {
+        return orders;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrder(Orders orders) {
+        this.orders = orders;
     }
 
     public Deliver getDeliver() {

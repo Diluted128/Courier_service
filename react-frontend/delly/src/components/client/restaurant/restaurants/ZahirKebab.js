@@ -33,8 +33,8 @@ function ZahirKebab(props) {
       <h4 className="restaurant-block__title">GŁÓWNE DANIA</h4>
       <hr className="restaurant-block__line"></hr>
       <div className="restaurant-block__dishes-container">
-        <div className="row restaurant-block__dishes-container__row">
-          <div onClick = {() => addToCart(1)} className="col-3 restaurant-block__dishes-container__row__circle-col">
+        <div onClick = {() => addToCart(1)} className="row restaurant-block__dishes-container__row">
+          <div  className="col-3 restaurant-block__dishes-container__row__circle-col">
             <img
               src={Kebab1}
               alt="kebab1"

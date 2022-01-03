@@ -112,6 +112,16 @@
                 color: #3b3b3b;
                 margin-left: 340px;
                 border-radius: 7px;
+
+                &:focus{
+                    display: block;
+                    width: 80px;
+                    height: 40px;
+                    background-color: #9EE17F;
+                    color: #3b3b3b;
+                    margin-left: 340px;
+                    border-radius: 7px;
+                }
             }
     }
     &__error-message{

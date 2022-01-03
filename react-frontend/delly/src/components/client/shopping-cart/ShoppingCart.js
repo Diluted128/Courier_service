@@ -3,18 +3,27 @@ import "../../../stylesheets/client/shopping-cart/ShoppingCart.scss";
 import Cross from "../../../images/svg/white-cross.svg";
 import ReactDom from "react-dom";
 import Row from "./row.js"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import {client} from "../../../server/fetch-data";
+import { bindActionCreators } from "redux";
+import * as actionCreators from "../../../redux/Shopping/shopping-actions"
+import {sendOrder} from "../../../server/fetch-data";
 
 function ShoppingCart(props) {
   
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
+
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessagePath, setErrorMessagePath] = useState("shopping-cart-block__error-message");
 
   const state = useSelector((state) => state);
  
+  const dispatch = useDispatch()
+
+  const {removeFromCart} = bindActionCreators(actionCreators, dispatch);
+
   useEffect( () => {
       let price = 0;
       let items = 0;
@@ -59,16 +68,33 @@ const modal = {
 
     if(clientData.firstName === null || clientData.lastName === null || clientData.phoneNumber === null){
        setErrorMessage("Proszę uzupełnić dane osobowe");
+       setErrorMessagePath("shopping-cart-block__error-message");
     }
     else if(clientData.creditCard === null){
        setErrorMessage("Proszę uzupełnić dane płatnościowe");
+       setErrorMessagePath("shopping-cart-block__error-message");
     }
     else if(clientData.address === null){
       setErrorMessage("Proszę uzupełnić dane aktualnej lokalizacji");
+      setErrorMessagePath("shopping-cart-block__error-message");
+    }
+    else if(state.shop.cart.length === 0){
+      setErrorMessage("Koszyk nie może być pusty");
+      setErrorMessagePath("shopping-cart-block__error-message");
     }
     else{
-      // POOOOOOOOOOOOOOOORTAL
+      state.shop.cart.forEach((element) => removeFromCart(element.id));
+      console.log(state.shop.cart);
+      sendOrder(state.shop.cart, state.shop.selectedCompany);
+      setErrorMessage("Złożono zamówienie");
+      setErrorMessagePath("shopping-cart-block__error-message--green");
     }
+  }
+
+  const close = () => {
+      setErrorMessage("");
+      setErrorMessagePath("shopping-cart-block__error-message");
+      props.close();
   }
 
   if (props.openShoppingCart == false) return null;
@@ -80,7 +106,7 @@ const modal = {
     <motion.div variants={modal} initial="hidden" animate="visible">
     <div className="shopping-cart-block">
       <input
-        onClick={props.close}
+        onClick={() => close()}
         type="image"
         src={Cross}
         className="shopping-cart-block__cross"
@@ -101,7 +127,7 @@ const modal = {
             type="submit"
             onClick={() => validate()}
           >Akceptuj</button>
-      <span className="shopping-cart-block__error-message">{errorMessage}</span>    
+      <span className={errorMessagePath}>{errorMessage}</span>    
     </div>
     </motion.div>
     </motion.div>

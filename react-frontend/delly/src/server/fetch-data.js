@@ -77,7 +77,7 @@ export const sendPaymentData = (cardNumber, CVV, expireDate) => {
   export const sendLocalizationData = (street, city, postalcode, houseNumber, localNumber, district) => {
     return new Promise((res, rej) => 
       axios
-     .post("http://localhost:8081/client/" + localStorage.getItem("ID") + "/localization", {"street": street, "localNumber": localNumber, "postalCode": postalcode, "flatNumber": houseNumber, "town": city, "district": district})
+     .post("http://localhost:8081/client/" + localStorage.getItem("ID") + "/localization/" + district, {"street": street, "localNumber": localNumber, "postalCode": postalcode, "flatNumber": houseNumber, "town": city})
      .catch(function(error){
        console.log(error);
      })
@@ -97,6 +97,30 @@ export const sendPaymentData = (cardNumber, CVV, expireDate) => {
          res(result);
        }))
       }
+
+    export const sendOrder = (cart, selectedCompany) => {
+        return new Promise((res, rej) => 
+          axios
+         .post("http://localhost:8081/client/" + localStorage.getItem("ID") + "/company/" + selectedCompany.toString() + "/order", cart)
+         .catch(function(error){
+           console.log(error);
+         })
+         .then((result) => {
+           res(result);
+         }))
+     }
+
+     export const getAllOrders = () => {
+      return new Promise((res, rej) => 
+        axios
+       .get("http://localhost:8081/client/" + localStorage.getItem("ID") + "/orders")
+       .catch(function(error){
+         console.log(error);
+       })
+       .then((result) => {
+         res(result);
+       }))
+   }
 
 
 

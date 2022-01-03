@@ -1,15 +1,5 @@
 package com.delly.delly.repositories.mapping;
 
-import com.delly.delly.dao.Company;
-import com.delly.delly.dao.ItemSize;
-import com.delly.delly.dao.Order;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
-
-import javax.persistence.*;
-import java.util.Set;
-
 public class ItemWithCompany {
 
     private int ID;
