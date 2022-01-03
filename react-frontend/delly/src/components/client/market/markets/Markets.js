@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../../../../stylesheets/client/market/markets/Market.scss";
 import Cross from "../../../../images/svg/white-cross.svg";
-import MarketBanner from "../../../../images/svg/marketBanner.svg";
+import MarketBanner from "../../../../images/marketBanner.png";
 import ReactDom from "react-dom";
 import PharmacyBanner from "../../../../images/svg/pharmacyBanner.svg"
 import { useDispatch } from "react-redux";

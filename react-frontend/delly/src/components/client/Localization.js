@@ -27,6 +27,8 @@ function Localization(props){
     const [invalidLocalNumberMessage, setInvalidLocalNumberMessage] = useState("");
     const [redLocalNumberBorder, setRedLocalNumberBorder] = useState("form-control my-data-block__personal-data-container__row__input");
 
+    const [district, setDistrict] = useState("");
+    
     const [emptyMessage, setEmptyMessage] = useState("");
     const [emptyMessagePath, setEmptyMessagePath] = useState("");
 
@@ -83,7 +85,7 @@ function Localization(props){
     useEffect(() => {
 
       if(houseNumber.length > 0){
-        if(houseNumber.match(/^[0-9]{1,3}$/))  setInvalidHouseNumberMessage("");
+        if(houseNumber.match(/^[0-9]{1,3}$|^-$/))  setInvalidHouseNumberMessage("");
         else if(houseNumber.length > 3)  setInvalidHouseNumberMessage("Numer domu jest za długi");
         else setInvalidHouseNumberMessage("niedozwolony znak");
   
@@ -98,7 +100,7 @@ function Localization(props){
     useEffect(() => {
 
       if(localNumber.length > 0){
-        if(localNumber.match(/^[0-9]{1,3}([A-Z]{1,2})?$|^$/))  setInvalidLocalNumberMessage("");
+        if(localNumber.match(/^[0-9]{1,3}([A-Z]{1,2})?$|^-$/))  setInvalidLocalNumberMessage("");
         else if(localNumber.length > 5) setInvalidLocalNumberMessage("Numer lokalu jest za długi");
         else setInvalidLocalNumberMessage("niedozwolony znak");
   
@@ -112,8 +114,16 @@ function Localization(props){
 
     useEffect(async () => {
       const [clientResponse] = await Promise.all([client()]);
-      setClientData(clientResponse.data);
       console.log(clientResponse.data);
+
+      if(clientResponse.data.address === null){
+        console.log("NIE OK");
+        setClientData({street: "", town: "", postalCode: "", localNumber: "", flatNumber: ""})
+      }
+      else{
+        console.log("OK");
+        setClientData(clientResponse.data.address)
+      }
 
       const [districts] = await Promise.all([getAllDistricts()])
       setDistricts(districts.data);
@@ -128,9 +138,13 @@ function Localization(props){
       else{
         if(invalidStreetMessage.length === 0 && invalidCityMessage.length === 0 
           && invalidPostalcodeMessage.length === 0 && invalidHouseNumberMessage.length === 0 && invalidLocalNumberMessage.length === 0){
-          setEmptyMessagePath("my-data-block__error-message--green")
-          // sendLocalizationData(street, city, postalcode, houseNumber, localNumber);
+          setEmptyMessagePath("my-data-block__error-message--green");
+          const element = districts.find(element => 
+             element.name == district
+          );
+          sendLocalizationData(street, city, postalcode, houseNumber, localNumber, element.id);
           setEmptyMessage("Dane wysłane");
+          window.location.reload();
         }
         else{
           setEmptyMessagePath("my-data-block__error-message");
@@ -160,6 +174,26 @@ const modal = {
     transition: {delay: 0.1}
   }
 }
+const close = () => {
+  setStreet("");
+  setCity("");
+  setPostalcode("");
+  setLocalNumber("");
+  setHouseNumber("");
+  setInvalidStreetMessage("");
+  setInvalidCityMessage("");
+  setInvalidPostalcodeMessage("");
+  setInvalidPostalcodeMessage("");
+  setInvalidLocalNumberMessage("");
+  setInvalidHouseNumberMessage("");
+  setRedStreetBorder("form-control my-data-block__personal-data-container__row__input");
+  setRedCityBorder("form-control my-data-block__personal-data-container__row__input");
+  setRedPostalcodeBorder("form-control my-data-block__personal-data-container__row__input");
+  setRedLocalNumberBorder("form-control my-data-block__personal-data-container__row__input");
+  setRedHouseNumberBorder("form-control my-data-block__personal-data-container__row__input");
+  props.close();
+
+}
 
     return(
       <AnimatePresence exitBeforeEnter>
@@ -168,7 +202,7 @@ const modal = {
        <motion.div variants={modal} initial="hidden" animate="visible">
         <div className="my-data-block">
           <input
-            onClick={props.close}
+            onClick={() => close()}
             type="image"
             src={Cross}
             className="my-data-block__cross"
@@ -181,36 +215,36 @@ const modal = {
           <div className="my-data-block__personal-data-container">
           <div className="row my-data-block__personal-data-container__row">
             <label className="my-data-block__personal-data-container__row__label">Ulica<span style={{color: "#FF7272"}}> *</span></label>
-            <input onInput={e => setStreet(e.target.value)} placeholder={clientData.address} className={redStreetBorder}/>
+            <input onInput={e => setStreet(e.target.value)} placeholder={clientData.street} className={redStreetBorder}/>
             <div className="my-data-block__personal-data-container__row__warning-message">{invalidStreetMessage}</div>
           </div>
           <div className="row my-data-block__personal-data-container__row">
             <div className="col-6 my-data-block__personal-data-container__row__col">
                <label className="my-data-block__personal-data-container__row__label">Miasto<span style={{color: "#FF7272"}}> *</span></label>
-               <input onInput={e => setCity(e.target.value)} placeholder={clientData.address} className={redCityBorder}/>
+               <input onInput={e => setCity(e.target.value)} placeholder={clientData.town} className={redCityBorder}/>
                <div className="my-data-block__personal-data-container__row__warning-message">{invalidCityMessage}</div>
             </div>  
             <div className="col-5 my-data-block__personal-data-container__row__col">
                <label className="my-data-block__personal-data-container__row__label">Kod-pocztowy<span style={{color: "#FF7272"}}> *</span></label>
-               <input onInput={e => setPostalcode(e.target.value)} placeholder={clientData.address} className={redPostalCodeBorder}/>
+               <input onInput={e => setPostalcode(e.target.value)} placeholder={clientData.postalCode} className={redPostalCodeBorder}/>
                <div className="my-data-block__personal-data-container__row__warning-message">{invalidPostalcodeMessage}</div>
             </div>
           </div>
           <div className="row my-data-block__personal-data-container__row">
             <div className="col-5 my-data-block__personal-data-container__row__col">
                <label className="my-data-block__personal-data-container__row__label">Numer domu</label>
-               <input onInput={e => setHouseNumber(e.target.value)} placeholder={clientData.address} className={redHouseNumberBorder}/>
+               <input onInput={e => setHouseNumber(e.target.value)} placeholder={clientData.flatNumber} className={redHouseNumberBorder}/>
                <div className="my-data-block__personal-data-container__row__warning-message">{invalidHouseNumberMessage}</div>
             </div>  
             <div className="col-5 my-data-block__personal-data-container__row__col">
                <label className="my-data-block__personal-data-container__row__label">Numer lokalu</label>
-               <input onInput={e => setLocalNumber(e.target.value)} placeholder={clientData.address} className={redLocalNumberBorder}/>
+               <input onInput={e => setLocalNumber(e.target.value)} placeholder={clientData.localNumber} className={redLocalNumberBorder}/>
                <div className="my-data-block__personal-data-container__row__warning-message">{invalidLocalNumberMessage}</div>
             </div>
           </div>    
           <div className="row my-data-block__personal-data-container__row">
           <label className="my-data-block__personal-data-container__row__label">Dzielnica</label>
-          <select onSelect={e => setDistricts(e.target.value)} className="form-control form-control my-data-block__personal-data-container__row__input">
+          <select onChange={e => setDistrict(e.target.value)} className="form-control form-control my-data-block__personal-data-container__row__input">
            <option>Stare Miasto</option>
            <option>Krowodrza</option>
            <option>Zwierzyniec</option>
@@ -219,7 +253,7 @@ const modal = {
            <option>Grzegórzki</option>
            </select>
           </div>
-          <button onClick={() => validateCreditCardData()} className="btn btn-primary my-data-block__personal-data-container__button" type="submit">wyślij</button>
+          <button onClick={() => validateCreditCardData()} className= "my-data-block__personal-data-container__button" type="submit">wyślij</button>
           <span className={emptyMessagePath}>{emptyMessage}</span>
        
           </div>

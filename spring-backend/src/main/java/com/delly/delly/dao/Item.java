@@ -11,7 +11,7 @@ import java.util.Set;
 public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int ID;
 
     @NotNull
@@ -22,19 +22,31 @@ public class Item {
 
     @Column(name = "size")
     @Nullable
-    @Enumerated(EnumType.STRING)
-    private ItemSize size;
+    private String size;
 
     @NotNull
     private float price;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "items")
-    private Set<Order> orders;
+    private Set<Orders> orders;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "company_id")
     private Company company_id;
+
+    public Item(){}
+
+    public Item(int ID, String name, String description, String size, float price, Set<Orders> orders, Company company_id) {
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+        this.size = size;
+        this.price = price;
+        this.orders = orders;
+        this.company_id = company_id;
+    }
 
     public int getID() {
         return ID;
@@ -60,11 +72,11 @@ public class Item {
         this.description = description;
     }
 
-    public ItemSize getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(ItemSize size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
@@ -76,11 +88,11 @@ public class Item {
         this.price = price;
     }
 
-    public Set<Order> getOrders() {
+    public Set<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    public void setOrders(Set<Orders> orders) {
         this.orders = orders;
     }
 

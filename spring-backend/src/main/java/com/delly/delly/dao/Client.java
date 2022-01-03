@@ -10,7 +10,7 @@ import java.util.List;
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer ID;
 
     @NotNull
@@ -27,7 +27,7 @@ public class Client {
 
     public Client(){}
 
-    public Client(String email, String firstName, String lastName, String password, String phoneNumber, List<Order> orders, Address address, CreditCard creditCard) {
+    public Client(String email, String firstName, String lastName, String password, String phoneNumber, List<Orders> orders, Address address, CreditCard creditCard) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
@@ -42,7 +42,7 @@ public class Client {
     private String password;
 
     @OneToMany(mappedBy = "client")
-    private List<Order> orders;
+    private List<Orders> orders;
 
     @Nullable
     @OneToOne
@@ -110,11 +110,11 @@ public class Client {
         this.creditCard = creditCard;
     }
 
-    public List<Order> getOrders() {
+    public List<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<Orders> orders) {
         this.orders = orders;
     }
 

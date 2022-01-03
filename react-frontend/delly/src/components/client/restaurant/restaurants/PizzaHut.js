@@ -82,7 +82,7 @@ function PizzaHut(props) {
       <hr className="restaurant-block__line"></hr>
       <h4 className="restaurant-block__title">NAPOJE</h4>
       <div className="restaurant-block__drink-container">
-        <div onClick = {() => addToCart(5)} className="row restaurant-block__drink-container__row">
+        <div onClick = {() => addToCart(36)} className="row restaurant-block__drink-container__row">
           <div className="col-6 restaurant-block__drink-container__row__title-col">
             Coca Cola 0.5L
           </div>
@@ -91,7 +91,7 @@ function PizzaHut(props) {
             5.99
           </div>
         </div>
-        <div onClick = {() => addToCart(18)} className="row restaurant-block__drink-container__row">
+        <div onClick = {() => addToCart(37)} className="row restaurant-block__drink-container__row">
           <div className="col-6 restaurant-block__drink-container__row__title-col">
             Mirinda 0,85L
           </div>
@@ -100,7 +100,7 @@ function PizzaHut(props) {
             9.99
           </div>
         </div>
-        <div onClick = {() => addToCart(19)} className="row restaurant-block__drink-container__row">
+        <div onClick = {() => addToCart(38)} className="row restaurant-block__drink-container__row">
           <div className="col-6 restaurant-block__drink-container__row__title-col">
             7UP 0,85L
           </div>
