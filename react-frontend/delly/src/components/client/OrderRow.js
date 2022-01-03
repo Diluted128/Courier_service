@@ -40,7 +40,7 @@ return(
         <div className="row orders-block__orders-data-container__row">
            <div className="col orders-block__orders-data-container__row__col">
            <div className="orders-block__orders-data-container__row__col__text">
-                data: {props.date}
+                data: {props.order.date}
              </div>
            </div>
            <div className="col orders-block__orders-data-container__row__col">

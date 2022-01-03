@@ -28,7 +28,7 @@ import React, { useEffect, useState } from "react";
   export const login = (email, password) => {
     return new Promise((res, rej) => 
       axios
-     .post("http://localhost:8081/login", {"email": email, "password": password})
+     .post("http://localhost:8081/login/client", {"email": email, "password": password})
      .catch(function(error){
        console.log(error);
      })
@@ -37,8 +37,19 @@ import React, { useEffect, useState } from "react";
      }))
  }
 
+ export const loginCourier = (email, password) => {
+  return new Promise((res, rej) => 
+    axios
+   .post("http://localhost:8081/login/courier", {"email": email, "password": password})
+   .catch(function(error){
+     console.log(error);
+   })
+   .then((result) => {
+     res(result);
+   }))
+}
+
  export const client = () => {
-   console.log("yes")
   return new Promise((res, rej) => 
     axios
    .post("http://localhost:8081/client/" + localStorage.getItem("ID"))
@@ -98,10 +109,10 @@ export const sendPaymentData = (cardNumber, CVV, expireDate) => {
        }))
       }
 
-    export const sendOrder = (cart, selectedCompany) => {
+    export const sendOrder = (cart, selectedCompany, tip, totalPrice) => {
         return new Promise((res, rej) => 
           axios
-         .post("http://localhost:8081/client/" + localStorage.getItem("ID") + "/company/" + selectedCompany.toString() + "/order", cart)
+         .post("http://localhost:8081/client/" + localStorage.getItem("ID") + "/company/" + selectedCompany + "/orders", {"items": cart, "tip": tip, "total_price": totalPrice})
          .catch(function(error){
            console.log(error);
          })

@@ -6,7 +6,6 @@ import com.delly.delly.repositories.mapping.ItemWithCompany;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -19,15 +18,17 @@ public class Controller {
     CreditCardService creditCardService;
     DistrictService districtService;
     OrderService orderService;
+    DeliverService deliverService;
 
     @Autowired
     public Controller(ItemService itemService, ClientService clientService, CreditCardService creditCardService,
-                      DistrictService districtService, OrderService orderService){
+                      DistrictService districtService, OrderService orderService, DeliverService deliverService){
         this.itemService = itemService;
         this.clientService = clientService;
         this.creditCardService = creditCardService;
         this.districtService = districtService;
         this.orderService = orderService;
+        this.deliverService = deliverService;
     }
 
     @GetMapping("/products")
@@ -45,9 +46,14 @@ public class Controller {
          return clientService.insertClientsCredential(client.getEmail(), client.getPassword());
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login/client")
     public ResponseEntity<Map<String,String>> clientLogin(@RequestBody Client client){
         return clientService.checkLoginCredentials(client.getEmail(), client.getPassword());
+    }
+
+    @PostMapping("/login/courier")
+    public Integer clientLogin(@RequestBody Deliver deliver){
+        return deliverService.getDeliverByEmailAndPassword(deliver.getEmail(), deliver.getPassword());
     }
 
     @PostMapping("/client/{ID}")
@@ -80,9 +86,9 @@ public class Controller {
         return districtService.getAllDistricts();
     }
 
-    @PostMapping("/client/{ClientID}/company/{CompanyID}/order")
-    public void saveOrder(@PathVariable int ClientID, @PathVariable int CompanyID, @RequestBody List<Item> items){
-        orderService.saveOrder(ClientID, CompanyID, items);
+    @PostMapping("/client/{ClientID}/company/{CompanyID}/orders")
+    public void saveOrder(@PathVariable int ClientID, @PathVariable int CompanyID, @RequestBody Orders orders){
+       orderService.saveOrder(ClientID, CompanyID, orders);
     }
 
     @GetMapping("client/{ID}/orders")

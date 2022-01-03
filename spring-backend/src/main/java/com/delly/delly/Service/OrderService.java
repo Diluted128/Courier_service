@@ -28,19 +28,16 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public void saveOrder(int ClientID, int CompanyID, List<Item> items){
-        float totalPrice = items.stream().map(Item::getPrice).reduce(0f, Float::sum);
+    public void saveOrder(int ClientID, int CompanyID, Orders orders){
+        float totalPrice = orders.getItems().stream().map(Item::getPrice).reduce(0f, Float::sum);
         Date date = new Date();
         DateFormat dateFormat =  new SimpleDateFormat("dd-MM-yyyy");
         System.out.println(dateFormat.format(date) + " " + totalPrice);
 
-        Orders orders = new Orders(
-                totalPrice,
-                dateFormat.format(date),
-                "IN_PROGRESS",
-                clientRepository.getClientsByID(ClientID),
-                companyRepository.getCompanyByCompanyID(CompanyID),
-                items);
+        orders.setCompany(companyRepository.getCompanyByCompanyID(CompanyID));
+        orders.setDate(dateFormat.format(date));
+        orders.setStatus("IN_PROGRESS");
+        orders.setClient(clientRepository.getClientsByID(ClientID));
 
         orderRepository.save(orders);
     }

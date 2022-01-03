@@ -3,7 +3,7 @@ import "../../stylesheets/Pop'up/Login.scss";
 import Cross from "../../images/svg/cross.svg";
 import ReactDom from "react-dom";
 import {useNavigate} from "react-router-dom"
-import {login} from "../../server/fetch-data";
+import {login, loginCourier} from "../../server/fetch-data";
 
 function Login(props){
 
@@ -14,13 +14,16 @@ function Login(props){
     const navigate = useNavigate();
 
     const validateCredentials = async () => {
-      const [response] = await Promise.all([login(email, password)]);
+      const [responseClient] = await Promise.all([login(email, password)]);
+      const [responseCurier] = await Promise.all([loginCourier(email, password)]);
 
-      console.log(response);
-
-      if(response){ 
-        localStorage.setItem("ID", response.data.ID)  
+      if(responseClient){ 
+        localStorage.setItem("ID", responseClient.data.ID)  
         navigate("/client");
+      }
+      else if(responseCurier){
+        localStorage.setItem("ID", responseCurier.data.ID)  
+        navigate("/courier");
       }
       else
         setErrorMessage("Dane są nieprawidłowe");

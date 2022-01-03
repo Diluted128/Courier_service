@@ -30,6 +30,9 @@ public class Orders {
     private float total_price;
 
     @NotNull
+    private float tip;
+
+    @NotNull
     private String date;
 
     @NotNull
@@ -88,6 +91,14 @@ public class Orders {
 
     public void setPacks(List<Pack> packs) {
         this.packs = packs;
+    }
+
+    public float getTip() {
+        return tip;
+    }
+
+    public void setTip(float tip) {
+        this.tip = tip;
     }
 
     public float getTotal_price() {
