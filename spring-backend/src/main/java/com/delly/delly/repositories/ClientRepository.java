@@ -21,4 +21,8 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
     @Query(value = "UPDATE CLIENT SET FIRST_NAME = ?2, LAST_NAME = ?3, PHONE_NUMBER = ?4 WHERE ID = ?1", nativeQuery = true)
     Object saveClientsExtendedPersonalData(int ID, String name, String surname, String phoneNumber);
+
+    @Query(value = "SELECT ADDRESS.DISTRICT_ID FROM ADDRESS WHERE ADDRESS.ID = (SELECT ADDRESS_ID FROM CLIENT WHERE ID = ?1)", nativeQuery = true)
+    Integer getDistrictIDByClientID(Integer ID);
+
 }

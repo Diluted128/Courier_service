@@ -25,6 +25,9 @@ public class Deliver {
     private Integer cash;
 
     @NotNull
+    private Integer distance;
+
+    @NotNull
     private String phoneNumber;
 
     @NotNull
@@ -36,6 +39,9 @@ public class Deliver {
     @OneToOne
     @JoinColumn(name = "district_id")
     private District district;
+
+    @NotNull
+    private String location;
 
     @OneToMany(mappedBy = "deliver")
     private List<Pack> packs;
@@ -80,6 +86,14 @@ public class Deliver {
         this.cash = cash;
     }
 
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -102,6 +116,14 @@ public class Deliver {
 
     public void setDistrict(District district) {
         this.district = district;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public List<Pack> getPacks() {

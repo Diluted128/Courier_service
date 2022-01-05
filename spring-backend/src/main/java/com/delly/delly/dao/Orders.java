@@ -50,6 +50,10 @@ public class Orders {
     )
     private List<Item> items;
 
+    @OneToOne
+    @JoinColumn(name = "deliver_id")
+    private Deliver deliver;
+
     public Orders(){}
 
     public Orders(Float total_price, String date, String status, Client client, Company company, List<Item> items){
@@ -131,5 +135,13 @@ public class Orders {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Deliver getDeliver() {
+        return deliver;
+    }
+
+    public void setDeliver(Deliver deliver) {
+        this.deliver = deliver;
     }
 }

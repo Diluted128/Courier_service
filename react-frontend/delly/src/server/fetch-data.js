@@ -132,6 +132,54 @@ export const sendPaymentData = (cardNumber, CVV, expireDate) => {
          res(result);
        }))
    }
+    
+   export const getOrderForDeliver= () => {
+    return new Promise((res, rej) => 
+      axios
+     .get("http://localhost:8081/order/deliver/" + localStorage.getItem("ID"))
+     .catch(function(error){
+       console.log(error);
+     })
+     .then((result) => {
+       res(result);
+     }))
+ }
+
+ export const deliverOrder = (orderID, distance) => {
+  return new Promise((res, rej) => 
+    axios
+   .post("http://localhost:8081/order/" + orderID + "/delivered/" + parseInt(distance))
+   .catch(function(error){
+     console.log(error);
+   })
+   .then((result) => {
+     res(result);
+   }))
+}
+
+export const getDeliveredOrdersByDeliver = () => {
+  return new Promise((res, rej) => 
+    axios
+   .post("http://localhost:8081/orders/deliver/" +  localStorage.getItem("ID") + "/delivered")
+   .catch(function(error){
+     console.log(error);
+   })
+   .then((result) => {
+     res(result);
+   }))
+}
+
+export const getDeliverInfo = () => {
+  return new Promise((res, rej) => 
+    axios
+   .get("http://localhost:8081/deliver/" +  localStorage.getItem("ID"))
+   .catch(function(error){
+     console.log(error);
+   })
+   .then((result) => {
+     res(result);
+   }))
+}
 
 
 

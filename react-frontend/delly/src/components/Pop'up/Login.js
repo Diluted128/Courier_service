@@ -16,7 +16,10 @@ function Login(props){
     const validateCredentials = async () => {
       const [responseClient] = await Promise.all([login(email, password)]);
       const [responseCurier] = await Promise.all([loginCourier(email, password)]);
-
+ 
+      console.log(responseClient);
+      console.log(responseCurier)
+      
       if(responseClient){ 
         localStorage.setItem("ID", responseClient.data.ID)  
         navigate("/client");

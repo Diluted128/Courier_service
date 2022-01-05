@@ -10,6 +10,7 @@ class App extends Component{
 
   render(){
   return (
+       
     <Router>
       <Routes>
         <Route path="/" element={<HomePage/>} />
@@ -17,8 +18,7 @@ class App extends Component{
         <Route path="/courier" element={<CourierSide/>} />
       </Routes>
     </Router>
+ 
   );
   }
-}
-
-export default App;
+}  export default App;
