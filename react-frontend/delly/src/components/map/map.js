@@ -1,9 +1,8 @@
 import * as React from "react";
-import "../../stylesheets/map/map.css";
-import Test from "../map/test.js";
 import Box from "../../images/box_local_icon.png"
 import Meta from "../../images/meta_icon.png"
 import Curier from "../../images/curier_icon.png"
+import "../../stylesheets/map/map.scss"
 
 class map extends React.Component {
   constructor(props) {
@@ -14,6 +13,10 @@ class map extends React.Component {
     this.platform = null;
     this.marker2 = null;
     this.marker3 = null;
+    this.curier = props.curier;
+    this.pack = props.pack;
+    this.setDistance = props.setDistance;
+    this.client = props.client;
     this.state={
       distance: 0,
       duration: 0
@@ -23,6 +26,7 @@ class map extends React.Component {
 
   //initialize map
   componentDidMount() {
+
     const H = window.H;
 
     const platform = new H.service.Platform({
@@ -47,6 +51,12 @@ class map extends React.Component {
     this.map = map;
     this.H = H;
     this.platform = platform;
+    
+    console.log(this.curier);
+    console.log(this.pack);
+    console.log(this.client);
+
+    this.drawRoute(this.curier, this.pack, this.client);
 
   }
 
@@ -224,11 +234,12 @@ class map extends React.Component {
     });
   }
 
-  drawRoute = async (curierAddress, parcelAddress, clientAddress) => {
+  drawRoute = async (curierGeocode, parcelAddress, clientAddress) => {
       
+    console.log("curier:" + curierGeocode)
     this.map.removeObjects(this.map.getObjects());
 
-    const [curierGeocode, parcelGeocode, clientGeocode] = await Promise.all([this.calculateGeocode(curierAddress), this.calculateGeocode(parcelAddress), this.calculateGeocode(clientAddress)]);
+    const [parcelGeocode, clientGeocode] = await Promise.all([this.calculateGeocode(parcelAddress), this.calculateGeocode(clientAddress)]);
 
     const [routeOb1, routeOb2] = await Promise.all([this.calculateRoute(curierGeocode, parcelGeocode), this.calculateRoute(parcelGeocode, clientGeocode)])
 
@@ -238,15 +249,14 @@ class map extends React.Component {
     this.zoomMapOnMarkers(curierGeocode, parcelGeocode, clientGeocode)
 
     this.setState({distance: routeOb1[0].travelSummary.length + routeOb2[0].travelSummary.length + " m"});
-
+    this.setDistance(this.state.distance);
     this.setState({duration: Math.floor((routeOb1[0].travelSummary.duration + routeOb2[0].travelSummary.duration) / 60)});
   }
 
   render() {
     return (
         <div>
-        <Test drawRoute={this.drawRoute} dist={this.state.distance} duration={this.state.duration}/>
-        <div ref={this.ref} class="map" style={{ height: "800px" }} />
+        <div ref={this.ref} className="map"/>
         </div>
     );
   }

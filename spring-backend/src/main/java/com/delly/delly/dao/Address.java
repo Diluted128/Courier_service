@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer ID;
 
     @NotNull
@@ -32,21 +32,20 @@ public class Address {
     @JsonIgnore
     private String location;
 
-    @Nullable
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "distinct_id")
-    private District distinct;
+    @JoinColumn(name = "district_id")
+    private District district;
 
     public Address(){}
 
-    public Address(String flatNumber, String localNumber, String location, String postalCode, String street, String town){
+    public Address(String flatNumber, String localNumber, String postalCode, String street, String town, District district){
         this.street = street;
         this.localNumber = localNumber;
         this.postalCode = postalCode;
         this.flatNumber = flatNumber;
         this.town = town;
-        this.location = location;
+        this.district = district;
     }
 
     public Integer getID() {
@@ -105,11 +104,11 @@ public class Address {
         this.location = location;
     }
 
-    public District getDistinct() {
-        return distinct;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setDistinct(District distinct) {
-        this.distinct = distinct;
+    public void setDistrict(District district) {
+        this.district = district;
     }
 }

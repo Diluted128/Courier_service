@@ -18,6 +18,8 @@ function ShoppingCart(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [errorMessagePath, setErrorMessagePath] = useState("shopping-cart-block__error-message");
 
+  const [tip, setTip] = useState(0)
+
   const state = useSelector((state) => state);
  
   const dispatch = useDispatch()
@@ -28,13 +30,14 @@ function ShoppingCart(props) {
       let price = 0;
       let items = 0;
 
+      console.log(tip.length === 0)
       state.shop.cart.forEach(element => {
         items += element.qty;
         price += element.qty * element.price;
       })
-      
+      price = price + parseFloat(tip) + 5;
       setTotalItems(items);
-      setTotalPrice(price);
+      setTotalPrice(price.toFixed(2));
   })
 
   const backdrop = {
@@ -85,7 +88,7 @@ const modal = {
     else{
       state.shop.cart.forEach((element) => removeFromCart(element.id));
       console.log(state.shop.cart);
-      sendOrder(state.shop.cart, state.shop.selectedCompany);
+      sendOrder(state.shop.cart, state.shop.selectedCompany, tip, totalPrice);
       setErrorMessage("Złożono zamówienie");
       setErrorMessagePath("shopping-cart-block__error-message--green");
     }
@@ -119,8 +122,14 @@ const modal = {
         ))}
       </div>
       <hr className="shopping-cart-block__line"></hr>
+      <h4 className="shopping-cart-block__title">Napiwek</h4>
+      <input onInput={e => !isNaN(e.target.value) ? e.target.value.length === 0 ? setTip(0) : setTip(e.target.value) : setTip(0)}  className="form-control shopping-cart-block__input"/>
+      <span className="shopping-cart-block__currency"> zł</span>
+      <hr className="shopping-cart-block__line"></hr>
       <h4 className="shopping-cart-block__title">Podsumowanie</h4>
       <div className="shopping-cart-block__sum">Ilość: {totalItems}</div>
+      <div className="shopping-cart-block__sum">Dostawa: 5 zł</div>
+      <div className="shopping-cart-block__sum">Napiwek: {tip} zł</div>
       <div className="shopping-cart-block__sum">Suma: {totalPrice} zł</div>
       <button
             className="btn btn-primary shopping-cart-block__button"

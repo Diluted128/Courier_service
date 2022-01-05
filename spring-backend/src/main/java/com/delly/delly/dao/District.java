@@ -10,15 +10,22 @@ import java.util.List;
 public class District {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer ID;
 
     @NotNull
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "distinct")
+    @OneToMany(mappedBy = "district")
     private List<Address> addresses;
+
+    public District(){}
+
+    public District(Integer ID, String name) {
+        this.ID = ID;
+        this.name = name;
+    }
 
     public Integer getID() {
         return ID;

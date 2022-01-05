@@ -30,6 +30,9 @@ public class Orders {
     private float total_price;
 
     @NotNull
+    private float tip;
+
+    @NotNull
     private String date;
 
     @NotNull
@@ -46,6 +49,10 @@ public class Orders {
             inverseJoinColumns = { @JoinColumn(name = "item_id")}
     )
     private List<Item> items;
+
+    @OneToOne
+    @JoinColumn(name = "deliver_id")
+    private Deliver deliver;
 
     public Orders(){}
 
@@ -90,6 +97,14 @@ public class Orders {
         this.packs = packs;
     }
 
+    public float getTip() {
+        return tip;
+    }
+
+    public void setTip(float tip) {
+        this.tip = tip;
+    }
+
     public float getTotal_price() {
         return total_price;
     }
@@ -120,5 +135,13 @@ public class Orders {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Deliver getDeliver() {
+        return deliver;
+    }
+
+    public void setDeliver(Deliver deliver) {
+        this.deliver = deliver;
     }
 }

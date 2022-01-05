@@ -27,7 +27,7 @@ function Localization(props){
     const [invalidLocalNumberMessage, setInvalidLocalNumberMessage] = useState("");
     const [redLocalNumberBorder, setRedLocalNumberBorder] = useState("form-control my-data-block__personal-data-container__row__input");
 
-    const [district, setDistrict] = useState("");
+    const [district, setDistrict] = useState("Stare Miasto");
     
     const [emptyMessage, setEmptyMessage] = useState("");
     const [emptyMessagePath, setEmptyMessagePath] = useState("");
@@ -130,7 +130,7 @@ function Localization(props){
       console.log(districts.data);
     },[])
 
-    const validateCreditCardData = () => {
+    const validateLocationData = () => {
       if(street.length === 0 || city.length === 0 || postalcode.length === 0){
          setEmptyMessagePath("my-data-block__error-message");
          setEmptyMessage("Wymagane pola nie mogą być puste");
@@ -253,7 +253,7 @@ const close = () => {
            <option>Grzegórzki</option>
            </select>
           </div>
-          <button onClick={() => validateCreditCardData()} className= "my-data-block__personal-data-container__button" type="submit">wyślij</button>
+          <button onClick={() => validateLocationData()} className= "my-data-block__personal-data-container__button" type="submit">wyślij</button>
           <span className={emptyMessagePath}>{emptyMessage}</span>
        
           </div>

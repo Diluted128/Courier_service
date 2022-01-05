@@ -75,12 +75,24 @@ public class ClientService {
     }
 
     public void saveLocation(int ID, int district, Address address){
+        Client client = getClientByID(ID);
         District selectedDistrict = districtRepository.getDistrictByID(district);
-        address.setDistinct(selectedDistrict);
-        address.setID(addressRepository.getMaxID() + 1);
-        addressRepository.saveAddress(address.getID(), address.getFlatNumber(), address.getLocalNumber(), address.getLocation(), address.getPostalCode(), address.getStreet(), address.getTown(), address.getDistinct().getID());
-       Client client = getClientByID(ID);
-       client.setAddress(address);
-       clientRepository.save(client);
+        System.out.println(selectedDistrict.getID() + " " + selectedDistrict.getName());
+        address.setDistrict(selectedDistrict);
+
+        if(client.getAddress() == null){
+            System.out.println("TAK");
+            address.setID(addressRepository.getMaxID() + 1);
+            addressRepository.saveAddress(address.getID(), address.getFlatNumber(),
+                    address.getLocalNumber(), address.getLocation(), address.getPostalCode(), address.getStreet(), address.getTown(), address.getDistrict().getID());
+            client.setAddress(address);
+        }
+        else{
+            System.out.println("NIE");
+            address.setID(client.getAddress().getID());
+            addressRepository.save(address);
+            client.setAddress(address);
+        }
+        clientRepository.save(client);
     }
 }

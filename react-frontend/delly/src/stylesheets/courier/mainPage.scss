@@ -1,0 +1,193 @@
+body{
+    background-color: #FFCD82;
+}
+
+
+.warning-banner{
+    position: absolute;
+   
+    bottom: 0px;
+    z-index: 4;
+}
+
+.client-side{
+
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+
+    &__background-svg{
+
+        position: absolute;
+        width: 4000px;
+        height: 1500px;
+        left: -1000px;
+        z-index: 1;
+    }
+
+    &__fluid-container{
+
+        height: 100%;
+        padding: 0;
+        z-index: 3;
+        position: absolute;
+
+        
+
+        &__first_row{
+
+            height: 20vh;
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+
+            &__row{
+
+                height: 20vh;
+                text-align: center; 
+                line-height: 220px;
+
+                &__item{
+
+                    height: 20vh;
+                    width: 400px;
+                 
+                     &__shopping-cart-svg{
+                            display: inline;
+                            z-index: 4;
+                            margin-right: 80px;
+                            
+                            &:hover{
+                              cursor: pointer;
+                            }
+                     }
+
+                     &__counter{
+                            position: absolute;
+                            display: inline;
+                            right: 220px;
+                            z-index: 5;
+                            color: white;
+                     }
+
+                     &__lock-svg{
+                        display: inline-block;
+                            height: 30px;
+                            width: 30px;
+                    }
+                         
+                    
+                    
+                    &__logo_text{
+                        color: white;
+                        font-size: 40px;
+                        font-weight: bold;
+                    }
+
+                    &__text{
+
+                        color: white;
+                        font-size: 25px;
+
+                        &:hover{
+                            text-decoration: none;
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+
+    
+        &__panel{
+            position: absolute;
+            height: 700px;
+            width: 1000px;
+            left: 200px;
+            bottom: 150px;
+
+                &__orders-col{
+
+                    &__orders{
+                        display: block;
+                        height: 700px;
+                        width: 450px;
+                        background-color: #595959;
+                        border-radius: 10px;
+                        
+
+                        &__title{
+                            display: block;
+                            color: #FFFFFF;
+                            font-weight: 600;
+                            font-size: 30px;
+                            text-align: center;
+                            padding-top: 20px;
+                        }
+
+                        &__line{
+                            border-width: 5px;
+                            background-color: #F2C785;
+                            width: 350px;
+                        }
+
+                        &__order-block{
+                            display: block;
+                            height: 120px;
+                            width: 400px;
+                            margin-right: auto;
+                            margin-left: auto;
+                            margin-top: 30px;
+                            border-radius: 10px;
+                            background-color: #7D7D7D;
+
+                            &__row {
+                                text-align: left;
+                                height: 40px;
+                                padding: 10px;
+                      
+                                &__col{
+                                   font-weight: 500;
+
+                                   &__text{
+                                     color: #e6e6e6;
+                                  }
+                                }
+                             }
+                        }
+                    }
+                 }
+     
+                 &__statstics-col{
+                  
+
+                    &__balance{
+                        height: 200px;
+                        width: 450px;
+                        background-color: #595959;
+                        border-radius: 10px;
+                        padding: 10px;
+                        left: 40px;
+
+                        &__row{
+                            margin-left: 20px;
+                            margin-top: 10px;
+                            height: 40px;
+                            width: 400px;
+                            color: #FFFFFF;
+                            font-size: 20px;
+                           
+                            &--big-size{
+                              
+                                font-size: 25px;
+                                color: #FFFFFF;
+                               
+                            }
+                        }
+                    }
+                 }
+          
+        }
+    }
+}
