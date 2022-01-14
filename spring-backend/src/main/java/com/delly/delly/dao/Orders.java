@@ -38,6 +38,9 @@ public class Orders {
     @NotNull
     private String status;
 
+    @Nullable
+    private Float reward;
+
     @JsonIgnore
     @OneToMany(mappedBy = "orders")
     private List<Pack> packs;
@@ -135,6 +138,14 @@ public class Orders {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Float getReward() {
+        return reward;
+    }
+
+    public void setReward(Float reward) {
+        this.reward = reward;
     }
 
     public Deliver getDeliver() {

@@ -102,9 +102,9 @@ public class Controller {
         return orderService.getOrderWithAddress(ID);
     }
 
-    @PostMapping("/order/{ID}/delivered/{distance}")
-    public void updateOrderStatus(@PathVariable int ID, @PathVariable Integer distance){
-         orderService.updateOrderStatus(ID, distance);
+    @PostMapping("/order/{ID}/delivered/{distance}/reward/{reward}")
+    public void updateOrderStatus(@PathVariable int ID, @PathVariable Integer distance, @PathVariable Float reward){
+        orderService.updateOrderStatus(ID, distance, reward);
     }
 
     @PostMapping("/orders/deliver/{ID}/delivered")

@@ -41,8 +41,14 @@ function NewOrder(props){
      
     }, []);
 
+    const calculateReward = (distance) => {
+      return Math.floor((distance / 1000) * 200) / 100;
+    }
+
      const sendData = () => {
-        deliverOrder(order.orders.id, distance);
+       console.log(typeof(calculateReward(distance)))
+       console.log(calculateReward(distance))
+        deliverOrder(order.orders.id, distance, calculateReward(distance));
         props.close();
      }
 

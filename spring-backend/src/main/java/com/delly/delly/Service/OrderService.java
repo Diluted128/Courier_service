@@ -74,14 +74,16 @@ public class OrderService {
         return orderRepository.getOrdersByClientID(ID);
     }
 
-    public void updateOrderStatus(Integer orderID, int distance){
+    public void updateOrderStatus(Integer orderID, int distance, float reward){
+
         Orders orders = orderRepository.getOrdersByID(orderID);
+        orders.setReward(reward);
         orders.setStatus("DELIVERED");
         orderRepository.save(orders);
 
         Deliver deliver = orders.getDeliver();
         deliver.setDistance(deliver.getDistance() + distance);
-        deliver.setCash(deliver.getCash() + (distance / 1000) * 4);
+        deliver.setCash(deliver.getCash() + reward + orders.getTip());
         deliverRepository.save(deliver);
     }
 

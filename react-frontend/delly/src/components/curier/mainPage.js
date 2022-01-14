@@ -26,7 +26,7 @@ function MainPage() {
 
     const [deliverOrder] = await Promise.all([getOrderForDeliver()]);
 
-    // console.log(deliverOrder);
+    console.log(deliveredOrder);
     if(deliverOrder.data.length !== 0){
        setNewOrder(true);
     }
@@ -87,9 +87,6 @@ function MainPage() {
               
                <div className="row client-side__fluid-container__panel__statstics-col__balance__row client-side__fluid-container__panel__statstics-col__balance__row--big-size">
                     Saldo: <span style={{"color": "#99F18B"}}>&nbsp;&nbsp;{deliverInfo.data.cash}</span>&nbsp; zł
-               </div>
-               <div className="row client-side__fluid-container__panel__statstics-col__balance__row">
-                    Ilość dostarczonych paczek: <span style={{"color": "#F7FA73"}}>&nbsp;&nbsp;24</span>
                </div>
                 <div className="row client-side__fluid-container__panel__statstics-col__balance__row">
                     Ilość przebytej trasy: <span style={{"color": "#F7FA73"}}>&nbsp;&nbsp;{deliverInfo.data.distance}</span>&nbsp; km

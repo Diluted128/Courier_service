@@ -37,6 +37,4 @@ public class DeliverService {
     public Deliver getDeliverByID(int ID){
         return deliverRepository.getDeliverByID(ID);
     }
-
-
 }

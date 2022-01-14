@@ -22,7 +22,7 @@ public class Deliver {
     private String PESEL;
 
     @NotNull
-    private Integer cash;
+    private Float cash;
 
     @NotNull
     private Integer distance;
@@ -78,11 +78,11 @@ public class Deliver {
         this.PESEL = PESEL;
     }
 
-    public Integer getCash() {
+    public Float getCash() {
         return cash;
     }
 
-    public void setCash(Integer cash) {
+    public void setCash(Float cash) {
         this.cash = cash;
     }
 
