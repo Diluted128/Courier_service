@@ -6,7 +6,6 @@ import Map from "../map/map"
 
 function NewOrder(props){
 
-    const [order, setOrder] = useState();
     const [distance, setDistance] = useState(0);
 
     const backdrop = {
@@ -31,25 +30,18 @@ function NewOrder(props){
       }
     }
 
-   
-    useEffect(async () => {
-      const [deliverOrder] = await Promise.all([getOrderForDeliver()]);
-  
-      if(deliverOrder.data !== null){
-        setOrder(deliverOrder.data)
-     }
-     
-    }, []);
-
     const calculateReward = (distance) => {
       return Math.floor((distance / 1000) * 200) / 100;
     }
 
-     const sendData = () => {
+     const sendData =  async () => {
        console.log(typeof(calculateReward(distance)))
        console.log(calculateReward(distance))
-        deliverOrder(order.orders.id, distance, calculateReward(distance));
-        props.close();
+       const [response] = await Promise.all([deliverOrder(props.id, distance, calculateReward(distance), localStorage.getItem("ID"))]);
+       console.log(response);
+       if(response.data.response === "false")
+       props.openBanner();
+       props.close();
      }
 
     return(
@@ -68,18 +60,18 @@ function NewOrder(props){
                 <div className="row new-order-block__address-data-container__row">
                 <div className="col new-order-block__address-data-container__row__col">
                 <div className="ew-order-block__address-data-container__row__col__text">
-                    Ulica:&nbsp; <span style={{"color": "#8EF899"}}>{order.packAddress.street}</span>
+                    Ulica:&nbsp; <span style={{"color": "#8EF899"}}>{props.packAddress.street}</span>
                 </div>
             </div>
             <div className="col new-order-block__address-data-container__row__col">
             <div className="new-order-block__address-data-container__row__col__text">
-                    Miasto:&nbsp; <span style={{"color": "#8EF899"}}>{order.packAddress.town}</span>
+                    Miasto:&nbsp; <span style={{"color": "#8EF899"}}>{props.packAddress.town}</span>
                 </div>
             </div>
             </div>
             <div className="row new-order-block__address-data-container__row">
             <div className="col new-order-block__address-data-container__row__col">
-            Kod-pocztowy:&nbsp; <span style={{"color": "#8EF899"}}>{order.packAddress.postalCode}</span>
+            Kod-pocztowy:&nbsp; <span style={{"color": "#8EF899"}}>{props.packAddress.postalCode}</span>
             </div>
             <div className="col new-order-block__address-data-container__row__col">
             <div className="new-order-block__address-data-container__row__col__text">
@@ -90,12 +82,12 @@ function NewOrder(props){
             <div className="row new-order-block__address-data-container__row">
             <div className="col new-order-block__address-data-container__row__col">
             <div className="new-order-block__address-data-container__row__col__text">
-                    Numer Domu:&nbsp; <span style={{"color": "#8EF899"}}>{order.packAddress.flatNumber}</span>
+                    Numer Domu:&nbsp; <span style={{"color": "#8EF899"}}>{props.packAddress.flatNumber}</span>
                 </div>
             </div>
             <div className="col new-order-block__address-data-container__row__col">
             <div className="new-order-block__address-data-container__row__col__text">
-                    Numer lokalu:&nbsp; <span style={{"color": "#8EF899"}}>{order.packAddress.localNumber}</span>
+                    Numer lokalu:&nbsp; <span style={{"color": "#8EF899"}}>{props.packAddress.localNumber}</span>
                 </div>
             </div>
             </div>
@@ -105,18 +97,18 @@ function NewOrder(props){
                 <div className="row new-order-block__address-data-container__row">
                 <div className="col new-order-block__address-data-container__row__col">
                 <div className="ew-order-block__address-data-container__row__col__text">
-                    Ulica:&nbsp; <span style={{"color": "#F7FA73"}}>{order.clientAddress.street}</span>
+                    Ulica:&nbsp; <span style={{"color": "#F7FA73"}}>{props.clientAddress.street}</span>
                 </div>
             </div>
             <div className="col new-order-block__address-data-container__row__col">
             <div className="new-order-block__address-data-container__row__col__text">
-                    Miasto:&nbsp; <span style={{"color": "#F7FA73"}}>{order.clientAddress.town}</span>
+                    Miasto:&nbsp; <span style={{"color": "#F7FA73"}}>{props.clientAddress.town}</span>
                 </div>
             </div>
             </div>
             <div className="row new-order-block__address-data-container__row">
             <div className="col new-order-block__address-data-container__row__col">
-            Kod-pocztowy:&nbsp; <span style={{"color": "#F7FA73"}}>{order.clientAddress.postalCode}</span>
+            Kod-pocztowy:&nbsp; <span style={{"color": "#F7FA73"}}>{props.clientAddress.postalCode}</span>
             </div>
             <div className="col new-order-block__address-data-container__row__col">
             <div className="new-order-block__address-data-container__row__col__text">
@@ -127,22 +119,22 @@ function NewOrder(props){
             <div className="row new-order-block__address-data-container__row">
             <div className="col new-order-block__address-data-container__row__col">
             <div className="new-order-block__address-data-container__row__col__text">
-                    Numer Domu:&nbsp; <span style={{"color": "#F7FA73"}}>{order.clientAddress.flatNumber}</span>
+                    Numer Domu:&nbsp; <span style={{"color": "#F7FA73"}}>{props.clientAddress.flatNumber}</span>
                 </div>
             </div>
             <div className="col new-order-block__address-data-container__row__col">
             <div className="new-order-block__address-data-container__row__col__text">
-                    Numer lokalu:&nbsp; <span style={{"color": "#F7FA73"}}>{order.clientAddress.localNumber}</span>
+                    Numer lokalu:&nbsp; <span style={{"color": "#F7FA73"}}>{props.clientAddress.localNumber}</span>
                 </div>
             </div>
             </div>
             </div>
                 <div className="new-order-block__map">
-                <Map setDistance={(distance) => setDistance(distance)} curier={order.courierLocation}
-                     pack = {order.packAddress.street + " " + order.packAddress.flatNumber + "/" + order.packAddress.localNumber 
-                     + " " + order.packAddress.town + " " + order.packAddress.postalCode}
-                     client = {order.clientAddress.street + " " + order.clientAddress.flatNumber + "/" 
-                     + order.clientAddress.localNumber + " " + order.clientAddress.town + " " + order.clientAddress.postalCode}/>
+                <Map setDistance={(distance) => setDistance(distance)} curier={props.courierLocation}
+                     pack = {props.packAddress.street + " " + props.packAddress.flatNumber + "/" + props.packAddress.localNumber 
+                     + " " + props.packAddress.town + " " + props.packAddress.postalCode}
+                     client = {props.clientAddress.street + " " + props.clientAddress.flatNumber + "/" 
+                     + props.clientAddress.localNumber + " " + props.clientAddress.town + " " + props.clientAddress.postalCode}/>
                 </div>
               
             <button

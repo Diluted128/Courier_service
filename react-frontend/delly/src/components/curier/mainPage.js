@@ -4,37 +4,39 @@ import { useNavigate } from "react-router-dom";
 import background1 from "../../images/mainPage/background.svg";
 import Lock from "../../images/homePage/lock.png";
 import { useEffect, useState } from "react";
-import {getOrderForDeliver, getDeliveredOrdersByDeliver, getDeliverInfo} from "../../server/fetch-data.js"
+import {getOrderForDeliver, getDeliveredOrdersByDeliver, getDeliverInfo, deliverOrder} from "../../server/fetch-data.js"
 import Order from "./newOrder"
 import NewOrderRow from "./newOrderRow"
+import WarningBanner from "../../images/curierWarning.png"
 
 function MainPage() {
 
-  const [openNewOrder, setNewOrder] = useState(false);
   const [dane, setDane] = useState(null);
   const [deliverInfo, setDeliverInfo] = useState(null);
-
+  const [orders, setOrders] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [openBanner, setOpenBanner] = useState(false);
 
   useEffect(async () => {
 
     const [deliverInfo] = await Promise.all([getDeliverInfo()]);
     setDeliverInfo(deliverInfo);
-    console.log(deliverInfo)
 
     const [deliveredOrder] = await Promise.all([getDeliveredOrdersByDeliver()]);
     setDane(deliveredOrder);
 
     const [deliverOrder] = await Promise.all([getOrderForDeliver()]);
+    console.log(deliverOrder)
 
-    console.log(deliveredOrder);
-    if(deliverOrder.data.length !== 0){
-       setNewOrder(true);
+    if(deliverOrder.data.length === 0){
+       setOrders(null);
+       setOpen(false);
     }
     else{
-       setNewOrder(false);
+    setOrders(deliverOrder);
+    setOpen(true);
     }
 
- 
   }, []);
 
   const navigate = useNavigate();
@@ -96,8 +98,15 @@ function MainPage() {
         </div>
         </div>
         </div>
-        <Order open={openNewOrder} close={() => setNewOrder(false)}/>
-           
+        {openBanner ? 
+        <img src={WarningBanner} className="client-side__banner"/>
+         : null}
+        {orders !== null ? orders.data.map((element) => 
+          <Order clientAddress={element.clientAddress} packAddress={element.packAddress} courierLocation = {element.courierLocation} 
+          id={element.orders.id} open={open} close={() => setOpen(false)} openBanner={() => setOpenBanner(true)}/>
+        ) : console.log("Nie OK")}
+            
+      
     </div>
   );
 }
