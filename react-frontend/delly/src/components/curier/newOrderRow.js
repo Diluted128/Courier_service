@@ -18,7 +18,7 @@ function NewOrderRow(props){
         </div>
         <div className="col client-side__fluid-container__panel__orders-col__orders__order-block__row__col">
             <div className="client-side__fluid-container__panel__orders-col__orders__order-block__row__col__text">
-                   Napiwek<span style={{"color": "#F7FA73"}}>+<span style={{"color": "#99F18B"}}>{props.deliveredOrders.tip}</span></span>
+                   Napiwek<span style={{"color": "#F7FA73"}}>&nbsp;+<span style={{"color": "#99F18B"}}>{props.deliveredOrders.tip}</span></span>
                 </div>
             </div>
         </div>
@@ -27,7 +27,8 @@ function NewOrderRow(props){
         </div>
         <div className="col client-side__fluid-container__panel__orders-col__orders__order-block__row__col">
         <div className="client-side__fluid-container__panel__orders-col__orders__order-block__row__col__text">
-            </div>
+              Zarobek <span style={{"color": "#F7FA73"}}>&nbsp;+<span style={{"color": "#99F18B"}}>{props.deliveredOrders.reward}</span></span>
+        </div>
         </div>
         </div>
         <div className="row client-side__fluid-container__panel__orders-col__orders__order-block__row">
@@ -38,7 +39,7 @@ function NewOrderRow(props){
         </div>
         <div className="col client-side__fluid-container__panel__orders-col__orders__order-block__row__col">
         <div className="client-side__fluid-container__panel__orders-col__orders__order-block__row__col__text">
-             
+                Suma: <span style={{"color": "#F7FA73"}}>&nbsp;+<span style={{"color": "#99F18B"}}>{props.deliveredOrders.tip + props.deliveredOrders.reward}</span></span>
             </div>
         </div>
         </div>

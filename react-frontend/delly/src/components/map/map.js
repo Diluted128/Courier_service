@@ -248,7 +248,7 @@ class map extends React.Component {
 
     this.zoomMapOnMarkers(curierGeocode, parcelGeocode, clientGeocode)
 
-    this.setState({distance: routeOb1[0].travelSummary.length + routeOb2[0].travelSummary.length + " m"});
+    this.setState({distance: routeOb1[0].travelSummary.length + routeOb2[0].travelSummary.length});
     this.setDistance(this.state.distance);
     this.setState({duration: Math.floor((routeOb1[0].travelSummary.duration + routeOb2[0].travelSummary.duration) / 60)});
   }

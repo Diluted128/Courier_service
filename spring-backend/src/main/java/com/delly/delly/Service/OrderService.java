@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -34,58 +33,64 @@ public class OrderService {
         this.departmentRepository = departmentRepository;
     }
 
-    public void saveOrder(int ClientID, int CompanyID, Orders orders){
+    public void saveOrder(int ClientID, int CompanyID, Orders orders) {
         float totalPrice = orders.getItems().stream().map(Item::getPrice).reduce(0f, Float::sum);
         Date date = new Date();
-        DateFormat dateFormat =  new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         System.out.println(dateFormat.format(date) + " " + totalPrice);
-        List<Deliver> delivers = deliverRepository.getDeliverByDistrictID(clientRepository.getDistrictIDByClientID(ClientID));
 
-        System.out.println(delivers.get(0));
         orders.setCompany(companyRepository.getCompanyByCompanyID(CompanyID));
         orders.setDate(dateFormat.format(date));
         orders.setStatus("IN_PROGRESS");
         orders.setClient(clientRepository.getClientsByID(ClientID));
-        orders.setDeliver(delivers.get(0));
 
         orderRepository.save(orders);
     }
 
-    public OrderWithAddress getOrderWithAddress(int deliverID){
-        Orders orders = orderRepository.getOrderByDeliverIDAndStatus(deliverID);
+    public List<OrderWithAddress> getOrderWithAddress(int deliverID) {
+        List<Orders> orders = orderRepository.getOrderByDeliverIDAndStatus(deliverID);
 
-        if(orders != null) {
-            Address addressClient = addressRepository.getAddressByClientID(orders.getClient().getID());
-            Address addressParcel = addressRepository.getAddressByCompanyIDAnAndDistrictID(orders.getCompany().ID(), addressClient.getDistrict().getID());
-            String courierLocation = deliverRepository.getDeliverByID(deliverID).getLocation();
-
-            System.out.println(addressClient.getID() + " " + addressClient.getStreet() + " " + addressClient.getPostalCode());
-            System.out.println(addressParcel.getID() + " " + addressParcel.getStreet() + " " + addressParcel.getPostalCode());
-
-            OrderWithAddress orderWithAddress = new OrderWithAddress(orders, addressClient, addressParcel, courierLocation);
-            return orderWithAddress;
-        }
-        else{
-            return null;
-        }
+        List<OrderWithAddress> ordersWithAddress = new LinkedList<>();
+        if (orders.size() != 0) {
+            for (Orders order : orders) {
+                Address addressClient = addressRepository.getAddressByClientID(order.getClient().getID());
+                Address addressParcel = addressRepository.getAddressByCompanyIDAnAndDistrictID(order.getCompany().ID(), addressClient.getDistrict().getID());
+                String courierLocation = deliverRepository.getDeliverByID(deliverID).getLocation();
+                ordersWithAddress.add(new OrderWithAddress(order, addressClient, addressParcel, courierLocation));
+            }
+            return ordersWithAddress;
+        } else return null;
     }
 
-    public List<Orders> getOrdersByClientID(int ID){
+    public List<Orders> getOrdersByClientID(int ID) {
         return orderRepository.getOrdersByClientID(ID);
     }
 
-    public void updateOrderStatus(Integer orderID, int distance){
-        Orders orders = orderRepository.getOrdersByID(orderID);
-        orders.setStatus("DELIVERED");
-        orderRepository.save(orders);
+    public Map<String, String> updateOrderStatus(Integer orderID, int distance, float reward, int deliverID) {
 
-        Deliver deliver = orders.getDeliver();
-        deliver.setDistance(deliver.getDistance() + distance);
-        deliver.setCash(deliver.getCash() + (distance / 1000) * 4);
-        deliverRepository.save(deliver);
+        Orders orders = orderRepository.getOrdersByID(orderID);
+        Map<String, String> map =  new LinkedHashMap<>();
+        System.out.println(orders.getID());
+        if(orders.getStatus().equals("IN_PROGRESS")) {
+            orders.setReward(reward);
+            orders.setStatus("DELIVERED");
+            orders.setDeliver(deliverRepository.getDeliverByID(deliverID));
+            orderRepository.save(orders);
+
+            Deliver deliver = orders.getDeliver();
+            deliver.setDistance(deliver.getDistance() + distance);
+            deliver.setCash(deliver.getCash() + reward + orders.getTip());
+            deliverRepository.save(deliver);
+            map.put("response", "true");
+        }
+        else{
+            map.put("response", "false");
+        }
+        return map;
     }
 
-    public List<Orders> getOrderByDeliverIDAndStatusDelivered(Integer deliverID){
+    public List<Orders> getOrderByDeliverIDAndStatusDelivered(Integer deliverID) {
         return orderRepository.getOrderByDeliverIDAndStatusDelivered(deliverID);
     }
 }
+

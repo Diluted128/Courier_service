@@ -14,8 +14,9 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
     @Query(value = "SELECT * FROM ORDERS WHERE CLIENT_ID = ?1", nativeQuery = true)
     List<Orders> getOrdersByClientID(int ID);
 
-    @Query(value = "SELECT * FROM ORDERS WHERE DELIVER_ID = ?1 AND STATUS = 'IN_PROGRESS'", nativeQuery = true)
-    Orders getOrderByDeliverIDAndStatus(Integer ID);
+    @Query(value = "SELECT * FROM ORDERS WHERE STATUS = 'IN_PROGRESS'  AND (SELECT DISTRICT_ID FROM ADDRESS WHERE ADDRESS.ID = " +
+            "(SELECT ADDRESS_ID FROM CLIENT WHERE ID = CLIENT_ID)) = (SELECT DISTRICT_ID FROM DELIVER WHERE ID = ?1) AND DELIVER_ID IS NULL", nativeQuery = true)
+    List<Orders> getOrderByDeliverIDAndStatus(Integer ID);
 
     @Query(value = "UPDATE ORDERS SET STATUS = 'DELIVERED' WHERE ID = ?1 RETURNING ID", nativeQuery = true)
     Integer updateOrderStatus(Integer ID);

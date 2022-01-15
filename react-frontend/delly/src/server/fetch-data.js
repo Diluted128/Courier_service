@@ -145,10 +145,11 @@ export const sendPaymentData = (cardNumber, CVV, expireDate) => {
      }))
  }
 
- export const deliverOrder = (orderID, distance) => {
+ export const deliverOrder = (orderID, distance, reward, deliverID) => {
+   console.log(orderID)
   return new Promise((res, rej) => 
     axios
-   .post("http://localhost:8081/order/" + orderID + "/delivered/" + parseInt(distance))
+   .post("http://localhost:8081/order/" + orderID + "/distance/" + parseInt(distance) + "/reward/" + reward + "/deliver/" + deliverID)
    .catch(function(error){
      console.log(error);
    })

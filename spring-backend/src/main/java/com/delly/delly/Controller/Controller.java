@@ -98,13 +98,13 @@ public class Controller {
     }
 
     @GetMapping("/order/deliver/{ID}")
-    public OrderWithAddress getOrdersByDeliverID(@PathVariable int ID) {
+    public List<OrderWithAddress> getOrdersByDeliverID(@PathVariable int ID) {
         return orderService.getOrderWithAddress(ID);
     }
 
-    @PostMapping("/order/{ID}/delivered/{distance}")
-    public void updateOrderStatus(@PathVariable int ID, @PathVariable Integer distance){
-         orderService.updateOrderStatus(ID, distance);
+    @PostMapping("/order/{ID}/distance/{distance}/reward/{reward}/deliver/{deliverID}")
+    public  Map<String, String>  updateOrderStatus(@PathVariable int ID, @PathVariable int distance, @PathVariable Float reward, @PathVariable int deliverID){
+        return orderService.updateOrderStatus(ID, distance, reward, deliverID);
     }
 
     @PostMapping("/orders/deliver/{ID}/delivered")
