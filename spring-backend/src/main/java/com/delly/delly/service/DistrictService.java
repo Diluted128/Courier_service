@@ -1,4 +1,4 @@
-package com.delly.delly.Service;
+package com.delly.delly.service;
 
 import com.delly.delly.dao.District;
 import com.delly.delly.repositories.DistrictRepository;

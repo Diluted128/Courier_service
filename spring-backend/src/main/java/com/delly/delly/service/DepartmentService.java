@@ -1,4 +1,4 @@
-package com.delly.delly.Service;
+package com.delly.delly.service;
 
 import org.springframework.stereotype.Service;
 

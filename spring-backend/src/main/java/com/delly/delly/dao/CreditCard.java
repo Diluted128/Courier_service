@@ -8,7 +8,7 @@ import java.util.Date;
 public class CreditCard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer ID;
 
     @NotNull

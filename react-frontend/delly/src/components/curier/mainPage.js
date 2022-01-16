@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import background1 from "../../images/mainPage/background.svg";
 import Lock from "../../images/homePage/lock.png";
 import { useEffect, useState } from "react";
-import {getOrderForDeliver, getDeliveredOrdersByDeliver, getDeliverInfo, deliverOrder} from "../../server/fetch-data.js"
+import {getOrderForDeliver, getDeliveredOrdersByDeliver, getDeliverInfo, withdrawDeliverMoney} from "../../server/fetch-data.js"
 import Order from "./newOrder"
 import NewOrderRow from "./newOrderRow"
 import WarningBanner from "../../images/curierWarning.png"
@@ -41,6 +41,10 @@ function MainPage() {
 
   const navigate = useNavigate();
  
+  const withdrawal = () => {
+    withdrawDeliverMoney();
+    window.location.reload();
+  }
   const close = () => {
      localStorage.clear();
      navigate("/")
@@ -88,8 +92,9 @@ function MainPage() {
             <div className="row client-side__fluid-container__panel__statstics-col__balance">
               
                <div className="row client-side__fluid-container__panel__statstics-col__balance__row client-side__fluid-container__panel__statstics-col__balance__row--big-size">
-                    Saldo: <span style={{"color": "#99F18B"}}>&nbsp;&nbsp;{deliverInfo.data.cash}</span>&nbsp; zł
+                    Saldo: <span style={{"color": "#99F18B"}}>&nbsp;&nbsp;{Math.floor(deliverInfo.data.cash * 100) / 100}</span>&nbsp; zł
                </div>
+               <div onClick={() => withdrawal()} className="btn client-side__fluid-container__panel__statstics-col__balance__withdraw-button">wypłać</div>
                 <div className="row client-side__fluid-container__panel__statstics-col__balance__row">
                     Ilość przebytej trasy: <span style={{"color": "#F7FA73"}}>&nbsp;&nbsp;{deliverInfo.data.distance}</span>&nbsp; km
                </div>

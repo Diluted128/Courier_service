@@ -1,7 +1,7 @@
-package com.delly.delly.Controller;
+package com.delly.delly.controller;
 
-import com.delly.delly.Service.*;
-import com.delly.delly.Service.mapping.OrderWithAddress;
+import com.delly.delly.service.*;
+import com.delly.delly.service.mapping.OrderWithAddress;
 import com.delly.delly.dao.*;
 import com.delly.delly.repositories.mapping.ItemWithCompany;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ public class Controller {
     DistrictService districtService;
     OrderService orderService;
     DeliverService deliverService;
+
 
     @Autowired
     public Controller(ItemService itemService, ClientService clientService, CreditCardService creditCardService,
@@ -115,5 +116,15 @@ public class Controller {
     @GetMapping("/deliver/{ID}")
     public Deliver getOrderByDeliverID(@PathVariable int ID){
         return deliverService.getDeliverByID(ID);
+    }
+
+    @PostMapping("client/{ID}/parcel/district/{districtID}/price/{price}")
+    public void saveParcel(@PathVariable Integer ID, @PathVariable Integer districtID, @RequestBody Address address, @PathVariable Float price){
+       orderService.saveParcelOrder(address, districtID, ID, price);
+    }
+
+    @PostMapping("/deliver/{ID}/withdrawal")
+    public void withdrawDeliverMoney(@PathVariable Integer ID){
+       deliverService.withdrawDeliverMoney(ID);
     }
 }
