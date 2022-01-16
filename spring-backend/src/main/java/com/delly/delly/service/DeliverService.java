@@ -1,4 +1,4 @@
-package com.delly.delly.Service;
+package com.delly.delly.service;
 
 import com.delly.delly.dao.Deliver;
 import com.delly.delly.repositories.DeliverRepository;
@@ -36,5 +36,11 @@ public class DeliverService {
 
     public Deliver getDeliverByID(int ID){
         return deliverRepository.getDeliverByID(ID);
+    }
+
+    public void withdrawDeliverMoney(int ID){
+        Deliver deliver = deliverRepository.getDeliverByID(ID);
+        deliver.setCash(0f);
+        deliverRepository.save(deliver);
     }
 }

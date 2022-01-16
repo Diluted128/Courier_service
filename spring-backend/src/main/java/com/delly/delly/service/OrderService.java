@@ -1,6 +1,6 @@
-package com.delly.delly.Service;
+package com.delly.delly.service;
 
-import com.delly.delly.Service.mapping.OrderWithAddress;
+import com.delly.delly.service.mapping.OrderWithAddress;
 import com.delly.delly.dao.*;
 import com.delly.delly.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,13 @@ public class OrderService {
     DeliverRepository deliverRepository;
     AddressRepository addressRepository;
     DepartmentRepository departmentRepository;
+    DistrictRepository districtRepository;
 
     @Autowired
     public OrderService(ClientRepository clientRepository, CompanyRepository companyRepository,
                         OrderRepository orderRepository, DeliverRepository deliverRepository,
-                        AddressRepository addressRepository, DepartmentRepository departmentRepository) {
+                        AddressRepository addressRepository, DepartmentRepository departmentRepository,
+                        DistrictRepository districtRepository) {
 
         this.clientRepository = clientRepository;
         this.companyRepository = companyRepository;
@@ -31,6 +33,7 @@ public class OrderService {
         this.deliverRepository = deliverRepository;
         this.addressRepository = addressRepository;
         this.departmentRepository = departmentRepository;
+        this.districtRepository = districtRepository;
     }
 
     public void saveOrder(int ClientID, int CompanyID, Orders orders) {
@@ -49,15 +52,24 @@ public class OrderService {
 
     public List<OrderWithAddress> getOrderWithAddress(int deliverID) {
         List<Orders> orders = orderRepository.getOrderByDeliverIDAndStatus(deliverID);
-
+        List<Orders> parcelOrders = orderRepository.getParcelOrdersByDeliverDistrictAndOrderStatus(deliverID);
         List<OrderWithAddress> ordersWithAddress = new LinkedList<>();
-        if (orders.size() != 0) {
+        System.out.println(orders.size());
+        System.out.println(parcelOrders.size());
+        if (orders.size() != 0 || parcelOrders.size() != 0) {
             for (Orders order : orders) {
                 Address addressClient = addressRepository.getAddressByClientID(order.getClient().getID());
                 Address addressParcel = addressRepository.getAddressByCompanyIDAnAndDistrictID(order.getCompany().ID(), addressClient.getDistrict().getID());
                 String courierLocation = deliverRepository.getDeliverByID(deliverID).getLocation();
                 ordersWithAddress.add(new OrderWithAddress(order, addressClient, addressParcel, courierLocation));
             }
+            for(Orders order: parcelOrders){
+                Address addressClient = order.getAddress();
+                Address addressParcel = addressRepository.getAddressByClientID(order.getClient().getID());
+                String courierLocation = deliverRepository.getDeliverByID(deliverID).getLocation();
+                ordersWithAddress.add(new OrderWithAddress(order, addressClient, addressParcel, courierLocation));
+            }
+
             return ordersWithAddress;
         } else return null;
     }
@@ -69,6 +81,7 @@ public class OrderService {
     public Map<String, String> updateOrderStatus(Integer orderID, int distance, float reward, int deliverID) {
 
         Orders orders = orderRepository.getOrdersByID(orderID);
+
         Map<String, String> map =  new LinkedHashMap<>();
         System.out.println(orders.getID());
         if(orders.getStatus().equals("IN_PROGRESS")) {
@@ -91,6 +104,28 @@ public class OrderService {
 
     public List<Orders> getOrderByDeliverIDAndStatusDelivered(Integer deliverID) {
         return orderRepository.getOrderByDeliverIDAndStatusDelivered(deliverID);
+    }
+
+    public void saveParcelOrder(Address address, Integer districtID, Integer clientID, float price){
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        System.out.println(addressRepository.getMaxID());
+        address.setID(addressRepository.getMaxID() + 1);
+        address.setDistrict(districtRepository.getDistrictByID(districtID));
+        addressRepository.saveAddress(address.getID(), address.getFlatNumber(),
+                address.getLocalNumber(), address.getLocation(), address.getPostalCode(), address.getStreet(), address.getTown(), address.getDistrict().getID());
+
+        Orders orders = new Orders(
+                price,
+                dateFormat.format(date),
+                "IN_PROGRESS",
+                clientRepository.getClientsByID(clientID),
+                null,
+                null,
+                 address);
+
+        orderRepository.save(orders);
     }
 }
 

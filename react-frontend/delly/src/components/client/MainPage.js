@@ -6,7 +6,7 @@ import Lock from "../../images/homePage/lock.png";
 import FastFood from "../../images/mainPage/fast-food.png";
 import Food from "../../images/mainPage/food.png";
 import Medicine from "../../images/mainPage/medicines.png";
-import Percel from "../../images/mainPage/percel.png";
+import PercelPNG from "../../images/mainPage/percel.png";
 import { useEffect, useState } from "react";
 import RestaurantChoice from "./restaurant/RestaurantChoice.js";
 import ShoppingCart from "./shopping-cart/ShoppingCart.js";
@@ -14,20 +14,21 @@ import MarketChoice from "./market/MarketChoice.js";
 import PharmacyChoice from "./pharmacy/PharmacyChoice.js";
 import ShoppingCartSVG from "../../images/svg/shopping-cart.svg";
 import { useSelector } from "react-redux";
-import WarningBanner from "./WarningBanner"
-import PersonalData from "./MyData"
+import WarningBanner from "./WarningBanner";
+import PersonalData from "./MyData";
 import LocalizationData from "./Localization";
 import OrdersData from "./Orders";
-import {fetchItems} from "../../server/fetch-data";
-import * as actionCreators from "../../redux/Shopping/shopping-actions"
+import { fetchItems } from "../../server/fetch-data";
+import Percel from "./Percel.js";
+import * as actionCreators from "../../redux/Shopping/shopping-actions";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
 
 function MainPage() {
-
   const [market, setMarket] = useState(false);
   const [pharmacy, setPharmacy] = useState(false);
   const [restaurant, setRestaurant] = useState(false);
+  const [percel, setPercel] = useState(false);
   const [counter, setCounter] = useState(0);
   const [openShoppingCart, setShoppingCart] = useState(false);
   const [openWarningBanner, setWarningBanner] = useState(false);
@@ -39,7 +40,7 @@ function MainPage() {
 
   const dispatch = useDispatch();
 
-  const {setItems} = bindActionCreators(actionCreators, dispatch);
+  const { setItems } = bindActionCreators(actionCreators, dispatch);
 
   useEffect(() => {
     let count = 0;
@@ -50,26 +51,24 @@ function MainPage() {
   }, [state.shop.cart]);
 
   useEffect(() => {
-
-      if(state.shop.banner === 1){
+    if (state.shop.banner === 1) {
       setWarningBanner(true);
-      setTimeout(() => setWarningBanner(false), 8000)
-      }
-
-  }, [state.shop.banner])
+      setTimeout(() => setWarningBanner(false), 8000);
+    }
+  }, [state.shop.banner]);
 
   useEffect(async () => {
     const [itemsResponse] = await Promise.all([fetchItems()]);
 
     setItems(itemsResponse.data);
-  },[])
+  }, []);
 
   const navigate = useNavigate();
- 
+
   const close = () => {
-     localStorage.clear();
-     navigate("/")
-  }
+    localStorage.clear();
+    navigate("/");
+  };
 
   return (
     <div className="client-side">
@@ -172,10 +171,13 @@ function MainPage() {
                 </span>
               </span>
             </div>
-            <div className="client-side__fluid-container__circles-container__second-row__item">
+            <div
+              onClick={() => setPercel(true)}
+              className="client-side__fluid-container__circles-container__second-row__item"
+            >
               <span className="client-side__fluid-container__circles-container__second-row__item__circle client-side__fluid-container__circles-container__second-row__item__circle--purple">
                 <img
-                  src={Percel}
+                  src={PercelPNG}
                   className="client-side__fluid-container__circles-container__second-row__item__circle__img"
                 />
                 <span className="client-side__fluid-container__circles-container__second-row__item__circle__text">
@@ -197,9 +199,18 @@ function MainPage() {
                 </span>
               </span>
             </div>
-            <PersonalData openPersonalData={openPersonalData} close={() => setOpenPersonalData(false)}/>
-            <LocalizationData openLocalizationData={openLocalizationData} close={() => setOpenLocalizationData(false)}/>
-            <OrdersData openOrdersData={openOrdersData} close={() => setOpenOrdersnData(false)}/>
+            <PersonalData
+              openPersonalData={openPersonalData}
+              close={() => setOpenPersonalData(false)}
+            />
+            <LocalizationData
+              openLocalizationData={openLocalizationData}
+              close={() => setOpenLocalizationData(false)}
+            />
+            <OrdersData
+              openOrdersData={openOrdersData}
+              close={() => setOpenOrdersnData(false)}
+            />
             <MarketChoice openMarket={market} close={() => setMarket(false)} />
             <PharmacyChoice
               openPharmacy={pharmacy}
@@ -213,10 +224,10 @@ function MainPage() {
               openShoppingCart={openShoppingCart}
               close={() => setShoppingCart(false)}
             />
-            
+            <Percel open={percel} close={() => setPercel(false)} />
           </div>
         </div>
-        <WarningBanner openWarningBanner={openWarningBanner}/>
+        <WarningBanner openWarningBanner={openWarningBanner} />
       </div>
     </div>
   );

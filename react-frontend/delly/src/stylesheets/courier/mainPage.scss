@@ -171,6 +171,21 @@ body{
                         padding: 10px;
                         left: 40px;
 
+                        &__withdraw-button{
+                            width: 120px;
+                            height: 35px;
+                            border-radius: 20px;
+                            background-color: #9EE17F;
+                            color: rgb(49, 49, 49);
+                            font-weight: 500;
+                            border-style: none;
+                            margin-left: 20px;
+
+                            &:hover{
+                                cursor: pointer;
+                            }
+                        }
+
                         &__row{
                             margin-left: 20px;
                             margin-top: 10px;

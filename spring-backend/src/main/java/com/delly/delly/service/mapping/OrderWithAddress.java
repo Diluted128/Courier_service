@@ -1,4 +1,4 @@
-package com.delly.delly.Service.mapping;
+package com.delly.delly.service.mapping;
 
 import com.delly.delly.dao.Address;
 import com.delly.delly.dao.Orders;

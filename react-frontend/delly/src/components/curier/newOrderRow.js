@@ -39,7 +39,7 @@ function NewOrderRow(props){
         </div>
         <div className="col client-side__fluid-container__panel__orders-col__orders__order-block__row__col">
         <div className="client-side__fluid-container__panel__orders-col__orders__order-block__row__col__text">
-                Suma: <span style={{"color": "#F7FA73"}}>&nbsp;+<span style={{"color": "#99F18B"}}>{props.deliveredOrders.tip + props.deliveredOrders.reward}</span></span>
+                Suma: <span style={{"color": "#F7FA73"}}>&nbsp;+<span style={{"color": "#99F18B"}}>{Math.floor((props.deliveredOrders.tip + props.deliveredOrders.reward) * 100) / 100}</span></span>
             </div>
         </div>
         </div>

@@ -41,6 +41,11 @@ public class Orders {
     @Nullable
     private Float reward;
 
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "addresee")
+    private Address address;
+
     @JsonIgnore
     @OneToMany(mappedBy = "orders")
     private List<Pack> packs;
@@ -59,13 +64,14 @@ public class Orders {
 
     public Orders(){}
 
-    public Orders(Float total_price, String date, String status, Client client, Company company, List<Item> items){
+    public Orders(Float total_price, String date, String status, Client client, Company company, List<Item> items, Address address){
         this.total_price = total_price;
         this.date = date;
         this.status = status;
         this.client = client;
         this.company = company;
         this.items = items;
+        this.address = address;
     }
 
     public Integer getID() {
@@ -154,5 +160,13 @@ public class Orders {
 
     public void setDeliver(Deliver deliver) {
         this.deliver = deliver;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

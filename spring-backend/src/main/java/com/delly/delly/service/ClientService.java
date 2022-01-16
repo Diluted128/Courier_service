@@ -1,4 +1,4 @@
-package com.delly.delly.Service;
+package com.delly.delly.service;
 
 import com.delly.delly.dao.Address;
 import com.delly.delly.dao.Client;
@@ -68,10 +68,18 @@ public class ClientService {
     }
 
     public void savePayment(int ID, CreditCard creditCard){
-        cardRepository.save(creditCard);
-        Client client = getClientByID(ID);
-        client.setCreditCard(creditCard);
-        clientRepository.save(client);
+        Client client =  clientRepository.getClientsByID(ID);
+        if(client.getCreditCard() == null){
+            cardRepository.save(creditCard);
+            client.setCreditCard(creditCard);
+            clientRepository.save(client);
+        }
+        else {
+            creditCard.setID(client.getCreditCard().getID());
+            client.setCreditCard(creditCard);
+            clientRepository.save(client);
+            cardRepository.save(creditCard);
+        }
     }
 
     public void saveLocation(int ID, int district, Address address){

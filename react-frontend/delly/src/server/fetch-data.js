@@ -182,5 +182,28 @@ export const getDeliverInfo = () => {
    }))
 }
 
+export const saveClientPercel = (street, city, postalcode, houseNumber, localNumber, price, district) => {
+  return new Promise((res, rej) => 
+    axios
+   .post("http://localhost:8081/client/" +  localStorage.getItem("ID") + "/parcel/district/" + district + "/price/" + price, {"street": street, "localNumber": localNumber, "postalCode": postalcode, "flatNumber": houseNumber, "town": city})
+   .catch(function(error){
+     console.log(error);
+   })
+   .then((result) => {
+     res(result);
+   }))
+}
+
+export const withdrawDeliverMoney = () => {
+  return new Promise((res, rej) => 
+    axios
+   .post("http://localhost:8081/deliver/" +  localStorage.getItem("ID") + "/withdrawal")
+   .catch(function(error){
+     console.log(error);
+   })
+   .then((result) => {
+     res(result);
+   }))
+}
 
 
