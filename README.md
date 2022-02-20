@@ -1,6 +1,7 @@
 
 ## <mark>TO DO LIST<mark>
 ### Backend
+  - [ ] Use own exceptions
   - [ ] Generate database by liquidbase
   - [ ] Implement Spring Security (JWT)
 - [ ] Implement all CRUD operations
