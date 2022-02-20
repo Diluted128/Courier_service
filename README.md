@@ -1,6 +1,7 @@
 
 ## <mark>TO DO LIST<mark>
 ### Backend
+  - [ ] Use lombok
   - [ ] Use own exceptions
   - [ ] Generate database by liquidbase
   - [ ] Implement Spring Security (JWT)
