@@ -1,14 +1,14 @@
 
 ## <mark>TO DO LIST<mark>
 ### Backend
-  - [ ] Use lombok
-  - [ ] Use own exceptions
+  - [x] Use lombok
+  - [x] Use own exceptions
   - [ ] Generate database by liquidbase
   - [ ] Implement Spring Security (JWT)
 - [ ] Implement all CRUD operations
-- [ ] Use JPA to generate queries by function name
-- [ ] Change API paths with good practises
-- [ ] Return ResponseEntity in every endpoint (with status code)
+- [x] Use JPA to generate queries by function name
+- [x] Change API paths with good practises
+- [x] Return ResponseEntity in every endpoint (with status code)
 - [ ] Store images in database 
 
 ### Fronted
