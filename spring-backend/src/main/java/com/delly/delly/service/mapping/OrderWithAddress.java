@@ -1,7 +1,7 @@
 package com.delly.delly.service.mapping;
 
-import com.delly.delly.dao.Address;
-import com.delly.delly.dao.Orders;
+import com.delly.delly.domains.address.Address;
+import com.delly.delly.domains.order.Orders;
 
 public class OrderWithAddress {
 
