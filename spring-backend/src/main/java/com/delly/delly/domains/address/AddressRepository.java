@@ -14,8 +14,6 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
     Integer getMaxID();
 
     // remove
-    @Query(value = "INSERT INTO ADDRESS VALUES(?1,?2,?3,?4,?5,?6,?7,?8) RETURNING ID", nativeQuery = true)
-    Integer saveAddress(int ID, String flatNumber, String localNumber, String location, String postalCode, String street, String town, int districtID);
 
     @Query(value = "SELECT * FROM ADDRESS WHERE ID = (SELECT ADDRESS_ID FROM CLIENT WHERE ID = ?1)", nativeQuery = true)
     Address getAddressByClientID(Integer ID);

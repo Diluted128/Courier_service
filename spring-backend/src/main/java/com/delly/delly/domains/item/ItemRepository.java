@@ -16,7 +16,5 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
                nativeQuery = true)
        List<Item> getItemByCompanies(String companyName);
 
-       @Query(value = "SELECT * FROM ITEM",
-               nativeQuery = true)
-       List<Object[]> getAllItems();
+
 }

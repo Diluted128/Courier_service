@@ -1,4 +1,4 @@
-package com.delly.delly.repositories.mapping;
+package com.delly.delly.domains.item.service.mapper;
 
 public class ItemWithCompany {
 

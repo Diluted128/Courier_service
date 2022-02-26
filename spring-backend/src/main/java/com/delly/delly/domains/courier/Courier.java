@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Deliver {
+public class Courier {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,10 +51,10 @@ public class Deliver {
     @JoinColumn(name = "district_id")
     private District district;
 
-    @OneToMany(mappedBy = "deliver")
+    @OneToMany(mappedBy = "courier")
     private List<Pack> packs;
 
-    public Deliver(String firstName, String lastName, String PESEL, Float cash, Integer distance, String phoneNumber,
+    public Courier(String firstName, String lastName, String PESEL, Float cash, Integer distance, String phoneNumber,
                    String email, String password, District district, String location, List<Pack> packs) {
         this.firstName = firstName;
         this.lastName = lastName;

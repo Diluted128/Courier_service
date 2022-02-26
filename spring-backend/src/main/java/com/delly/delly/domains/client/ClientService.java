@@ -2,6 +2,7 @@ package com.delly.delly.domains.client;
 
 import com.delly.delly.domains.address.Address;
 import com.delly.delly.domains.address.AddressRepository;
+import com.delly.delly.domains.client.controller.mapper.Location;
 import com.delly.delly.domains.creditcard.CreditCard;
 import com.delly.delly.domains.creditcard.CreditCardRepository;
 import com.delly.delly.domains.district.District;
@@ -41,7 +42,7 @@ public class ClientService {
                     null);
 
             clientRepository.save(client);
-            return new ResponseEntity<>("Client created", HttpStatus.OK);
+            return new ResponseEntity<>("Client: " + client.getID() + " created", HttpStatus.OK);
         }
     }
 
@@ -52,50 +53,60 @@ public class ClientService {
         return new ResponseEntity<>(client.getID().toString(), HttpStatus.OK);
     }
 
-    public Client getClientByID(int ID){
-        return clientRepository.getClientByID(ID);
+    public ResponseEntity<Client> getClientByID(int ID){
+        return new ResponseEntity<>(clientRepository.getClientByID(ID), HttpStatus.OK);
     }
 
-    public void saveExtendedPersonalInformation(int ID, Client client){
+    public ResponseEntity<String> updateClientData(int ID, Client client){
         Client client1 = clientRepository.getClientByID(ID);
-        client1.setAddress();
-        clientRepository.saveClientsExtendedPersonalData(ID, client);
+        client1.setFirstName(client.getFirstName());
+        client1.setLastName(client.getLastName());
+        client1.setPhoneNumber(client.getPhoneNumber());
+        clientRepository.save(client1);
+        return new ResponseEntity<>("Client: " + client.getID() +  " data updated", HttpStatus.OK);
     }
 
-    public void updatePayment(int ID, CreditCard creditCard){
+    public ResponseEntity<String> updatePayment(int ID, CreditCard creditCard){
         Client client =  clientRepository.getClientByID(ID);
         if(client.getCreditCard() == null){
             creditCardRepository.save(creditCard);
             client.setCreditCard(creditCard);
             clientRepository.save(client);
+            return new ResponseEntity<>("Payment: " + creditCard.getID()  + " has been set", HttpStatus.OK);
         }
         else {
             creditCard.setID(client.getCreditCard().getID());
             client.setCreditCard(creditCard);
             clientRepository.save(client);
             creditCardRepository.save(creditCard);
+            return new ResponseEntity<>("Payment: " + creditCard.getID()  + " has been updated", HttpStatus.OK);
         }
     }
 
-    public void saveLocation(int ID, int district, Address address){
-        Client client = getClientByID(ID);
-        District selectedDistrict = districtRepository.getDistinctByID(district);
-        System.out.println(selectedDistrict.getID() + " " + selectedDistrict.getName());
-        address.setDistrict(selectedDistrict);
+    public ResponseEntity<String> saveLocation(int ID, Location location){
+        Client client = clientRepository.getClientByID(ID);
+        District selectedDistrict = districtRepository.getDistinctByID(location.getDistrictID());
+        Address newAddress = new Address(
+                location.getFlatNumber(),
+                location.getLocalNumber(),
+                location.getPostalCode(),
+                location.getStreet(),
+                location.getTown(),
+                selectedDistrict
+        );
 
         if(client.getAddress() == null){
-            System.out.println("TAK");
-            address.setID(addressRepository.getMaxID() + 1);
-            addressRepository.saveAddress(address.getID(), address.getFlatNumber(),
-                    address.getLocalNumber(), address.getLocation(), address.getPostalCode(), address.getStreet(), address.getTown(), address.getDistrict().getID());
-            client.setAddress(address);
+            newAddress.setID(addressRepository.getMaxID() + 1);
         }
         else{
-            System.out.println("NIE");
-            address.setID(client.getAddress().getID());
-            addressRepository.save(address);
-            client.setAddress(address);
+            newAddress.setID(client.getAddress().getID());
         }
+        addressRepository.save(newAddress);
+        // this should be removed
+        client.setAddress(newAddress);
+        // this should be removed
         clientRepository.save(client);
+
+        return new ResponseEntity<>("Location successfully saved", HttpStatus.OK);
     }
 }

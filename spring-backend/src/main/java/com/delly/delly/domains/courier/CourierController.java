@@ -1,31 +1,39 @@
 package com.delly.delly.domains.courier;
 
+import com.delly.delly.domains.order.service.OrderService;
+import com.delly.delly.domains.order.service.mapper.OrderWithAddress;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-import java.util.Map;
 
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
 public class CourierController {
 
-    DeliverService deliverService;
+    CourierService courierService;
+    OrderService orderService;
+
+    @PostMapping("/login/courier")
+    public ResponseEntity<String> clientLogin(@RequestBody Courier courier) {
+        return courierService.getDeliverByEmailAndPassword(courier.getEmail(), courier.getPassword());
+    }
 
     @GetMapping("/deliver/{ID}")
-    public Deliver getOrderByDeliverID(@PathVariable int ID){
-        return deliverService.getDeliverByID(ID);
+    public ResponseEntity<Courier> getOrderByDeliverID(@PathVariable int ID){
+        return courierService.getDeliverByID(ID);
     }
 
     @PostMapping("/deliver/{ID}/withdrawal")
-    public void withdrawDeliverMoney(@PathVariable Integer ID){
-        deliverService.withdrawDeliverMoney(ID);
+    public ResponseEntity<String> withdrawDeliverMoney(@PathVariable Integer ID){
+        return courierService.withdrawDeliverMoney(ID);
     }
 
-    @PostMapping("/login/courier")
-    public ResponseEntity<Map<String, String>> clientLogin(@RequestBody Deliver deliver) {
-        return deliverService.getDeliverByEmailAndPassword(deliver.getEmail(), deliver.getPassword());
+    // to change
+    @GetMapping("deliver/{ID]/orders")
+    public ResponseEntity<List<OrderWithAddress>> getOrdersByDeliverID(@PathVariable int ID) {
+        return orderService.getOrderWithAddress(ID);
     }
 }

@@ -1,7 +1,7 @@
 package com.delly.delly.domains.order;
 
 import com.delly.delly.domains.company.Company;
-import com.delly.delly.domains.courier.Deliver;
+import com.delly.delly.domains.courier.Courier;
 import com.delly.delly.domains.address.Address;
 import com.delly.delly.domains.client.Client;
 import com.delly.delly.domains.item.Item;
@@ -60,7 +60,7 @@ public class Orders {
 
     @OneToOne
     @JoinColumn(name = "deliver_id")
-    private Deliver deliver;
+    private Courier courier;
 
     @NotNull
     @ManyToOne
