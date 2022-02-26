@@ -13,7 +13,7 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
 
     Optional<List<Orders>> findOrdersByClientID(int ID);
 
-    Optional<List<Orders>> findOrdersByDeliverIDAndStatusEquals(int id, String delivered);
+    Optional<List<Orders>> findOrdersByCourierIDAndStatusEquals(int id, String delivered);
 
     @Query(value = "SELECT * FROM ORDERS WHERE STATUS = 'IN_PROGRESS' AND ADDRESEE IS NULL AND (SELECT DISTRICT_ID FROM ADDRESS WHERE ADDRESS.ID = " +
             "(SELECT ADDRESS_ID FROM CLIENT WHERE ID = CLIENT_ID)) = (SELECT DISTRICT_ID FROM DELIVER WHERE ID = ?1) AND DELIVER_ID IS NULL", nativeQuery = true)

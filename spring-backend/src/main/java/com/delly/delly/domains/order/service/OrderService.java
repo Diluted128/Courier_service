@@ -105,7 +105,7 @@ public class OrderService {
     }
 
     public ResponseEntity<List<Orders>> getOrderByDeliverIDAndStatusDelivered(Integer deliverID) {
-        List<Orders> orders =  orderRepository.findOrdersByDeliverIDAndStatusEquals(deliverID, "DELIVERED")
+        List<Orders> orders =  orderRepository.findOrdersByCourierIDAndStatusEquals(deliverID, "DELIVERED")
                 .orElseThrow(() -> new OrdersNotFoundException("courier: " + deliverID));
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
