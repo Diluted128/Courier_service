@@ -10,7 +10,7 @@
 - [x] Change API paths with good practises
 - [x] Return ResponseEntity in every endpoint (with status code)
 - [ ] Store images in database 
-- [ ] Write tests (JUnit, Mockito)
+- [x] Write tests (JUnit, Mockito)
   
 ### Fronted
  - [ ] Render all parts of components dynamically
