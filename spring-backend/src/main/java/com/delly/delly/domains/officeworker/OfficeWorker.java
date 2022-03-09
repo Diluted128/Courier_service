@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class OfficeWorker {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer ID;
 
     @NotNull

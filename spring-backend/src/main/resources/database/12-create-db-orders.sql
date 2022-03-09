@@ -1,7 +1,7 @@
 -- liquibase formatted sql
--- changeset wj:1
-CREATE TABLE public.db_orders (
-                               id integer NOT NULL,
+-- changeset wj:1 runOnChange:true
+CREATE TABLE db_orders (
+                               id SERIAL NOT NULL PRIMARY KEY ,
                                date character varying(255),
                                status character varying(255),
                                total_price real NOT NULL,
@@ -13,7 +13,3 @@ CREATE TABLE public.db_orders (
                                addresee integer
 );
 
-ALTER TABLE ONLY public.db_orders
-    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
-
-ALTER TABLE public.db_orders OWNER TO postgres;

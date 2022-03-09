@@ -1,7 +1,7 @@
 -- liquibase formatted sql
--- changeset wj:1
-CREATE TABLE public.courier (
-                                id integer NOT NULL,
+-- changeset wj:1 runOnChange:true
+CREATE TABLE courier (
+                                id SERIAL  NOT NULL PRIMARY KEY ,
                                 PIN character varying(255),
                                 email character varying(255),
                                 first_name character varying(255),
@@ -14,7 +14,3 @@ CREATE TABLE public.courier (
                                 cash real
 );
 
-ALTER TABLE ONLY public.courier
-    ADD CONSTRAINT deliver_pkey PRIMARY KEY (id);
-
-ALTER TABLE public.courier OWNER TO postgres;

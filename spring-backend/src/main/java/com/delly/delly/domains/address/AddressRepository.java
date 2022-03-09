@@ -7,14 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Integer> {
 
-    Address getAddressByID(int ID);
-
-    // remove
-    @Query(value = "SELECT MAX(ID) FROM ADDRESS", nativeQuery = true)
-    Integer getMaxID();
-
-    // remove
-
     @Query(value = "SELECT * FROM ADDRESS WHERE ID = (SELECT ADDRESS_ID FROM CLIENT WHERE ID = ?1)", nativeQuery = true)
     Address getAddressByClientID(Integer ID);
 

@@ -114,7 +114,6 @@ public class OrderService {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        parcel.getAddress().setID(addressRepository.getMaxID() + 1);
         parcel.getAddress().setDistrict(districtRepository.getDistinctByID(parcel.getDistrictID()));
         addressRepository.save(parcel.getAddress());
 

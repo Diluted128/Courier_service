@@ -1,7 +1,7 @@
 -- liquibase formatted sql
--- changeset wj:1
-CREATE TABLE public.office_worker (
-                                      id integer NOT NULL,
+-- changeset wj:1 runOnChange:true
+CREATE TABLE office_worker (
+                                      id SERIAL  NOT NULL PRIMARY KEY ,
                                       pin character varying(255),
                                       cash integer,
                                       email character varying(255),
@@ -13,7 +13,3 @@ CREATE TABLE public.office_worker (
                                       office_worker_type character varying(255)
 );
 
-ALTER TABLE ONLY public.office_worker
-    ADD CONSTRAINT office_worker_pkey PRIMARY KEY (id);
-
-ALTER TABLE public.office_worker OWNER TO postgres;

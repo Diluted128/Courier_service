@@ -15,7 +15,7 @@ public class CourierService {
     public ResponseEntity<String> getDeliverByEmailAndPassword(String email, String password){
 
         Courier deliver = courierRepository.findDeliverByEmailAndPassword(email, password).orElseThrow(
-                UserNotFoundException::new
+                () -> new UserNotFoundException(email)
         );
         return new ResponseEntity<>(deliver.getID().toString(), HttpStatus.OK);
     }

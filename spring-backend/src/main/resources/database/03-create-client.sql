@@ -1,7 +1,7 @@
 -- liquibase formatted sql
--- changeset wj:1
-CREATE TABLE public.client (
-                               id integer NOT NULL,
+-- changeset wj:1 runOnChange:true
+CREATE TABLE client (
+                               id SERIAL NOT NULL PRIMARY KEY,
                                email character varying(255),
                                first_name character varying(255),
                                last_name character varying(255),
@@ -11,7 +11,3 @@ CREATE TABLE public.client (
                                credit_card_id integer
 );
 
-ALTER TABLE ONLY public.client
-    ADD CONSTRAINT client_pkey PRIMARY KEY (id);
-
-ALTER TABLE public.client OWNER TO postgres;

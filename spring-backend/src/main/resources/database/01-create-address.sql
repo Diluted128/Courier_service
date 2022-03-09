@@ -1,7 +1,8 @@
--- liquibase formatted sql
--- changeset wj:1
-CREATE TABLE public.address (
-                    id integer NOT NULL,
+--liquibase formatted sql
+--changeset wj:1 runOnChange:true
+
+CREATE TABLE address (
+                    id SERIAL NOT NULL PRIMARY KEY ,
                     flat_number character varying(255),
                     local_number character varying(255),
                     location character varying(255),
@@ -10,8 +11,3 @@ CREATE TABLE public.address (
                     town character varying(255),
                     district_id integer
 );
-
-ALTER TABLE ONLY public.address
-    ADD CONSTRAINT address_pkey PRIMARY KEY (id);
-
-ALTER TABLE public.address OWNER TO postgres;

@@ -9,6 +9,7 @@ import com.delly.delly.domains.district.District;
 import com.delly.delly.domains.district.DistrictRepository;
 import com.delly.delly.exception.exceptions.UserAlreadyExistException;
 import com.delly.delly.exception.exceptions.UserNotFoundException;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ClientService {
 
     CreditCardRepository creditCardRepository;
@@ -25,32 +26,22 @@ public class ClientService {
     AddressRepository addressRepository;
     DistrictRepository districtRepository;
 
-    public ResponseEntity<String> insertClientsCredential(String email, String password){
+    public ResponseEntity<String> insertClientsCredential(Client client){
 
-        if(clientRepository.findClientByEmail(email).isPresent()){
-           throw new UserAlreadyExistException(email);
+        if(clientRepository.findClientByEmail(client.getEmail()).isPresent()){
+           throw new UserAlreadyExistException(client.getEmail());
         }
         else{
-            Client client = new Client(
-                    email,
-                    null,
-                    null,
-                    password,
-                    null,
-                    null,
-                    null,
-                    null);
-
             clientRepository.save(client);
             return new ResponseEntity<>("Client: " + client.getID() + " created", HttpStatus.OK);
         }
     }
 
-    public ResponseEntity<String> checkLoginCredentials(String email, String password){
+    public ResponseEntity<Integer> checkLoginCredentials(String email, String password){
         Client client = clientRepository.findClientByEmailAndPassword(email, password).orElseThrow(
-                UserNotFoundException::new
+                () -> new UserNotFoundException(email)
         );
-        return new ResponseEntity<>(client.getID().toString(), HttpStatus.OK);
+        return new ResponseEntity<>(client.getID(), HttpStatus.OK);
     }
 
     public ResponseEntity<Client> getClientByID(int ID){
@@ -95,12 +86,6 @@ public class ClientService {
                 selectedDistrict
         );
 
-        if(client.getAddress() == null){
-            newAddress.setID(addressRepository.getMaxID() + 1);
-        }
-        else{
-            newAddress.setID(client.getAddress().getID());
-        }
         addressRepository.save(newAddress);
         // this should be removed
         client.setAddress(newAddress);

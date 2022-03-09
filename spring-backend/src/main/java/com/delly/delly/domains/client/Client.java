@@ -20,8 +20,8 @@ import java.util.List;
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ID;
 
     @NotNull
     private String firstName;
@@ -38,6 +38,7 @@ public class Client {
     @NotNull
     private String password;
 
+    @Nullable
     @OneToMany(mappedBy = "client")
     private List<Orders> orders;
 
@@ -65,14 +66,11 @@ public class Client {
     @Override
     public String toString() {
         return "Client{" +
-                "ID=" + ID +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", creditCardID=" + creditCard.getID() +
-                ", addressID=" + address.getID() +
                 '}';
     }
 }
