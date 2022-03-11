@@ -21,3 +21,6 @@
 - [ ] Write tests  
 - [ ] Optimize code  
 - [ ] use Docker :whale:  
+
+  ## ERD Schema
+  ![ERD-TO drawio (1)](https://user-images.githubusercontent.com/67759414/157912131-ebc5fd69-7130-494f-b4c9-e819184c8b6e.png)
