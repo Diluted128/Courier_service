@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset wj:1 runOnChange:true
 
-CREATE TABLE address (
+CREATE TABLE ADDRESS (
                     id SERIAL NOT NULL PRIMARY KEY ,
                     flat_number character varying(255),
                     local_number character varying(255),

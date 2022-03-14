@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 -- changeset wj:1 runOnChange:true
-CREATE TABLE db_orders (
+CREATE TABLE DB_ORDER (
                                id SERIAL NOT NULL PRIMARY KEY ,
                                date character varying(255),
                                status character varying(255),

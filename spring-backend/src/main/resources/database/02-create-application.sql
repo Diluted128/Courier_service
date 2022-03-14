@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 -- changeset wj:1 runOnChange:true
-CREATE TABLE application (
+CREATE TABLE APPLICATION (
                  id SERIAL  NOT NULL PRIMARY KEY ,
                  email character varying(255),
                  phone_number character varying(255),

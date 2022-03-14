@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 -- changeset wj:1 runOnChange:true
-CREATE TABLE item (
+CREATE TABLE ITEM (
                              id SERIAL  NOT NULL PRIMARY KEY ,
                              description character varying(255),
                              name character varying(255),
