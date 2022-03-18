@@ -1,40 +1,46 @@
 package com.delly.delly.domain.user.courier;
 
+import com.delly.delly.domain.order.Order;
 import com.delly.delly.domain.user.courier.service.CourierService;
 import com.delly.delly.domain.order.service.OrderService;
-import com.delly.delly.domain.order.service.mapper.OrderWithAddress;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+import java.util.Set;
 
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, path = "/courier")
 public class CourierController {
 
-    CourierService courierService;
-    OrderService orderService;
+    final CourierService courierService;
+    final OrderService orderService;
 
-    @PostMapping("login")
-    public ResponseEntity<String> clientLogin(@RequestBody Courier courier) {
-        return courierService.getDeliverByEmailAndPassword(courier.getLogin(), courier.getPassword());
+    @GetMapping("/courier")
+    public ResponseEntity<Courier> getCourier(Authentication authentication){
+        return ResponseEntity.ok().body(courierService.getCourier(authentication.getName()));
     }
 
-    @GetMapping("/{ID}")
-    public ResponseEntity<Courier> getOrderByDeliverID(@PathVariable int ID){
-        return courierService.getDeliverByID(ID);
+    @PostMapping("/courier")
+    public ResponseEntity<String> saveCourier(@RequestBody Courier courier){
+       return ResponseEntity.ok().body(courierService.saveCourier(courier));
     }
 
-    @PostMapping("/{ID}/withdrawal")
-    public ResponseEntity<String> withdrawDeliverMoney(@PathVariable Integer ID){
-        return courierService.withdrawDeliverMoney(ID);
+    @GetMapping("/couriers")
+    public ResponseEntity<Set<Courier>> getAllCouriers(){
+        return ResponseEntity.ok().body(courierService.getAllCouriers());
     }
 
-    @GetMapping("/{ID]/orders")
-    public ResponseEntity<List<OrderWithAddress>> getOrdersByDeliverID(@PathVariable int ID) {
-        return orderService.getOrderWithAddress(ID);
+    @GetMapping("/courier/orders")
+    public ResponseEntity<Set<Order>> getAllCourierOrders(Authentication authentication){
+       return ResponseEntity.ok().body(courierService.getAllCourierOrders(authentication.getName()));
+    }
+
+    @PostMapping("/courier/withdrawal")
+    public ResponseEntity<String> withdrawCourierMoney(Authentication authentication){
+        return ResponseEntity.ok().body(courierService.withdrawCourierMoney(authentication.getName()));
     }
 }

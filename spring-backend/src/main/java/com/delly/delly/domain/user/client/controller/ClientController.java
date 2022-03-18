@@ -1,18 +1,18 @@
 package com.delly.delly.domain.user.client.controller;
 
-import com.delly.delly.domain.user.client.controller.mapper.CompanyOrder;
+import com.delly.delly.domain.address.Address;
+import com.delly.delly.domain.order.Order;
 import com.delly.delly.domain.user.client.Client;
 import com.delly.delly.domain.user.client.service.ClientService;
-import com.delly.delly.domain.user.client.controller.mapper.Location;
-import com.delly.delly.domain.user.client.controller.mapper.Parcel;
 import com.delly.delly.domain.creditcard.CreditCard;
 import com.delly.delly.domain.creditcard.CreditCardService;
 import com.delly.delly.domain.order.service.OrderService;
-import com.delly.delly.domain.order.Orders;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
+import java.util.Set;
 
 
 @RestController
@@ -25,53 +25,48 @@ public class ClientController {
     OrderService orderService;
     CreditCardService creditCardService;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> clientRegister(@RequestBody Client client) {
-        return clientService.addClient(client);
+    @GetMapping("")
+    public ResponseEntity<Client> getClient(Authentication authentication){
+         return ResponseEntity.ok().body(clientService.getClient(authentication.getName()));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Integer> clientLogin(@RequestBody Client client) {
-        return clientService.checkLoginCredentials(client.getLogin(), client.getPassword());
+    @PostMapping("")
+    public ResponseEntity<String> registerClient(@RequestBody Client client) {
+        return ResponseEntity.ok().body(clientService.addClient(client));
     }
 
-    @GetMapping("/{ID}/payment")
-    public ResponseEntity<CreditCard> getClientPayment(@PathVariable int ID) {
-        return creditCardService.getCreditCardByClientID(ID);
+    @PutMapping("")
+    public ResponseEntity<String> updateClientPersonalData(Authentication authentication, @RequestBody Client client) {
+        return ResponseEntity.ok().body(clientService.updateClientData(authentication.getName(), client));
     }
 
-    @PutMapping("/{ID}/payment")
-    public ResponseEntity<String> updateClientPayment(@PathVariable int ID, @RequestBody CreditCard creditCard) {
-        return clientService.updatePayment(ID, creditCard);
+    @PostMapping("/payment")
+    public ResponseEntity<String> saveClientPayment(Authentication authentication, @RequestBody CreditCard creditCard) {
+        return ResponseEntity.ok().body(creditCardService.savePayment(authentication.getName(), creditCard));
     }
 
-    @GetMapping("/{ID}")
-    public ResponseEntity<Client> getClientByID(@PathVariable int ID) {
-        return clientService.getClientByID(ID);
+    @PutMapping("/payment/{ID}")
+    public ResponseEntity<String> updateClientPayment(Authentication authentication, @RequestBody CreditCard creditCard, @PathVariable int ID) {
+        return ResponseEntity.ok().body(creditCardService.updatePayment(authentication.getName(), creditCard, ID));
     }
 
-    @GetMapping("/{ID}/orders")
-    public ResponseEntity<List<Orders>> getClientOrders(@PathVariable int ID) {
-        return orderService.getOrdersByClientID(ID);
+    @DeleteMapping("/payment/{ID}")
+    public ResponseEntity<String> deleteClientPayment(Authentication authentication, @PathVariable int ID){
+        return ResponseEntity.ok().body(creditCardService.deletePayment(authentication.getName(), ID));
     }
 
-    @PutMapping("/{ID}/personal")
-    public ResponseEntity<String> updateClientPersonalData(@PathVariable int ID, @RequestBody Client client) {
-        return clientService.updateClientData(ID, client);
+    @PostMapping("/address")
+    public ResponseEntity<String> saveClientAddress(Authentication authentication, @RequestBody Address address) {
+        return ResponseEntity.ok().body(clientService.saveAddress(authentication.getName(), address));
     }
 
-    @PutMapping("/{ID}/location")
-    public ResponseEntity<String> saveLocation(@RequestBody Location location, @PathVariable int ID) {
-        return clientService.saveLocation(ID, location);
+    @PutMapping("/address")
+    public ResponseEntity<String> updateClientAddress(Authentication authentication, @RequestBody Address address) {
+        return ResponseEntity.ok().body(clientService.updateAddress(authentication.getName(), address));
     }
 
-    @PostMapping("/{ID}/order")
-    public ResponseEntity<String> saveNormalOrder(@PathVariable int ID, @RequestBody CompanyOrder companyOrder) {
-        return orderService.saveOrder(ID, companyOrder);
-    }
-
-    @PostMapping("/{ID}/parcel")
-    public ResponseEntity<String> addParcelOrder(@PathVariable Integer ID, @RequestBody Parcel parcel){
-        return orderService.saveParcelOrder(ID, parcel);
+    @GetMapping("/orders")
+    public ResponseEntity<Set<Order>> getClientOrders(Authentication authentication) {
+        return ResponseEntity.ok().body(clientService.getClientOrders(authentication.getName()));
     }
 }

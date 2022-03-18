@@ -3,6 +3,7 @@ package com.delly.delly.security.fillter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,10 +36,19 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        log.info("Username is: {}", username);
-        log.info("Password is {}", password);
+
+        String username = null;
+        String password = null;
+        try {
+            String data = request.getReader().lines().collect(Collectors.joining());
+            log.info("Received: " + data);
+            Gson g = new Gson();
+            com.delly.delly.domain.user.User user = g.fromJson(data, com.delly.delly.domain.user.User.class);
+            username = user.getUsername();
+            password = user.getPassword();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         return authenticationManager.authenticate(authenticationToken);
     }

@@ -7,19 +7,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Orders, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-    Orders getOrderByID(int ID);
+    Optional<Order> findOrderByID(int ID);
 
-    Optional<List<Orders>> findOrdersByClientId(int ID);
+    Optional<List<Order>> findOrdersByClientId(int ID);
 
-    Optional<List<Orders>> findOrdersByCourierIdAndStatusEquals(int id, String delivered);
+    Optional<List<Order>> findOrdersByCourierIdAndStatusEquals(int id, String delivered);
 
-    @Query(value = "SELECT * FROM ORDERS WHERE STATUS = 'IN_PROGRESS' AND ADDRESEE IS NULL AND (SELECT DISTRICT_ID FROM ADDRESS WHERE ADDRESS.ID = " +
-            "(SELECT ADDRESS_ID FROM CLIENT WHERE ID = CLIENT_ID)) = (SELECT DISTRICT_ID FROM DELIVER WHERE ID = ?1) AND DELIVER_ID IS NULL", nativeQuery = true)
-    List<Orders> getOrderByDeliverIDAndStatus(Integer ID);
+    Optional<Order> findOrderByCourierUsernameAndStatus(String username, String status);
 
-    @Query(value = "SELECT * FROM ORDERS WHERE STATUS = 'IN_PROGRESS' AND ADDRESEE IS NOT NULL AND DELIVER_ID IS NULL AND " +
-            "(SELECT DISTRICT_ID FROM ADDRESS WHERE ID = ORDERS.ADDRESEE) = (SELECT DISTRICT_ID FROM DELIVER WHERE ID = ?1)", nativeQuery = true)
-    List<Orders> getParcelOrdersByDeliverDistrictAndOrderStatus(Integer deliverID);
+//    @Query(value = "SELECT * FROM ORDERS WHERE STATUS = 'IN_PROGRESS' AND ADDRESEE IS NULL AND (SELECT DISTRICT_ID FROM ADDRESS WHERE ADDRESS.ID = " +
+//            "(SELECT ADDRESS_ID FROM CLIENT WHERE ID = CLIENT_ID)) = (SELECT DISTRICT_ID FROM DELIVER WHERE ID = ?1) AND DELIVER_ID IS NULL", nativeQuery = true)
+//    List<Order> getOrderByDeliverIDAndStatusInProgress(Integer ID);
+
+//    @Query(value = "SELECT * FROM ORDERS WHERE STATUS = 'IN_PROGRESS' AND ADDRESEE IS NOT NULL AND DELIVER_ID IS NULL AND " +
+//            "(SELECT DISTRICT_ID FROM ADDRESS WHERE ID = ORDERS.ADDRESEE) = (SELECT DISTRICT_ID FROM DELIVER WHERE ID = ?1)", nativeQuery = true)
+//    List<Order> getParcelOrdersByDeliverDistrictAndOrderStatus(Integer deliverID);
 }

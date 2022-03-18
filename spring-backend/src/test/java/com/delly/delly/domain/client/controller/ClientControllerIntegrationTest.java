@@ -73,7 +73,7 @@ class ClientControllerIntegrationTest {
         String response = Objects.requireNonNull(mvcResult.getResolvedException()).getMessage();
 
         //then
-        Assertions.assertEquals(response, "User already exists with email: " + client.getLogin());
+        Assertions.assertEquals(response, "User already exists with email: " + client.getUsername());
     }
 
     @Test

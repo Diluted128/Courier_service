@@ -7,7 +7,7 @@ import com.delly.delly.domain.user.client.service.ClientService;
 import com.delly.delly.domain.creditcard.CreditCardRepository;
 import com.delly.delly.domain.district.DistrictRepository;
 import com.delly.delly.domain.role.Role;
-import com.delly.delly.exception.exceptions.UserAlreadyExistException;
+import com.delly.delly.exception.exceptions.EntityAlreadyExistException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -52,12 +52,12 @@ class ClientServiceTest {
                   new Role("CLIENT"),
                 null
         );
-        Mockito.when(clientRepository.findClientByLogin("jacky384@gmail.com")).thenReturn(Optional.of(client));
+        Mockito.when(clientRepository.findClientByUsername("jacky384@gmail.com")).thenReturn(Optional.of(client));
 
-        String expectedMessage = "User already exists with email: " + client.getLogin();
+        String expectedMessage = "User already exists with email: " + client.getUsername();
 
         // when
-        UserAlreadyExistException exception = assertThrows(UserAlreadyExistException.class,() -> {
+        EntityAlreadyExistException exception = assertThrows(EntityAlreadyExistException.class,() -> {
             clientService.addClient(client);
         });
 

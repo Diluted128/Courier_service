@@ -19,18 +19,21 @@ public class User {
     private Integer id;
 
     @NotNull
-    private String login;
+    private String username;
 
     @NotNull
     private String password;
 
     @NotNull
-    @OneToOne
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.PERSIST
+    )
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public User(String login, String password, Role role) {
-        this.login = login;
+    public User(String username, String password, Role role) {
+        this.username = username;
         this.password = password;
         this.role = role;
     }

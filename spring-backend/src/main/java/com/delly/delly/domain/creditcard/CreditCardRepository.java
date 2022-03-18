@@ -11,4 +11,6 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Integer>
             "JOIN CREDIT_CARD ON (CLIENT.CREDIT_CARD_ID = CREDIT_CARD.ID) WHERE CLIENT.ID = ?1",
     nativeQuery = true)
     CreditCard getCreditCardByClientID(int ID);
+
+    int deleteCreditCardByID(int ID);
 }

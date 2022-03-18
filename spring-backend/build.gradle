@@ -25,6 +25,7 @@ dependencies {
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.6.3'
     implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.6.2'
     implementation 'com.auth0:java-jwt:3.18.3'
+    implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 

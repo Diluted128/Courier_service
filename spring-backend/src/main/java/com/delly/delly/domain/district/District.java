@@ -17,7 +17,7 @@ import java.util.List;
 public class District {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
 
     @NotNull
@@ -27,7 +27,7 @@ public class District {
     @OneToMany(mappedBy = "district")
     private List<Address> addresses;
 
-    public District(Integer ID, String name) {
+    public District(String name) {
         this.name = name;
     }
 

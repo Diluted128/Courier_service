@@ -8,5 +8,5 @@ import java.util.Optional;
 @Repository
 public interface OfficeWorkerRepository extends JpaRepository<OfficeWorker, Integer> {
 
-    Optional<OfficeWorker> findOfficeWorkerByLogin(String login);
+    Optional<OfficeWorker> findOfficeWorkerByUsername(String login);
 }

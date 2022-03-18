@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "OFFICE_WORKER")
 public class OfficeWorker extends User {
 
     @NotNull
@@ -32,23 +33,18 @@ public class OfficeWorker extends User {
     private String lastName;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private OfficeWorkerType officeWorkerType;
-
-    @NotNull
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
     public OfficeWorker(String firstName, String lastName, String PIN, Integer cash, String phoneNumber, String login,
-                        OfficeWorkerType officeWorkerType, String password, Address address, Role role) {
+                        String password, Address address, Role role) {
         super(login, password, role);
         this.firstName = firstName;
         this.lastName = lastName;
         this.PIN = PIN;
         this.cash = cash;
         this.phoneNumber = phoneNumber;
-        this.officeWorkerType = officeWorkerType;
         this.address = address;
 
     }
@@ -61,9 +57,8 @@ public class OfficeWorker extends User {
                 ", PIN='" + PIN + '\'' +
                 ", cash=" + cash +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + getLogin() + '\'' +
+                ", email='" + getUsername() + '\'' +
                 ", password='" + getPassword()+ '\'' +
-                ", officeWorkerType=" + officeWorkerType +
                 ", addressID=" + address.getID() +
                 '}';
     }

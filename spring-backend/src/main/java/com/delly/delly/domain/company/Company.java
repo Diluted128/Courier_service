@@ -2,8 +2,9 @@ package com.delly.delly.domain.company;
 
 import com.delly.delly.domain.department.Department;
 import com.delly.delly.domain.item.Item;
-import com.delly.delly.domain.order.Orders;
+import com.delly.delly.domain.order.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,14 +29,11 @@ public class Company {
     @NotNull
     private String type;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "company")
-    private List<Orders> orders;
-
-    @JsonIgnore
+    @JsonManagedReference
     @OneToMany(mappedBy = "company")
     private Set<Department> departments;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "company_id")
     private Set<Item> items;
 

@@ -1,134 +1,121 @@
 package com.delly.delly.domain.order.service;
 
-import com.delly.delly.domain.user.client.controller.mapper.CompanyOrder;
-import com.delly.delly.domain.user.client.controller.mapper.Parcel;
+import com.delly.delly.domain.department.DepartmentRepository;
+import com.delly.delly.domain.item.ItemRepository;
+import com.delly.delly.domain.order.Order;
 import com.delly.delly.domain.item.Item;
-import com.delly.delly.domain.address.Address;
 import com.delly.delly.domain.address.AddressRepository;
+import com.delly.delly.domain.order.service.utils.CourierReward;
+import com.delly.delly.domain.user.client.Client;
 import com.delly.delly.domain.user.client.ClientRepository;
 import com.delly.delly.domain.company.CompanyRepository;
 import com.delly.delly.domain.user.courier.Courier;
 import com.delly.delly.domain.user.courier.CourierRepository;
 import com.delly.delly.domain.district.DistrictRepository;
 import com.delly.delly.domain.order.OrderRepository;
-import com.delly.delly.domain.order.Orders;
-import com.delly.delly.domain.order.controller.mapper.OrderUtils;
-import com.delly.delly.domain.order.service.mapper.OrderWithAddress;
-import com.delly.delly.exception.exceptions.OrdersNotFoundException;
+import com.delly.delly.exception.exceptions.EntityLimitException;
+import com.delly.delly.exception.exceptions.EntityNotFoundException;
+import com.delly.delly.exception.exceptions.EntityStatusException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService implements OrderServiceInt{
+public class OrderService{
 
-    ClientRepository clientRepository;
-    CompanyRepository companyRepository;
-    OrderRepository orderRepository;
-    CourierRepository courierRepository;
-    AddressRepository addressRepository;
-    DistrictRepository districtRepository;
+    final ClientRepository clientRepository;
+    final CompanyRepository companyRepository;
+    final OrderRepository orderRepository;
+    final CourierRepository courierRepository;
+    final AddressRepository addressRepository;
+    final DistrictRepository districtRepository;
+    final DepartmentRepository departmentRepository;
+    final ItemRepository itemRepository;
 
-    public ResponseEntity<String> saveOrder(int ClientID, CompanyOrder companyOrder) {
-        float totalPrice = companyOrder.getOrders().getItems().stream().map(Item::getPrice).reduce(0f, Float::sum);
-        Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
-        companyOrder.getOrders().setCompany(companyRepository.getCompanyByID(companyOrder.getCompanyID()));
-        companyOrder.getOrders().setDate(dateFormat.format(date));
-        companyOrder.getOrders().setStatus("IN_PROGRESS");
-        companyOrder.getOrders().setClient(clientRepository.getClientById(ClientID));
-        companyOrder.getOrders().setTotal_price(totalPrice);
-
-        orderRepository.save(companyOrder.getOrders());
-
-        return new ResponseEntity<>("Order successfully saved", HttpStatus.OK);
+    public Set<Order> getAllOrders(){
+        return new HashSet<>(orderRepository.findAll());
     }
 
-    public ResponseEntity<List<OrderWithAddress>> getOrderWithAddress(int deliverID) {
+    public String saveOrder(String username, Order order) {
 
-        List<Orders> orders = orderRepository.getOrderByDeliverIDAndStatus(deliverID);
-        List<Orders> parcelOrders = orderRepository.getParcelOrdersByDeliverDistrictAndOrderStatus(deliverID);
-        List<OrderWithAddress> ordersWithAddress = new LinkedList<>();
+        Client client = clientRepository.getClientByUsername(username);
 
-        if (orders.size() != 0 || parcelOrders.size() != 0) {
-            for (Orders order : orders) {
-                Address addressClient = addressRepository.getAddressByClientID(order.getClient().getId());
-                Address addressParcel = addressRepository.getAddressByCompanyIDAnAndDistrictID(order.getCompany().getID(), addressClient.getDistrict().getID());
-                String courierLocation = courierRepository.getDeliverById(deliverID).getLocation();
-                ordersWithAddress.add(new OrderWithAddress(order, addressClient, addressParcel, courierLocation));
-            }
-            for(Orders order: parcelOrders){
-                Address addressClient = order.getAddress();
-                Address addressParcel = addressRepository.getAddressByClientID(order.getClient().getId());
-                String courierLocation = courierRepository.getDeliverById(deliverID).getLocation();
-                ordersWithAddress.add(new OrderWithAddress(order, addressClient, addressParcel, courierLocation));
-            }
-
-            return new ResponseEntity<>(ordersWithAddress,HttpStatus.OK);
+        if(client.getOrders().stream().filter(element -> element.getStatus().equals(OrderType.ACCEPTED.toString()) ||
+                        element.getStatus().equals(OrderType.IN_PROGRESS.toString())).count() > 2){
+            throw new EntityLimitException("Client: " +  client.getId() + " can have up to three unrealized orders");
         }
-          return  null;
+        else{
+            Date date = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+            order.setItems(
+                    order.getItems().stream()
+                            .map(item -> itemRepository.getItemByID(item.getID()))
+                            .collect(Collectors.toSet())
+            );
+
+            float totalPrice = order.getItems().stream()
+                    .map(Item::getPrice)
+                    .reduce(0f, Float::sum);
+
+            order.setDepartment(departmentRepository.getDepartmentByID(order.getDepartment().getID()));
+            order.setDate(dateFormat.format(date));
+            order.setStatus(OrderType.ACCEPTED.toString());
+            order.setClient(clientRepository.getClientByUsername(username));
+            order.setPrice(totalPrice);
+
+            Order savedOrder = orderRepository.save(order);
+
+            return "Order " + savedOrder.getID() + " successfully saved";
+        }
     }
 
-    public ResponseEntity<List<Orders>> getOrdersByClientID(int ID) {
-        List<Orders> clientOrders =  orderRepository.findOrdersByClientId(ID).orElseThrow(
-                () -> new OrdersNotFoundException("client: " + ID)
-        );
+    public String updateOrderDetails(String username, int id) {
 
-        return new ResponseEntity<>(clientOrders, HttpStatus.OK);
+        Optional<Order> orderOptional = orderRepository.findOrderByID(id);
+
+        if(orderOptional.isPresent()) {
+
+            Order order = orderOptional.get();
+            Courier courier = courierRepository.getCourierByUsername(username);
+
+            if(courier.getOrders().size() == 1)
+                throw new EntityLimitException("Courier: " + courier.getId() + " has already order dedicated to realization.");
+            if (order.getStatus().equals(OrderType.ACCEPTED.toString())) {
+                order.setStatus(OrderType.IN_PROGRESS.toString());
+                order.setCourier(courier);
+                orderRepository.save(order);
+                return "Courier: " + courier.getId() + " has been set for order: " + id + ".";
+            } else
+                throw new EntityStatusException("Order: " + id + " has been already delivered, canceled or in progress.");
+        }
+        else
+            throw new EntityNotFoundException("Order: " + id + " not found.");
+
     }
 
-    public ResponseEntity<String> updateOrderStatus(Integer orderID, OrderUtils orderUtils) {
+    public String deliverOrder(String username, CourierReward courierReward){
 
-        Orders orders = orderRepository.getOrderByID(orderID);
+        Optional<Order> orderToUpdateOptional = orderRepository.findOrderByCourierUsernameAndStatus(username, "IN_PROGRESS");
+        Courier courier = courierRepository.getCourierByUsername(username);
 
-        if(orders.getStatus().equals("IN_PROGRESS")) {
-            orders.setReward(orderUtils.getReward());
-            orders.setStatus("DELIVERED");
-            orders.setCourier(courierRepository.getDeliverById(orderUtils.getCourierID()));
-            orderRepository.save(orders);
-
-            Courier courier = orders.getCourier();
-            courier.setDistance(courier.getDistance() + orderUtils.getDistance());
-            courier.setCash(courier.getCash() + orderUtils.getReward() + orders.getTip());
+        if(orderToUpdateOptional.isPresent()){
+            Order orderToUpdate = orderToUpdateOptional.get();
+            orderToUpdate.setStatus(OrderType.DELIVERED.toString());
+            courier.setCash(courier.getCash() + courierReward.getCash()+ orderToUpdate.getTip());
+            courier.setDistance(courier.getDistance() + courierReward.getDistance());
             courierRepository.save(courier);
-            return new ResponseEntity<>("Order: " + orderID + " has been updated", HttpStatus.OK);
+
+            return "Order: " + orderToUpdate.getID() + " has been delivered.";
         }
+        else
+            throw new EntityStatusException("There is no active order for courier: " + courier.getId());
 
-        return new ResponseEntity<>("Order has already been delivered", HttpStatus.BAD_REQUEST);
-    }
-
-    public ResponseEntity<List<Orders>> getOrderByDeliverIDAndStatusDelivered(Integer deliverID) {
-        List<Orders> orders =  orderRepository.findOrdersByCourierIdAndStatusEquals(deliverID, "DELIVERED")
-                .orElseThrow(() -> new OrdersNotFoundException("courier: " + deliverID));
-        return new ResponseEntity<>(orders, HttpStatus.OK);
-    }
-
-    public ResponseEntity<String> saveParcelOrder(Integer clientID, Parcel parcel){
-        Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
-        parcel.getAddress().setDistrict(districtRepository.getDistinctByID(parcel.getDistrictID()));
-        addressRepository.save(parcel.getAddress());
-
-        Orders orders = new Orders(
-                parcel.getPrice(),
-                dateFormat.format(date),
-                "IN_PROGRESS",
-                clientRepository.getClientById(clientID),
-                null,
-                null,
-                 parcel.getAddress());
-
-        orderRepository.save(orders);
-
-        return new ResponseEntity<>("Parcel order successfully saved", HttpStatus.OK);
     }
 }
 

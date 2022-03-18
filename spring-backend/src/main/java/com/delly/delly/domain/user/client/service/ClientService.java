@@ -2,27 +2,27 @@ package com.delly.delly.domain.user.client.service;
 
 import com.delly.delly.domain.address.Address;
 import com.delly.delly.domain.address.AddressRepository;
-import com.delly.delly.domain.role.RoleEnum;
-import com.delly.delly.domain.role.RoleRepository;
 import com.delly.delly.domain.user.client.Client;
 import com.delly.delly.domain.user.client.ClientRepository;
-import com.delly.delly.domain.user.client.controller.mapper.Location;
-import com.delly.delly.domain.creditcard.CreditCard;
+import com.delly.delly.domain.order.Order;
+import com.delly.delly.domain.role.Role;
+import com.delly.delly.domain.role.RoleEnum;
+import com.delly.delly.domain.role.RoleRepository;
 import com.delly.delly.domain.creditcard.CreditCardRepository;
 import com.delly.delly.domain.district.District;
 import com.delly.delly.domain.district.DistrictRepository;
-import com.delly.delly.exception.exceptions.UserAlreadyExistException;
-import com.delly.delly.exception.exceptions.UserNotFoundException;
-import lombok.AllArgsConstructor;
+import com.delly.delly.exception.exceptions.EntityAlreadyExistException;
+import com.delly.delly.exception.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
-public class ClientService implements ClientServiceInt{
+public class ClientService{
 
     final CreditCardRepository creditCardRepository;
     final ClientRepository clientRepository;
@@ -31,74 +31,84 @@ public class ClientService implements ClientServiceInt{
     final PasswordEncoder passwordEncoder;
     final RoleRepository roleRepository;
 
-    public ResponseEntity<String> addClient(Client client){
 
-        if(clientRepository.findClientByLogin(client.getLogin()).isPresent()){
-           throw new UserAlreadyExistException(client.getLogin());
+    public Client getClient(String username){
+        return clientRepository.getClientByUsername(username);
+    }
+
+    public String addClient(Client client){
+
+        if(clientRepository.findClientByUsername(client.getUsername()).isPresent()){
+           throw new EntityAlreadyExistException(client.getUsername());
         }
         else{
             client.setPassword(passwordEncoder.encode(client.getPassword()));
-            client.setRole(roleRepository.findByName(RoleEnum.CLIENT.toString()).get());
+            Role role = roleRepository.findByName(RoleEnum.CLIENT.toString()).orElseThrow(
+                    () -> new EntityNotFoundException("Role doesn't exists")
+            );
+
+            client.setRole(role);
             clientRepository.save(client);
-            return new ResponseEntity<>("Client: " + client.getId() + " created", HttpStatus.OK);
+            return "Client: " + client.getId() + " created";
         }
     }
 
-    public ResponseEntity<Integer> checkLoginCredentials(String email, String password){
-        Client client = clientRepository.findClientByLogin(email).orElseThrow(
-                () -> new UserNotFoundException(email)
-        );
-        return new ResponseEntity<>(client.getId(), HttpStatus.OK);
+    public String updateClientData(String username, Client client){
+        Client clientToUpdate = clientRepository.getClientByUsername(username);
+        clientToUpdate.setFirstName(client.getFirstName());
+        clientToUpdate.setLastName(client.getLastName());
+        clientToUpdate.setPhoneNumber(client.getPhoneNumber());
+        clientRepository.save(clientToUpdate);
+        return "Client: " + client.getId() +  " data updated";
     }
 
-    public ResponseEntity<Client> getClientByID(int ID){
-        return new ResponseEntity<>(clientRepository.getClientById(ID), HttpStatus.OK);
-    }
+    public String saveAddress(String username, Address address){
+        Client client = clientRepository.getClientByUsername(username);
 
-    public ResponseEntity<String> updateClientData(int ID, Client client){
-        Client client1 = clientRepository.getClientById(ID);
-        client1.setFirstName(client.getFirstName());
-        client1.setLastName(client.getLastName());
-        client1.setPhoneNumber(client.getPhoneNumber());
-        clientRepository.save(client1);
-        return new ResponseEntity<>("Client: " + client.getId() +  " data updated", HttpStatus.OK);
-    }
+        Optional<District> district = districtRepository.findDistinctByName(address.getDistrict().getName());
 
-    public ResponseEntity<String> updatePayment(int ID, CreditCard creditCard){
-        Client client =  clientRepository.getClientById(ID);
-        if(client.getCreditCard() == null){
-            creditCardRepository.save(creditCard);
-            client.setCreditCard(creditCard);
-            clientRepository.save(client);
-            return new ResponseEntity<>("Payment: " + creditCard.getID()  + " has been set", HttpStatus.OK);
+        if(district.isPresent()){
+            address.setDistrict(district.get());
+
+            client.setAddress(address);
+
+            Client savedClient = clientRepository.save(client);
+
+            return "Address " + savedClient.getAddress().getID() + " successfully saved";
         }
-        else {
-            creditCard.setID(client.getCreditCard().getID());
-            client.setCreditCard(creditCard);
-            clientRepository.save(client);
-            creditCardRepository.save(creditCard);
-            return new ResponseEntity<>("Payment: " + creditCard.getID()  + " has been updated", HttpStatus.OK);
+        else{
+            throw new EntityNotFoundException("District: " + address.getDistrict().getName() + " not found");
         }
     }
 
-    public ResponseEntity<String> saveLocation(int ID, Location location){
-        Client client = clientRepository.getClientById(ID);
-        District selectedDistrict = districtRepository.getDistinctByID(location.getDistrictID());
-        Address newAddress = new Address(
-                location.getFlatNumber(),
-                location.getLocalNumber(),
-                location.getPostalCode(),
-                location.getStreet(),
-                location.getTown(),
-                selectedDistrict
-        );
+    public String updateAddress(String username, Address address){
 
-        addressRepository.save(newAddress);
-        // this should be removed
-        client.setAddress(newAddress);
-        // this should be removed
-        clientRepository.save(client);
+        Client client = clientRepository.getClientByUsername(username);
+        Address addressToUpdate = client.getAddress();
 
-        return new ResponseEntity<>("Location successfully saved", HttpStatus.OK);
+        Optional<District> district = districtRepository.findDistinctByName(address.getDistrict().getName());
+
+        if(district.isPresent()){
+            addressToUpdate.setStreet(address.getStreet());
+            addressToUpdate.setTown(address.getTown());
+            addressToUpdate.setLocation(address.getLocation());
+            addressToUpdate.setFlatNumber(address.getFlatNumber());
+            addressToUpdate.setLocalNumber(address.getLocalNumber());
+            addressToUpdate.setPostalCode(address.getPostalCode());
+            addressToUpdate.setDistrict(district.get());
+
+            client.setAddress(addressToUpdate);
+
+            Client savedClient = clientRepository.save(client);
+
+            return "Address " + savedClient.getAddress().getID() + " successfully updated";
+        }
+        else{
+            throw new EntityNotFoundException("District: " + address.getDistrict().getName() + " not found");
+        }
+    }
+
+    public Set<Order> getClientOrders(String username) {
+        return clientRepository.getClientByUsername(username).getOrders();
     }
 }

@@ -1,7 +1,8 @@
 package com.delly.delly.domain.item;
 
 import com.delly.delly.domain.company.Company;
-import com.delly.delly.domain.order.Orders;
+import com.delly.delly.domain.order.Order;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
@@ -18,7 +19,7 @@ import java.util.Set;
 public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
     @NotNull
@@ -36,19 +37,19 @@ public class Item {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "items")
-    private Set<Orders> orders;
+    private Set<Order> order;
 
+    @JsonBackReference
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "company_id")
     private Company company_id;
 
-    public Item(String name, String description, String size, float price, Set<Orders> orders, Company company_id) {
+    public Item(String name, String description, String size, float price, Set<Order> order, Company company_id) {
         this.name = name;
         this.description = description;
         this.size = size;
         this.price = price;
-        this.orders = orders;
+        this.order = order;
         this.company_id = company_id;
     }
 

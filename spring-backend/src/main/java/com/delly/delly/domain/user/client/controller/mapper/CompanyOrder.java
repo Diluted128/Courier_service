@@ -1,6 +1,6 @@
 package com.delly.delly.domain.user.client.controller.mapper;
 
-import com.delly.delly.domain.order.Orders;
+import com.delly.delly.domain.order.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CompanyOrder {
 
-    private Orders orders;
+    private Order order;
 
     private int CompanyID;
 }

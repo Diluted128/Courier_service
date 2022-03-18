@@ -1,35 +1,55 @@
 package com.delly.delly.domain.user.courier.service;
 
+import com.delly.delly.domain.role.RoleRepository;
 import com.delly.delly.domain.user.courier.Courier;
 import com.delly.delly.domain.user.courier.CourierRepository;
-import com.delly.delly.exception.exceptions.UserNotFoundException;
+import com.delly.delly.domain.district.DistrictRepository;
+import com.delly.delly.domain.order.Order;
+import com.delly.delly.exception.exceptions.EntityAlreadyExistException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class CourierService implements CourierServiceInt{
+public class CourierService{
 
-    CourierRepository courierRepository;
+    final CourierRepository courierRepository;
+    final DistrictRepository districtRepository;
+    final RoleRepository roleRepository;
 
-    public ResponseEntity<String> getDeliverByEmailAndPassword(String email, String password){
-
-        Courier deliver = courierRepository.findDeliverByLoginAndPassword(email, password).orElseThrow(
-                () -> new UserNotFoundException(email)
-        );
-        return new ResponseEntity<>(deliver.getId().toString(), HttpStatus.OK);
+    public Courier getCourier(String username){
+        return courierRepository.getCourierByUsername(username);
     }
 
-    public ResponseEntity<Courier> getDeliverByID(int ID){
-        return new ResponseEntity<>(courierRepository.getDeliverById(ID), HttpStatus.OK);
+    public Set<Courier> getAllCouriers(){
+        return new HashSet<>(courierRepository.findAll());
     }
 
-    public ResponseEntity<String> withdrawDeliverMoney(int ID){
-        Courier courier = courierRepository.getDeliverById(ID);
+    public Set<Order> getAllCourierOrders(String username){
+        return courierRepository.getCourierByUsername(username).getOrders();
+    }
+
+    public String saveCourier(Courier courier){
+        Optional<Courier> courierOptional = courierRepository.findCourierByUsername(courier.getUsername());
+
+       if(courierOptional.isPresent())
+           throw new EntityAlreadyExistException("Courier: " + courier.getUsername() + " already exists");
+
+       courier.setDistrict(districtRepository.getDistinctByID(courier.getDistrict().getID()));
+       courier.setRole(roleRepository.getById(courier.getRole().getId()));
+       Courier courierSaved = courierRepository.save(courier);
+
+       return "Courier: " + courierSaved.getId() + " successfully saved.";
+    }
+
+    public String withdrawCourierMoney(String username){
+        Courier courier = courierRepository.getCourierByUsername(username);
         courier.setCash(0f);
         courierRepository.save(courier);
-        return new ResponseEntity<>("Courier with id: " + ID + "money have been withdrawn", HttpStatus.OK);
+        return "Courier's " + username + " money have been withdrawn";
     }
 }

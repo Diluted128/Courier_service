@@ -8,10 +8,10 @@ import java.util.Optional;
 @Repository
 public interface CourierRepository extends JpaRepository<Courier,Integer> {
 
-    Optional<Courier> findDeliverByLoginAndPassword(String login, String password);
+    Courier getCourierByUsername(String username);
 
     Courier getDeliverById(int id);
 
-    Optional<Courier> findCourierByLogin(String login);
+    Optional<Courier> findCourierByUsername(String username);
 
 }

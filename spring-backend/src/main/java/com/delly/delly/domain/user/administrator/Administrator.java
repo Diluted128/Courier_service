@@ -1,8 +1,7 @@
 package com.delly.delly.domain.user.administrator;
 
-import com.delly.delly.domain.role.Role;
 import com.delly.delly.domain.user.User;
-import com.sun.istack.NotNull;
+import com.delly.delly.domain.role.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

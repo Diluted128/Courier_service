@@ -1,5 +1,7 @@
 package com.delly.delly.domain.creditcard;
 
+import com.delly.delly.domain.user.client.Client;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,22 +16,29 @@ import javax.persistence.*;
 public class CreditCard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
 
     @NotNull
+    @Column(name = "card_number")
     private String cardNumber;
 
     @NotNull
-    private String CVV;
+    private String cvv;
 
     @NotNull
-    private String expired;
+    @Column(name = "expired_date")
+    private String expiredDate;
 
-    public CreditCard(String cardNumber, String CVV, String expired) {
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    private Client client_id;
+
+    public CreditCard(String cardNumber, String cvv, String expiredDate) {
         this.cardNumber = cardNumber;
-        this.CVV = CVV;
-        this.expired = expired;
+        this.cvv = cvv;
+        this.expiredDate = expiredDate;
     }
 
     @Override
@@ -37,8 +46,8 @@ public class CreditCard {
         return "CreditCard{" +
                 "ID=" + ID +
                 ", cardNumber='" + cardNumber + '\'' +
-                ", CVV='" + CVV + '\'' +
-                ", expired='" + expired + '\'' +
+                ", CVV='" + cvv + '\'' +
+                ", expired='" + expiredDate + '\'' +
                 '}';
     }
 }

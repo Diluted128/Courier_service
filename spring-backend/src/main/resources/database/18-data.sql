@@ -1,6 +1,11 @@
 -- liquibase formatted sql
 -- changeset wj:1
 
+INSERT INTO ROLE VALUES (1, 'CLIENT');
+INSERT INTO ROLE VALUES (2, 'COURIER');
+INSERT INTO ROLE VALUES (3, 'OFFICE_WORKER');
+INSERT INTO ROLE VALUES (4, 'ADMINISTRATOR');
+
 INSERT INTO district VALUES(1,	'Stare Miasto');
 INSERT INTO district VALUES(2,	'Krowodrza');
 INSERT INTO district VALUES(3,	'Zwierzyniec');
@@ -64,18 +69,18 @@ INSERT INTO company VALUES(4,	'Pizza Hut',	'RESTAURANT');
 INSERT INTO company VALUES(5,	'Biedronka',	'SUPERMARKET');
 INSERT INTO company VALUES(6,	'Centrum Zdrowia',	'PHARMACY');
 
-INSERT INTO courier VALUES(1,	'87321857323',	'robert.nowakowski@gmail.com',	'Robert',	'Nowakowski',	'+48847389192',	1,	'nowakowski2312',	2499,	'50.067955163062784,19.94164732423471',	0);
-INSERT INTO courier VALUES(2,	'73234904234',	'jakub.spysinski@gmail.com',	'Jakub',	'Spysiński',	'+48193857773',	1,	'spysinski523',	6675,	'50.05759813004144,19.937044466377404',	8.04);
-INSERT INTO courier VALUES(3,	'71889332990',	'alan.romaniuk@gmail.com',	'Alan',	'Romaniuk',	'+4811394729',	2,	'romaniuk52',	0,	'50.07589631345883,19.917010174832377',	0);
-INSERT INTO courier VALUES(4,	'87489329009',	'lukasz.dziambor@gmail.com',	'Łukasz',	'Dziambor',	'+48394998332',	2,	'dziambor09',	0,	'50.069152838262305,19.914098185048736',	0);
-INSERT INTO courier VALUES(5,	'95437773128',	'jan.jeleniewski@gmail.com',	'Jan',	'Jeleniewski',	'+48391220992',	3,	'jeleniewski09',	0,	'50.05558986034918,19.9192996213463',	0);
-INSERT INTO courier VALUES(6,	'99314890248',	'kacper.komuniecki@gmail.com',	'Kacper',	'Komuniecki',	'+48310909328',	4,	'komuniecki4123',	0,	'50.04874231650456,19.926766891197342',	0);
-INSERT INTO courier VALUES(7,	'98489128759',	'roman.kania@gmail.com',	'Roman',	'Kania',	'+48449490211',	5,	'kania53',	0,	'50.044295515864164,19.948597725145238',	0);
-INSERT INTO courier VALUES(8,	'79312342905',	'slawomir.szumlas@gmail.com',	'Sławomir',	'Szumlas',	'+48402898772',	5,	'szumlas01',	0,	'50.04856058835353,19.960298763623136',	0);
-INSERT INTO courier VALUES(9,	'83389012848',	'anna.butor@gmail.com',	'Anna',	'Butor',	'+48123904302',	6,	'butor32',	0,	'50.05973561302371,19.96282653127284',	0);
-INSERT INTO courier VALUES(10,	'95312389883',	'jerzy.konduracki@gmail.com',	'Jerzy',	'Konduracki',	'+48389213849',	6,	'konduracki12',	0,	'50.06738974084795,19.959632078593856',	0);
+INSERT INTO courier VALUES(11,	'87321857323',	'robert.nowakowski@gmail.com',	'Robert',	'Nowakowski',	'+48847389192',	1,	'$2a$12$r/3vUp7W5vCD0JshbYpv4O5QbZQ072qfrogsZbAR820Dm.HPj2uje',	2499,	'50.067955163062784,19.94164732423471',	0, 2);
+INSERT INTO courier VALUES(2,	'73234904234',	'jakub.spysinski@gmail.com',	'Jakub',	'Spysiński',	'+48193857773',	1,	'spysinski523',	6675,	'50.05759813004144,19.937044466377404',	8.04, 2);
+INSERT INTO courier VALUES(3,	'71889332990',	'alan.romaniuk@gmail.com',	'Alan',	'Romaniuk',	'+4811394729',	2,	'romaniuk52',	0,	'50.07589631345883,19.917010174832377',	0, 2);
+INSERT INTO courier VALUES(4,	'87489329009',	'lukasz.dziambor@gmail.com',	'Łukasz',	'Dziambor',	'+48394998332',	2,	'dziambor09',	0,	'50.069152838262305,19.914098185048736',	0, 2);
+INSERT INTO courier VALUES(5,	'95437773128',	'jan.jeleniewski@gmail.com',	'Jan',	'Jeleniewski',	'+48391220992',	3,	'jeleniewski09',	0,	'50.05558986034918,19.9192996213463',	0, 2);
+INSERT INTO courier VALUES(6,	'99314890248',	'kacper.komuniecki@gmail.com',	'Kacper',	'Komuniecki',	'+48310909328',	4,	'komuniecki4123',	0,	'50.04874231650456,19.926766891197342',	0, 2);
+INSERT INTO courier VALUES(7,	'98489128759',	'roman.kania@gmail.com',	'Roman',	'Kania',	'+48449490211',	5,	'kania53',	0,	'50.044295515864164,19.948597725145238',	0, 2);
+INSERT INTO courier VALUES(8,	'79312342905',	'slawomir.szumlas@gmail.com',	'Sławomir',	'Szumlas',	'+48402898772',	5,	'szumlas01',	0,	'50.04856058835353,19.960298763623136',	0, 2);
+INSERT INTO courier VALUES(9,	'83389012848',	'anna.butor@gmail.com',	'Anna',	'Butor',	'+48123904302',	6,	'butor32',	0,	'50.05973561302371,19.96282653127284',	0, 2);
+INSERT INTO courier VALUES(10,	'95312389883',	'jerzy.konduracki@gmail.com',	'Jerzy',	'Konduracki',	'+48389213849',	6,	'konduracki12',	0,	'50.06738974084795,19.959632078593856',	0, 2);
 
-INSERT INTO department VALUES(1,	16,	1);
+INSERT INTO department VALUES(1,  16,	1);
 INSERT INTO department VALUES(2,	20,	1);
 INSERT INTO department VALUES(3,	29,	1);
 INSERT INTO department VALUES(4,	34,	1);
@@ -149,8 +154,8 @@ INSERT INTO item VALUES(27,	NULL,	'Gripex 12szt',	18.99,	NULL,	6);
 INSERT INTO item VALUES(28,	'8mg',	'Flegamina 40szt tabletki',	17.99,	NULL,	6);
 INSERT INTO item VALUES(29,	NULL,	'Termometr elektroniczny',	12.99,	NULL,	6);
 
-INSERT INTO office_worker VALUES(1,	'74391448201',	3500,	'aleksandra.pałaczuk@gmail.com',	'Aleksandra',	'Pałaczuk',	'+48381048221',	12,	'aleksandra123',	'BOOKKEEPER');
-INSERT INTO office_worker VALUES(2,	'00312358321',	0,	'wojciech.jacoszek@gmail.com',	'Wojciech',	'Jacoszek',	'+48578210331',	13,	'admin',	'ADMINISTRATOR');
+INSERT INTO office_worker VALUES(1,	'74391448201',	3500,	'aleksandra.pałaczuk@gmail.com',	'Aleksandra',	'Pałaczuk',	'+48381048221',	12,	'$2a$12$3/XFQcZofv4T.w78hWYoF.89GM7vBtObHLNvF7d3yV9pSN1fRbxci',	3);
+
 
 INSERT INTO pack_locker VALUES(1,	1);
 INSERT INTO pack_locker VALUES(2,	2);
@@ -163,7 +168,3 @@ INSERT INTO pack_locker VALUES(8,	8);
 INSERT INTO pack_locker VALUES(9,	9);
 INSERT INTO pack_locker VALUES(10, 10);
 
-INSERT INTO ROLE VALUES (1, 'CLIENT');
-INSERT INTO ROLE VALUES (2, 'COURIER');
-INSERT INTO ROLE VALUES (3, 'OFFICE-WORKER');
-INSERT INTO ROLE VALUES (4, 'ADMINISTRATOR');

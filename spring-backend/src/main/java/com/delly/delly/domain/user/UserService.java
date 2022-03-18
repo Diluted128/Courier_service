@@ -1,14 +1,14 @@
 package com.delly.delly.domain.user;
 
 import com.delly.delly.domain.user.administrator.Administrator;
-import com.delly.delly.domain.user.administrator.AdministratorRepository;
 import com.delly.delly.domain.user.client.Client;
 import com.delly.delly.domain.user.client.ClientRepository;
 import com.delly.delly.domain.user.courier.Courier;
 import com.delly.delly.domain.user.courier.CourierRepository;
 import com.delly.delly.domain.user.officeworker.OfficeWorker;
 import com.delly.delly.domain.user.officeworker.OfficeWorkerRepository;
-import com.delly.delly.exception.exceptions.UserNotFoundException;
+import com.delly.delly.domain.user.administrator.AdministratorRepository;
+import com.delly.delly.exception.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,18 +32,18 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<Client> client = clientRepository.findClientByLogin(username);
-//        Optional<Courier> courier = courierRepository.findCourierByLogin(username);
-//        Optional<OfficeWorker> officeWorker = officeWorkerRepository.findOfficeWorkerByLogin(username);
-//        Optional<Administrator> administrator = administratorRepository.findAdministratorByLogin(username);
+        Optional<Client> client = clientRepository.findClientByUsername(username);
+        Optional<Courier> courier = courierRepository.findCourierByUsername(username);
+        Optional<OfficeWorker> officeWorker = officeWorkerRepository.findOfficeWorkerByUsername(username);
+        Optional<Administrator> administrator = administratorRepository.findAdministratorByUsername(username);
 
-       Optional<? extends User> user =  Stream.of(client)
+       Optional<? extends User> user =  Stream.of(client, courier, officeWorker, administrator)
                                         .filter(Optional::isPresent)
                                            .findFirst()
-                                              .orElseThrow(() -> new UserNotFoundException(username));
+                                              .orElseThrow(() -> new EntityNotFoundException("User: " + username + " not found."));
 
       return new org.springframework.security.core.userdetails.User(
-              user.get().getLogin(),
+              user.get().getUsername(),
               user.get().getPassword(),
               List.of(new SimpleGrantedAuthority(user.get().getRole().getName())));
     }

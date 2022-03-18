@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
 
     @NotNull
@@ -38,8 +38,9 @@ public class Address {
     @JsonIgnore
     private String location;
 
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(
+            fetch = FetchType.EAGER
+    )
     @JoinColumn(name = "district_id")
     private District district;
 

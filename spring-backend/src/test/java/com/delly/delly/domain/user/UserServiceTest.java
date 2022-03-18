@@ -4,7 +4,7 @@ import com.delly.delly.domain.role.Role;
 import com.delly.delly.domain.user.administrator.AdministratorRepository;
 import com.delly.delly.domain.user.client.Client;
 import com.delly.delly.domain.user.client.ClientRepository;
-import com.delly.delly.exception.exceptions.UserNotFoundException;
+import com.delly.delly.exception.exceptions.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import com.delly.delly.domain.user.courier.CourierRepository;
@@ -53,13 +53,13 @@ public class UserServiceTest {
                 null
         );
 
-        Mockito.when(clientRepository.findClientByLogin(client.getLogin())).thenReturn(Optional.of(client));
-        Mockito.when(courierRepository.findCourierByLogin(client.getLogin())).thenReturn(Optional.empty());
-        Mockito.when(officeWorkerRepository.findOfficeWorkerByLogin(client.getLogin())).thenReturn(Optional.empty());
-        Mockito.when(administratorRepository.findAdministratorByLogin(client.getLogin())).thenReturn(Optional.empty());
+        Mockito.when(clientRepository.findClientByUsername(client.getUsername())).thenReturn(Optional.of(client));
+        Mockito.when(courierRepository.findCourierByUsername(client.getUsername())).thenReturn(Optional.empty());
+        Mockito.when(officeWorkerRepository.findOfficeWorkerByUsername(client.getUsername())).thenReturn(Optional.empty());
+        Mockito.when(administratorRepository.findAdministratorByUsername(client.getUsername())).thenReturn(Optional.empty());
 
         // when
-        UserDetails userDetails = userService.loadUserByUsername(client.getLogin());
+        UserDetails userDetails = userService.loadUserByUsername(client.getUsername());
 
         // then
         assert(userDetails != null);
@@ -83,14 +83,14 @@ public class UserServiceTest {
                 null
         );
 
-        Mockito.when(clientRepository.findClientByLogin(client.getLogin())).thenReturn(Optional.empty());
-        Mockito.when(courierRepository.findCourierByLogin(client.getLogin())).thenReturn(Optional.empty());
-        Mockito.when(officeWorkerRepository.findOfficeWorkerByLogin(client.getLogin())).thenReturn(Optional.empty());
-        Mockito.when(administratorRepository.findAdministratorByLogin(client.getLogin())).thenReturn(Optional.empty());
+        Mockito.when(clientRepository.findClientByUsername(client.getUsername())).thenReturn(Optional.empty());
+        Mockito.when(courierRepository.findCourierByUsername(client.getUsername())).thenReturn(Optional.empty());
+        Mockito.when(officeWorkerRepository.findOfficeWorkerByUsername(client.getUsername())).thenReturn(Optional.empty());
+        Mockito.when(administratorRepository.findAdministratorByUsername(client.getUsername())).thenReturn(Optional.empty());
 
         // when
-        UserNotFoundException exception = assertThrows(UserNotFoundException.class,() -> {
-            userService.loadUserByUsername(client.getLogin());
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,() -> {
+            userService.loadUserByUsername(client.getUsername());
         });
 
         // then
