@@ -13,7 +13,8 @@
 - [x] Spring Security (roles, password encoding) 
 - [x] Change project hierarchy
 - [x] Write tests  
-- [x] Optimize code  
+- [x] Optimize code
+- [ ] Fully validate data in incoming requests
 - [ ] use Docker :whale2:  
 
 ## [API DOCKS](https://able-snout-6d3.notion.site/API-endpoints-f342f332d8b14cacb7db2f5b957a17b0)
